@@ -1,5 +1,5 @@
 # Personal-Project
-This repository contains all my personal projects.
+This repository contains all my personal projects during my profesional carrer.
 
 ## *Portfolio*
 I created this project to show them all my trajectory, both in the labor market and in my personal projects. 
