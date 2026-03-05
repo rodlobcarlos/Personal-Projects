@@ -1,4 +1,4 @@
-# Personal-Project
+# Personal-Projects
 This repository contains all my personal projects during my profesional carrer.
 
 ## *Portfolio*
