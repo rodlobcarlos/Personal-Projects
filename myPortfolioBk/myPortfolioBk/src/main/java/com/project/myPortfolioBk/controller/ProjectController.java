@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @RestController
@@ -14,14 +15,17 @@ import java.util.Set;
 public class ProjectController {
 
     private ProjectService projectService;
+    Set<Project> projectSet = projectService.getAllProjects();
+
+    @PostMapping
+    public Project create(@RequestBody Project project) throws Exception {
+        return projectService.create(project, projectSet);
+    }
 
     @GetMapping
     public Set<Project> projectSet() {
         return projectService.getAllProjects();
     }
 
-    @PostMapping
-    public Project create(@RequestBody Project project) {
-        return projectService.create(project);
-    }
+
 }
