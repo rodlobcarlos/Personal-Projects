@@ -2,6 +2,7 @@ package com.project.myPortfolioBk.controller;
 
 import com.project.myPortfolioBk.model.Project;
 import com.project.myPortfolioBk.service.ProjectService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,14 @@ import java.util.Set;
 public class ProjectController {
 
     private ProjectService projectService;
-    Set<Project> projectSet = projectService.getAllProjects();
+
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @PostMapping
     public Project create(@RequestBody Project project) throws Exception {
+        Set<Project> projectSet = projectService.getAllProjects();
         return projectService.create(project, projectSet);
     }
 
