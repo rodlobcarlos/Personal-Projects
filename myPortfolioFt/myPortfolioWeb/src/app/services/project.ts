@@ -11,8 +11,7 @@ export interface Project {
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
   private http = inject(HttpClient);
-  private url = `${environment.apiUrl}/projects`;
-
+  private url = '/api/projects';
   // Use a signal for global state management
   projects = signal<Project[]>([]);
 
@@ -20,5 +19,10 @@ export class ProjectService {
     this.http.get<Project[]>(this.url).subscribe(data => {
       this.projects.set(data);
     });
+  }
+
+  getProjects() {
+    // This is an ASYNC call, not a navigation change
+    return this.http.get('/api/projects'); 
   }
 }
