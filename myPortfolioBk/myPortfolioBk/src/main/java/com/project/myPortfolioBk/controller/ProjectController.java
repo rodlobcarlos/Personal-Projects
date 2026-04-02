@@ -12,7 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/projects")
-@CrossOrigin(origins = "*") // for front connected
+@CrossOrigin(origins = "http://localhost:4200") // for front connected
 public class ProjectController {
 
     private ProjectService projectService;
