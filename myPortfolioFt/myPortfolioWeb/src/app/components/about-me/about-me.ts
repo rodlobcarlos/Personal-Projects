@@ -32,9 +32,9 @@ import { NgOptimizedImage } from '@angular/common';
           <div class="info-card social-card">
             <h3>Social media</h3>
             <ul class="social-links">
-              <li><a href="#" target="_blank">Instagram</a></li>
-              <li><a href="#" target="_blank">Carlos Rodríguez Lobato | LinkedIn</a></li>
-              <li><a href="#" target="_blank">rodlobcarlos (Carlos Rodríguez Lobato) · GitHub</a></li>
+              <li><a href="https://www.instagram.com/rodlobcarlos/" target="_blank">Instagram</a></li>
+              <li><a href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/" target="_blank">Carlos Rodríguez Lobato | LinkedIn</a></li>
+              <li><a href="https://github.com/rodlobcarlos" target="_blank">rodlobcarlos (Carlos Rodríguez Lobato) · GitHub</a></li>
             </ul>
           </div>
         </div>
