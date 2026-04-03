@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpaceBackground } from './space-background';
+import { SpaceBackgroundComponent } from './space-background';
 
 describe('SpaceBackground', () => {
-  let component: SpaceBackground;
-  let fixture: ComponentFixture<SpaceBackground>;
+  let component: SpaceBackgroundComponent;
+  let fixture: ComponentFixture<SpaceBackgroundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SpaceBackground],
+      imports: [SpaceBackgroundComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SpaceBackground);
+    fixture = TestBed.createComponent(SpaceBackgroundComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
