@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AboutComponent } from '../about-me/about-me';
+import { Carrier } from '../carrier/carrier';
 
 @Component({
   selector: 'app-my-portfolio',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AboutComponent],
+  imports: [AboutComponent, Carrier],
   template: `
     <div class="portfolio-wrapper">
       
@@ -18,15 +19,16 @@ import { AboutComponent } from '../about-me/about-me';
           </p>
         </div>
       </section>
-
+      
       <app-about />
+      <app-carrier />
 
       <footer class="portfolio-footer">
-        <p>Portfolio realized by Carlos Rodríguez Lobato. This web will be always update.</p>
+        <p>Portfolio realized by Carlos Rodríguez Lobato. This web will be always update :)</p>
       </footer>
-
     </div>
   `,
+
   styles: `
     :host {
       display: block;
@@ -69,6 +71,7 @@ import { AboutComponent } from '../about-me/about-me';
     /* Footer Styling */
     .portfolio-footer {
       position: fixed;
+      left: 0;
       bottom:0;
       width: 100%;
       padding: 2.5rem 0;
@@ -77,6 +80,7 @@ import { AboutComponent } from '../about-me/about-me';
       text-align: center;
       font-size: 0.9rem;
       margin-top: 4rem;
+      font-weight: bold;
     }
 
     /* Responsive adjustments */
