@@ -1,9 +1,7 @@
 import { Routes } from '@angular/router';
-import { Home } from './components/home/home';
-import { ProjectList } from './components/project-list/project-list';
+import { MyPortfolioComponent } from './components/my-portfolio/my-portfolio';
 
 export const routes: Routes = [
-  { path: '', component: Home },
-  { path: 'portfolio', component: ProjectList },
-  // Do NOT put api/projects here!
+  // When the path is empty, show the portfolio component
+  { path: '', component: MyPortfolioComponent },
 ];
