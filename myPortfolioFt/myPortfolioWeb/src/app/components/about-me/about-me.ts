@@ -53,7 +53,6 @@ import { NgOptimizedImage } from '@angular/common';
       text-align: center;
       font-size: 3rem;
       margin-bottom: 4rem;
-      cursor: default;
     }
 
     .about-grid {
@@ -99,14 +98,12 @@ import { NgOptimizedImage } from '@angular/common';
       margin-top: 0;
       margin-bottom: 1.5rem;
       text-align: center;
-      cursor: default;
     }
 
     .info-card p {
       line-height: 1.7;
       opacity: 0.9;
       text-align: center;
-      cursor: default;
     }
 
     .info-card:hover {

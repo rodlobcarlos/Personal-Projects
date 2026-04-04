@@ -2,74 +2,34 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AboutComponent } from '../about-me/about-me';
 import { Carrier } from '../carrier/carrier';
 import { ProjectsComponent } from '../my-projects/my-projects';
+import { Welcome } from '../welcome/welcome';
 
 @Component({
   selector: 'app-my-portfolio',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AboutComponent, Carrier, ProjectsComponent],
+  imports: [AboutComponent, Carrier, ProjectsComponent, Welcome], 
   template: `
-    <div class="portfolio-wrapper">
-      
-      <section class="welcome-section">
-        <div class="hero-content">
-          <h1>Hi! Welcome</h1>
-          <p class="subtitle">
-            This is my portfolio. Here you will see things about me and my carrier as a software developer. 
-            Hop you enjoy!!!
-          </p>
-        </div>
-      </section>
-
+    <div class="portfolio">
+      <app-welcome />
       <app-about />
-
       <app-carrier />
-
       <app-projects />
 
       <footer class="portfolio-footer">
         <p>Portfolio realized by Carlos Rodríguez Lobato. This web will be always update :)</p>
       </footer>
     </div>
+
   `,
 
   styles: `
-    :host {
-      display: block;
-      min-height: 100vh;
-      font-family: 'Karla', system-ui, sans-serif;
-    }
-
-    .portfolio-wrapper {
+  .portfolio {
       position: relative;
-      z-index: 1; /* Ensures text is above the space background component */
-      color: white;
-    }
+      z-index: 1; /* Keep text above the space stars */
+      font-family: 'Karla', system-ui, sans-serif;
+      cursor: default;
 
-    /* Welcome Section Styling */
-    .welcome-section {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 0 1rem;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      max-width: 600px;
-      line-height: 1.6;
-      opacity: 0.85;
-      margin: 0 auto;
     }
 
     /* Footer Styling */
@@ -78,8 +38,9 @@ import { ProjectsComponent } from '../my-projects/my-projects';
       left: 0;
       bottom:0;
       width: 100%;
+      height: 3%;
       padding: 2.5rem 0;
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.40);
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       text-align: center;
       font-size: 0.9rem;
