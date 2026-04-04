@@ -53,6 +53,7 @@ import { NgOptimizedImage } from '@angular/common';
       text-align: center;
       font-size: 3rem;
       margin-bottom: 4rem;
+      cursor: default;
     }
 
     .about-grid {
@@ -90,6 +91,7 @@ import { NgOptimizedImage } from '@angular/common';
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 2rem;
       padding: 2.5rem;
+      transition: transform 0.3s ease;
     }
 
     .info-card h3 {
@@ -97,12 +99,21 @@ import { NgOptimizedImage } from '@angular/common';
       margin-top: 0;
       margin-bottom: 1.5rem;
       text-align: center;
+      cursor: default;
     }
 
     .info-card p {
       line-height: 1.7;
       opacity: 0.9;
       text-align: center;
+      cursor: default;
+    }
+
+    .info-card:hover {
+      transform: scale(1.04);
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.2);
+
     }
 
     /* Social specific */
@@ -118,7 +129,7 @@ import { NgOptimizedImage } from '@angular/common';
     }
 
     .social-links a {
-      color: #9db2bf;
+      color: #c7d1d7;
       text-decoration: none;
       transition: color 0.3s;
     }
