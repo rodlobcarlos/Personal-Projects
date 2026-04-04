@@ -9,12 +9,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Data // automatic getters and setters
+@Data // auto getters and setters
 public class ProjectService {
 
     // logger
@@ -22,17 +23,21 @@ public class ProjectService {
     // repository class
     private ProjectRepository projectRepository;
 
+    public ProjectService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
+
     // save new project
-    public Project create(Project project, Set<Project> projectSet) throws Exception {
-        if(projectSet.contains(project)) {
+    public Project create(Project project, List<Project> projectList) throws Exception {
+        if(projectList.contains(project)) {
             throw new PortfolioException("This project already exists on list. Can`t be create!.");
         }
         return projectRepository.save(project);
     }
 
     // deleted project
-    public void delete(Project project, Set<Project> projectSet) throws Exception {
-        if(!projectSet.contains(project)) {
+    public void delete(Project project, List<Project> projectList) throws Exception {
+        if(!projectList.contains(project)) {
             throw new PortfolioException("This project doesn`t exists on list. Can`t be delete!.");
         } else {
             projectRepository.delete(project);
@@ -40,35 +45,29 @@ public class ProjectService {
     }
 
     // update project
-    public Project update(Project updatedProject, Set<Project> projectSet) throws Exception {
-        Project existingProject = projectSet.stream()
+    public Project update(Project updatedProject, List<Project> projectList) throws Exception {
+        Project existingProject = projectList.stream()
                 .filter(project -> project.equals(updatedProject))
                 .findFirst()
                 .orElseThrow(() -> new PortfolioException("Project not found."));
 
         // Remove the old version and add the new one
-        projectSet.remove(existingProject);
-        projectSet.add(updatedProject);
+        projectList.remove(existingProject);
+        projectList.add(updatedProject);
         return updatedProject;
     }
 
     // read project
-    public Set<Project> getAllProjects() {
-        Set<Project> projectSet = new HashSet<>();
-        if (!projectSet.isEmpty()) {
-            for (Project project : projectSet) {
-                logger.info(project);
-            }
-        } else {
-            throw new PortfolioException("This list doesn`t have any project. Is empty!!");
-        }
-        return projectSet;
+    // In ProjectService.java
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+        // If it's empty, it just returns [], which Angular handles gracefully
     }
 
     // Functional approach: Returns a NEW set with the updated item
-    public Set<Project> getUpdatedSet(Project updatedProject, Set<Project> projectSet) {
-        return projectSet.stream()
+    public List<Project> getUpdatedSet(Project updatedProject, List<Project> projectList) {
+        return projectList.stream()
                 .map(p -> p.equals(updatedProject) ? updatedProject : p)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }
