@@ -78,7 +78,6 @@ interface CareerStep {
 
     .event-date:hover {
       color: white;
-      cursor: default;
     }
 
     .carrier-card {

@@ -1,13 +1,6 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  tech_stack: string;
-  github_url: string;
-}
+import { ProjectService } from '../../services/project';
 
 @Component({
   selector: 'app-projects',
@@ -19,23 +12,29 @@ interface Project {
       <h2 class="section-title">My projects</h2>
 
       <div class="projects-grid">
-        @for (project of projects(); track project.id) {
+        @for (project of projectService.projects(); track project.id) {
           <div class="project-card">
             <div class="card-content">
               <h3>{{ project.title }}</h3>
               
-              <p class="description">{{ project.description }}</p>
+              <p class="description">
+                {{ project.description }}
+              </p>
               
               <div class="tech-stack">
-                <span class="tech-tag">{{ project.tech_stack }}</span>
+                <span class="tech-tag">{{ project.techStack }}</span>
               </div>
 
               <div class="card-footer">
                 <a [href]="project.github_url" target="_blank" class="github-btn">
-                  View GitHub
+                  View on GitHub
                 </a>
               </div>
             </div>
+          </div>
+        } @empty {
+          <div class="loading-state">
+            <p>Fetching projects from the dark space...</p>
           </div>
         }
       </div>
@@ -44,22 +43,25 @@ interface Project {
   styles: `
     .projects-section {
       padding: 6rem 2rem;
-      max-width: 1300px;
+      max-width: 1200px;
       margin: 0 auto;
       color: white;
+      position: relative;
     }
 
     .section-title {
       text-align: center;
       font-size: 3.5rem;
       margin-bottom: 4rem;
-      cursor: default;
+      font-weight: 300;
     }
 
     .projects-grid {
       display: grid;
+      /* Responsive: 3 columns on desktop, 1 on mobile */
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 2.5rem;
+      justify-items: center;
     }
 
     .project-card {
@@ -67,24 +69,24 @@ interface Project {
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 2rem;
-      padding: 2rem;
+      padding: 2.5rem;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease, background 0.3s ease;
-      cursor: default;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
+    /* Hover effect matching your Carrier section */
     .project-card:hover {
       transform: translateY(-10px);
-      background: rgba(255, 255, 255, 0.07);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
-    h3 {
+    .project-card h3 {
       font-size: 1.8rem;
-      margin-bottom: 1rem;
+      margin: 0 0 1rem 0;
       color: #fff;
-      cursor: default;
     }
 
     .description {
@@ -92,12 +94,15 @@ interface Project {
       line-height: 1.6;
       opacity: 0.8;
       margin-bottom: 1.5rem;
-      /* Limits description to 3 lines so cards stay even */
+      /* Limits text to 3 lines for visual consistency */
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      cursor: default;
+    }
+
+    .tech-stack {
+      margin-bottom: 2rem;
     }
 
     .tech-tag {
@@ -105,48 +110,53 @@ interface Project {
       color: #4ae3ff;
       padding: 0.4rem 0.8rem;
       border-radius: 10px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      cursor: default;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid rgba(74, 227, 255, 0.2);
     }
 
     .card-footer {
-      margin-top: auto;
-      padding-top: 1.5rem;
+      margin-top: auto; /* Pushes button to the bottom of the card */
     }
 
     .github-btn {
       display: inline-block;
+      padding: 0.7rem 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
       color: white;
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.3);
-      padding: 0.6rem 1.2rem;
-      border-radius: 10px;
-      transition: all 0.3s;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      text-align: center;
     }
 
     .github-btn:hover {
       background: white;
-      color: black;
+      color: #090A0F;
+      border-color: white;
+    }
+
+    .loading-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem;
+      opacity: 0.5;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .section-title { font-size: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
     }
   `
 })
-export class ProjectsComponent {
-  // These objects now match your MySQL table structure
-  projects = signal<Project[]>([
-    {
-      id: 1,
-      title: 'Portfolio (In development)',
-      description: 'Personal portfolio developed with Angular 19 and Spring Boot.',
-      tech_stack: 'Angular, Java, MySQL',
-      github_url: 'https://github.com/rodlobcarlos/Personal-Projects'
-    },
-    {
-      id: 2,
-      title: 'Task Management (In development)',
-      description: 'A mobile and web application to manage daily tasks and productivity.',
-      tech_stack: 'Android Studio, Angular, MongoDB',
-      github_url: 'https://github.com/rodlobcarlos/...'
-    }
-  ]);
+export class ProjectsComponent implements OnInit {
+  // Inject the service that communicates with Spring Boot
+  public projectService = inject(ProjectService);
+
+  ngOnInit(): void {
+    // Trigger the MySQL fetch as soon as the component initializes
+    this.projectService.loadProjects();
+  }
 }
