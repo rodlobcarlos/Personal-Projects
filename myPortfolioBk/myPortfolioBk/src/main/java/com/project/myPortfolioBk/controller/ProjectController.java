@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -23,14 +24,12 @@ public class ProjectController {
 
     @PostMapping
     public Project create(@RequestBody Project project) throws Exception {
-        Set<Project> projectSet = projectService.getAllProjects();
-        return projectService.create(project, projectSet);
+        List<Project> projectList = projectService.getAllProjects();
+        return projectService.create(project, projectList);
     }
 
     @GetMapping
-    public Set<Project> projectSet() {
+    public List<Project> projectSet() {
         return projectService.getAllProjects();
     }
-
-
 }
