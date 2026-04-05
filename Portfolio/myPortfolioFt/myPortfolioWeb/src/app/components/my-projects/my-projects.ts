@@ -51,9 +51,8 @@ import { ProjectService } from '../../services/project';
 
     .section-title {
       text-align: center;
-      font-size: 3.5rem;
+      font-size: 3rem;
       margin-bottom: 4rem;
-      font-weight: 300;
     }
 
     .projects-grid {
