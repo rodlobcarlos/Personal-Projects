@@ -14,7 +14,7 @@ interface CareerStep {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="carrier-section">
-      <h2 class="section-title">My carrier</h2>
+      <h2 class="section-title">My trayectory</h2>
 
       <div class="timeline-container">
         @for (item of careerSteps(); track item.title) {
@@ -86,7 +86,7 @@ interface CareerStep {
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 2rem;
       padding: 2.5rem;
-      transition: transform 0.3s ease, background 0.3s ease; /* Maintained transition */
+      transition: transform 0.3s ease, background 0.3s ease; /* Smooth transition for hover effects */
     }
 
     .carrier-card:hover {
