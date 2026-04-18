@@ -17,7 +17,8 @@ import { Welcome } from '../welcome/welcome';
       <app-projects />
 
       <footer class="portfolio-footer">
-        <p>Portfolio realized by Carlos Rodríguez Lobato. This web will be always update :)</p>
+        <p>Portfolio realized by Carlos Rodríguez Lobato. 
+        Contact me -> <a href="https://mail.google.com/mail/u/0/#inbox?compose=DmwnWsdKPSMKBMjpsCRXRDRBKSHWKmMMJgGgTvxfJBtfvdlXmzsVpJxrRcPhtjZqVVmqZxHzWNlB">rodlobcarlos@gmail.com</a></p>
       </footer>
     </div>
 
@@ -40,12 +41,27 @@ import { Welcome } from '../welcome/welcome';
       width: 100%;
       height: 3%;
       padding: 2.5rem 0;
-      background: rgba(0, 0, 0, 0.40);
+      background: rgba(0, 0, 0, 0.6);
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       text-align: center;
       font-size: 0.9rem;
       margin-top: 4rem;
       font-weight: bold;
+    }
+
+    .portfolio-footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .portfolio-footer a:hover {
+      color: #1e90ff;
+      transition: color 0.3s ease;
+    }
+
+    p {
+      margin: 0.1rem 0;
+      text-align: center;
     }
 
     /* Responsive adjustments */
