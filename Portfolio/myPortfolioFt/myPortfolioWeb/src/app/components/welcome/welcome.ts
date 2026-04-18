@@ -7,16 +7,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [],
   template: `
     <div class="portfolio-wrapper">
-      
-      <section class="welcome-section">
-        <div class="hero-content">
-          <h1>Hi! Welcome</h1>
-          <p class="subtitle">
-            This is my portfolio. Here you will see things about me and my carrier as a software developer. 
-            Hop you enjoy!!!
-          </p>
-        </div>
-      </section>
+      <div class="title-content">
+        <h1>Personal portfolio</h1>
+        <h2>Carlos Rodriguez Lobato || Software developer</h2>
+        <p class="subtitle">
+          Hi! Welcome. This is my portfolio. Here you will see things about me and my carrier as a software developer. 
+          Hop you enjoy!!!
+        </p>
+      </div>
     </div>
   `,
 
@@ -32,8 +30,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       color: white;
     }
 
-    /* Welcome Section Styling */
-    .welcome-section {
+    .title-content {
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -44,10 +41,18 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     }
 
     h1 {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      margin-bottom: 1.5rem;
+      font-size: clamp(2.5rem, 10vw, 4.5rem);
+      margin-bottom: 0.2rem;
       font-weight: 500;
       letter-spacing: -0.01em;
+    }
+
+    .h2 {
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      margin-bottom: 1rem;
+      font-weight: 400;
+      color: #ddd;
+      text-style: italic;
     }
 
     .subtitle {
@@ -56,6 +61,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       line-height: 1.6;
       opacity: 0.85;
       margin: 0 auto;
+      text-style: italic;
     }
 
     /* Responsive adjustments */
