@@ -27,6 +27,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
               </div>
 
               <div class="card-footer">
+                <p>URL actual: {{ project.github_url }}</p>
                 <a [href]="project.github_url" target="_blank" class="github-btn">
                   View on GitHub
                 </a>
