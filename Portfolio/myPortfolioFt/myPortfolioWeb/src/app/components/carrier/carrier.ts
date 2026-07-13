@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 interface CareerStep {
   date: string;
@@ -10,11 +11,11 @@ interface CareerStep {
 @Component({
   selector: 'app-carrier',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ScrollRevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="carrier-section">
-      <h2 class="section-title">My trayectory</h2>
+    <section class="carrier-section" appScrollReveal>
+      <h2 class="section-title">My trayectory 🚀</h2>
 
       <div class="timeline-container">
         @for (item of careerSteps(); track item.title) {
@@ -32,6 +33,39 @@ interface CareerStep {
           </div>
         }
       </div>
+      <div class="description">
+        <p>⬇️ These are the several tools that I have used with to this days. ⬇️
+        You can see all on my profiles ⬆️!!</p>
+      </div>
+      <section class="image-container">
+        <div class="python-image">
+          <img src="assets/python.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="java-image">
+          <img src="assets/java.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="angular-image">
+          <img src="assets/angular.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="springboot-image">
+          <img src="assets/springboot.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="mysql-image">
+          <img src="assets/mysql.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="node-image">
+          <img src="assets/node.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="mongo-image">
+          <img src="assets/mongo.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="azure-image">
+          <img src="assets/azure.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+        <div class="azureDevOps-image">
+          <img src="assets/azureDevOps.png" alt="Space Stars Background" width="160" height="110" />
+        </div>
+      </section> 
     </section>
   `,
   styles: `
@@ -107,7 +141,66 @@ interface CareerStep {
       text-align: center;
     }
 
-  
+    .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .python-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    } 
+
+    .java-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+
+    .angular-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+
+    .springboot-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+
+    .mysql-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+
+    .node-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+    
+    .mongo-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+
+    .azure-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+
+    .azureDevOps-image:hover {
+      transform: scale(1.04);
+      transition: transform 0.4s ease;
+    }
+
+    .description {
+      text-align: center;
+      font-size: 1.1rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
 
     @media (max-width: 900px) {
       .timeline-item {
@@ -126,24 +219,24 @@ interface CareerStep {
 export class Carrier {
   careerSteps = signal<CareerStep[]>([
     {
-      date: 'September - May 2024',
-      title: 'DAM beginnings',
+      date: 'September 2024 - May 2025',
+      title: '1ºDAM 📚',
       description: 'I started Superior Grade of Cross-platform in La Algaba(Seville). I have learned knowledge about programming languages like HTML, CSS, Java, Python, XML, MySQL.'
     },
     {
       date: 'May - June 2025',
-      title: 'Enterprise practices (Atos/Eviden)',
+      title: 'Enterprise practices (Atos/Eviden) 🏢',
       description: 'I have done a period of one month of practices on Atos(Eviden), where I learned some knowledge about Java with JPA, Hibernate and Spring boot.'
     },
     {
-      date: 'September - May 2026',
-      title: '2DAM',
-      description: 'Now I’m using new programming languages like JavaScript, TypeScript, Angular, Spring Boot in Java, MongoDB, OraclePL/SQL.'
+      date: 'September 2025 - May 2026',
+      title: '2ºDAM 📚',
+      description: 'In this period I used new programming languages like JavaScript, TypeScript, Angular, Spring Boot in Java, MongoDB, OraclePL/SQL. Also, I had done the final course project, a prototype about a personal management tasks with IA with Angular for web and Android Studio for mobile.'
     },
     {
       date: 'February - May 2026',
-      title: 'Enterprise practices (Atos/Eviden)',
-      description: 'I am doing enterprise in the same enterprise like last year, Atos(Eviden). This year they put me in their ferrovial project using Azure DevOps.'
+      title: 'Enterprise practices (Atos) 🏢',
+      description: 'I am doing practices in the same enterprise like last year, Atos(Eviden). This year they put me in their real ferrovial project with the DevOps team. There I learned about DevOps, CI/CD, Jira, IaC and some knowledge about Azure portal/Azure DevOps to deploy applications on cloud infrastructure.'
     }
   ]);
 }

@@ -9,10 +9,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <div class="portfolio-wrapper">
       <div class="title-content">
         <h1>Personal portfolio</h1>
-        <h2>Carlos Rodriguez Lobato || Software developer</h2>
+        <h2>Carlos Rodríguez Lobato || Junior full-stack developer</h2>
         <p class="subtitle">
-          Hi! Welcome. This is my portfolio. Here you will see things about me and my carrier as a software developer. 
-          Hop you enjoy!!!
+          Hi!👋🏼 Welcome to my personal portfolio. Here you can find information about my skills, projects, and experiences. 
+          I hope you enjoy exploring it and learning more about me. 
+          If you have any questions or would like to get in touch, please feel free to contact me through the provided email address.
         </p>
       </div>
     </div>
@@ -28,6 +29,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       position: relative;
       z-index: 1; /* Ensures text is above the space background component */
       color: white;
+      margin-top: -5rem; /* Adjust this value based on your header height */
+      margin-bottom: -3rem; /* Adjust this value based on your footer height */
     }
 
     .title-content {
@@ -47,19 +50,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       letter-spacing: -0.01em;
     }
 
-    .h2 {
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
+    .title-content h2 {
       margin-bottom: 1rem;
-      font-weight: 400;
-      color: #ddd;
-      text-style: italic;
+      font-style: italic;
     }
 
-    .subtitle {
+    .title-content subtitle {
       font-size: 1.1rem;
       max-width: 600px;
       line-height: 1.6;
-      opacity: 0.85;
       margin: 0 auto;
       text-style: italic;
     }
