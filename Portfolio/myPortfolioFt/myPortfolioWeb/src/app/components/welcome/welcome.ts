@@ -55,12 +55,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       font-style: italic;
     }
 
-    .title-content subtitle {
+    .title-content .subtitle {
       font-size: 1.1rem;
-      max-width: 600px;
+      max-width: 1000px;
       line-height: 1.6;
       margin: 0 auto;
-      text-style: italic;
     }
 
     /* Responsive adjustments */
