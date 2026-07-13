@@ -13,7 +13,7 @@ export interface Project {
 export class ProjectService {
   private http = inject(HttpClient);
   // Ensure this matches your Spring Boot @RequestMapping
-  private url = 'http://localhost:8080/api/projects'; 
+  private url = 'https://personal-projects-production-32d7.up.railway.app/api/projects'; 
 
   // The Signal that your components will listen to
   projects = signal<Project[]>([]);
