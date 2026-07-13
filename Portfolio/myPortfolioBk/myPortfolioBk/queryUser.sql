@@ -9,9 +9,10 @@ drop database portfoliodb;
 INSERT INTO project (title, description, tech_stack, github_url) 
 VALUES (
   'Personal Portfolio', 
-  'Full-stack portfolio built with Angular 19 and Spring Boot 4, here you can see my profile in this sector and the code of the website you are navegating now with all the information I used for build this site.', 
-  'Angular, Java, MySQL', 
-  'github.com/rodlobcarlos/Personal-Projects/tree/main/Portfolio'
+  'A full-stack portfolio built with Angular 21.2.6, Spring Boot 4 and one MySQL database to add the new information for this page. 
+  This is a page that I created to present my projects and a little be about me in this IT sector.',
+  'Angular, Java (Sprint Boot 17), MySQL', 
+  'https://github.com/rodlobcarlos/Personal-Projects/tree/main/Portfolio'
 );
 
 UPDATE projects 
