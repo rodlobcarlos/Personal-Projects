@@ -6,7 +6,12 @@ create database portfoliodb;
 use portfoliodb;
 drop database portfoliodb;
 drop table project;
-create table project;
+create table project (
+	title varchar(100),
+    description varchar(500),
+    tech_stack varchar(100),
+    github_url varchar(500)
+);
 
 INSERT INTO project (title, description, tech_stack, github_url) 
 VALUES (
