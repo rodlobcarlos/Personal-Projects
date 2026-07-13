@@ -17,8 +17,8 @@ import { Welcome } from '../welcome/welcome';
       <app-projects />
 
       <footer class="portfolio-footer">
-        <p>Portfolio realized by Carlos Rodríguez Lobato. 
-        Contact me -> <a href="https://mail.google.com/mail/u/0/#inbox?compose=DmwnWsdKPSMKBMjpsCRXRDRBKSHWKmMMJgGgTvxfJBtfvdlXmzsVpJxrRcPhtjZqVVmqZxHzWNlB">rodlobcarlos@gmail.com</a></p>
+        <p>Portfolio realized by Carlos Rodríguez Lobato. |
+        Contact me -> <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSHwfJhNDBXmGmSWzBrhVGcSrJnZrsxJHKVXTzGKlKhbfMVLBBqzXXzFVTQzFLSfxMkMHNnC">rodlobcarlos@gmail.com</a></p>
       </footer>
     </div>
 
@@ -46,7 +46,6 @@ import { Welcome } from '../welcome/welcome';
       text-align: center;
       font-size: 0.9rem;
       margin-top: 4rem;
-      font-weight: bold;
     }
 
     .portfolio-footer a {
@@ -57,6 +56,10 @@ import { Welcome } from '../welcome/welcome';
     .portfolio-footer a:hover {
       color: #1e90ff;
       transition: color 0.3s ease;
+    }
+
+    .portfolio-footer p {
+      font-style: bold;
     }
 
     p {

@@ -1,14 +1,15 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-about',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, ScrollRevealDirective],
   template: `
-    <section class="about-section">
-      <h2 class="section-title">About me!</h2>
+    <section class="about-section" appScrollReveal>
+      <h2 class="section-title">About me! 🧑🏼‍💻</h2>
       
       <div class="about-grid">
         <div class="photo-column">
@@ -19,22 +20,21 @@ import { NgOptimizedImage } from '@angular/common';
 
         <div class="cards-column">
           <div class="info-card">
-            <h3>Myself</h3>
+            <h3>Myself 🎓</h3>
             <p>
-              I am Carlos Rodríguez Lobato, I'm cross-platform software developer. 
-              I was born in Spain (Seville), I live in a town called Alcalá del Río. 
-              I have one older sister too. I'm passionate of technology, I love my 
-              sector and my job. I always been updating my knowledge's about coding 
-              and the new technologies that are coming at this time.
+              I am Carlos Rodríguez Lobato, I'm junior full-stack developer. 
+              I was born in Spain (Seville), I live in a town called Alcalá del Río(Seville). 
+              Right now, I'm especializing in DevOps. 
+              A work metodology that allows me to develop and deploy applications in a more efficient way and helps to improve the collaboration between development and operations teams on a organization.
             </p>
           </div>
 
           <div class="info-card social-card">
-            <h3>Social media</h3>
+            <h3>Social media 📲</h3>
             <ul class="social-links">
-              <li><a href="https://www.instagram.com/rodlobcarlos/" target="_blank">Instagram</a></li>
-              <li><a href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/" target="_blank">Carlos Rodríguez Lobato | LinkedIn</a></li>
-              <li><a href="https://github.com/rodlobcarlos" target="_blank">rodlobcarlos (Carlos Rodríguez Lobato) · GitHub</a></li>
+              <li><a href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/" target="_blank">Carlos Rodríguez Lobato · LinkedIn Profile</a></li>
+              <li><a href="https://www.infojobs.net/candidate/cv/view/index.xhtml?codeCv=6d3c60ca-2f0c-4a0c-a65a-1b1e011a8b3a&dgv=795694009736341453" target="_blank">Carlos Rodríguez Lobato · InfoJobs Profile</a></li>
+              <li><a href="https://github.com/rodlobcarlos" target="_blank">rodlobcarlos · GitHub</a></li>
             </ul>
           </div>
         </div>

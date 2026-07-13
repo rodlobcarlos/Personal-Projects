@@ -1,15 +1,16 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectService } from '../../services/project';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ScrollRevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="projects-section">
-      <h2 class="section-title">My projects</h2>
+    <section class="projects-section" appScrollReveal>
+      <h2 class="section-title">My projects 🖥️</h2>
 
       <div class="projects-grid">
         @for (project of projectService.projects(); track project.id) {
