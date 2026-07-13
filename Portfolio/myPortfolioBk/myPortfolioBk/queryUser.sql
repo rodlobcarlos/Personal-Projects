@@ -5,6 +5,8 @@ FLUSH PRIVILEGES;
 create database portfoliodb;
 use portfoliodb;
 drop database portfoliodb;
+drop table project;
+create table project;
 
 INSERT INTO project (title, description, tech_stack, github_url) 
 VALUES (
@@ -17,4 +19,5 @@ VALUES (
 
 UPDATE projects 
 SET github_url = 'github.com/rodlobcarlos/Personal-Projects/tree/main/Portfolio' 
-WHERE title = 'Personal Portfolio';
+WHERE title = 'Personal Portfolio'
+
