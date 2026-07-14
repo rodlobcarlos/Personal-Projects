@@ -18,7 +18,7 @@ import { RouterOutlet } from '@angular/router';
       z-index: 1; /* Content stays ABOVE the stars */
       color: white;
       padding: 2rem;
-      min-height: 100vh;
+      min-height: auto; /* Ensures the content wrapper takes up space even if the content is small */
     }
   `
 })
