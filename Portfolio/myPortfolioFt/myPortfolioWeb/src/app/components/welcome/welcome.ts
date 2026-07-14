@@ -17,6 +17,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         </p>
       </div>
     </div>
+    <hr>
   `,
 
   styles: `
@@ -60,6 +61,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       max-width: 1000px;
       line-height: 1.6;
       margin: 0 auto;
+    }
+
+    hr {
+      height: 1px; /* Grosor de la línea */
+      background-color: #ffffff; /* Color de la línea */
+      margin: 20px 0; /* Espacio arriba y abajo */
+      width: 100%; /* Ancho de la línea (puedes usar porcentajes o px) */
+      margin-top: 5rem; /* Espacio adicional debajo de la línea */
     }
 
     /* Responsive adjustments */
