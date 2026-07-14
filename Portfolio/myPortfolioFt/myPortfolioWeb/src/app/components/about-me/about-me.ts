@@ -43,63 +43,82 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
   `,
   styles: `
     .about-section {
-      padding: 6rem 2rem;
-      width: 100%;
+      padding: 6rem 1.5rem;
+      width: min(100%, 1200px);
+      max-width: 1200px;
       margin: 0 auto;
       color: white;
+      box-sizing: border-box;
     }
 
     .section-title {
       text-align: center;
-      font-size: 3rem;
+      font-size: clamp(2.4rem, 4vw, 3rem);
       margin-bottom: 4rem;
     }
 
     .about-grid {
       display: grid;
-      /* Column 1: Photo area | Column 2: Cards area */
-      grid-template-columns: 1fr 1.2fr; 
+      grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.3fr);
       gap: 3rem;
-      align-items: center; /* Vertically centers the photo relative to the cards stack */
+      align-items: center;
+      width: min(100%, 1100px);
+      margin: 0 auto;
+      box-sizing: border-box;
     }
 
-    /* Left Column */
     .photo-column {
       display: flex;
       justify-content: center;
-      margin-left: 15rem; /* Optional: Adds some space between the photo and the cards */
+      width: 100%;
+    }
+
+    .profile-pic-wrapper {
+      width: min(100%, 360px);
+      max-width: 360px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid rgba(255, 255, 255, 0.1);
+      background: white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .profile-pic-wrapper img {
-      border-radius: 50%;
-      border: 5px solid rgba(255, 255, 255, 0.1);
-      background: white; /* Matches your screenshot background for the cutout */
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: block;
     }
 
-    /* Right Column (The Stack) */
     .cards-column {
       display: flex;
       flex-direction: column;
-      gap: 2rem; /* Space between the two cards */
-      margin-right: 20rem; /* Optional: Adds some space between the photo and the cards */
+      gap: 2rem;
+      width: 100%;
     }
 
     .info-card {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 2rem;
       padding: 2.5rem;
       width: 100%;
-      transition: transform 0.3s ease;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+      box-sizing: border-box;
     }
 
     .info-card h3 {
       font-size: 1.8rem;
-      margin-top: 0;
-      margin-bottom: 1.5rem;
+      margin: 0 0 1.5rem;
       text-align: center;
     }
 
@@ -107,16 +126,15 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       line-height: 1.7;
       opacity: 0.9;
       text-align: center;
+      margin: 0;
     }
 
     .info-card:hover {
-      transform: scale(1.04);
-      background: rgba(255, 255, 255, 0.07);
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.08);
       border-color: rgba(255, 255, 255, 0.2);
-
     }
 
-    /* Social specific */
     .social-links {
       list-style: none;
       padding: 0;
@@ -125,29 +143,34 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     }
 
     .social-links li {
-      margin: 0.8rem 0;
+      margin: 0.85rem 0;
     }
 
     .social-links a {
       color: #c7d1d7;
       text-decoration: none;
-      transition: color 0.3s;
+      transition: color 0.3s ease;
     }
 
     .social-links a:hover {
       color: white;
     }
 
-    /* Responsive: Stack everything on mobile */
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .about-section {
+        padding: 4rem 1.5rem;
+      }
+    }
+
     @media (max-width: 768px) {
       .about-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 2rem 1rem;
+        padding: 3rem 1rem;
         width: 100%;
-        box-sizing: border-box;
       }
 
       .section-title {
@@ -156,51 +179,25 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       }
 
       .about-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
         width: min(100%, 740px);
-        max-width: 100%;
-        margin: 0 auto;
-        box-sizing: border-box;
-      }
-
-      .photo-column {
-        width: 100%;
-        margin-left: 0;
       }
 
       .profile-pic-wrapper {
-        display: flex;
-        justify-content: center;
-      }
-
-      .profile-pic-wrapper img {
-        width: 200px;
-        height: 200px;
-      }
-
-      .cards-column {
-        width: 100%;
-        margin-right: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        width: 220px;
+        max-width: 220px;
       }
 
       .info-card {
-        padding: 1.5rem;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        margin: 0 auto;
+        padding: 1.75rem;
+        min-height: auto;
       }
 
       .info-card h3 {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
       }
 
       .info-card p {
-        font-size: 0.95rem;
+        font-size: 0.96rem;
       }
     }
   `
