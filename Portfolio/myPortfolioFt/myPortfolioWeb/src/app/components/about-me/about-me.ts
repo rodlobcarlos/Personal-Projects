@@ -67,6 +67,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     .photo-column {
       display: flex;
       justify-content: center;
+      margin-left: 15rem; /* Optional: Adds some space between the photo and the cards */
     }
 
     .profile-pic-wrapper img {
@@ -82,6 +83,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       display: flex;
       flex-direction: column;
       gap: 2rem; /* Space between the two cards */
+      margin-right: 20rem; /* Optional: Adds some space between the photo and the cards */
     }
 
     .info-card {
@@ -90,6 +92,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 2rem;
       padding: 2.5rem;
+      width: 100%;
       transition: transform 0.3s ease;
     }
 
