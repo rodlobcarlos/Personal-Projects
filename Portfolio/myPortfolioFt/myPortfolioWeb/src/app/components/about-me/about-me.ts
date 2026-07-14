@@ -137,12 +137,50 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
     /* Responsive: Stack everything on mobile */
     @media (max-width: 768px) {
-    .about-section { /* Asegúrate de usar la clase real de tu contenedor */
+      .about-section {
         display: flex;
         flex-direction: column;
-        align-items: center; /* Centra horizontalmente */
-        text-align: center;  /* Centra el texto */
-        padding: 0 20px;     /* Añade aire a los lados para que no toque los bordes */
+        align-items: center;
+        text-align: center;
+        padding: 2rem 1rem;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        width: 100%;
+      }
+
+      .photo-column {
+        width: 100%;
+      }
+
+      .profile-pic-wrapper img {
+        width: 200px;
+        height: 200px;
+      }
+
+      .cards-column {
+        width: 100%;
+      }
+
+      .info-card {
+        padding: 1.5rem;
+      }
+
+      .info-card h3 {
+        font-size: 1.3rem;
+      }
+
+      .info-card p {
+        font-size: 0.95rem;
       }
     }
   `

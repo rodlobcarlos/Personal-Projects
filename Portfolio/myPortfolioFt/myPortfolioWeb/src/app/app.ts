@@ -18,18 +18,22 @@ import { RouterOutlet } from '@angular/router';
       z-index: 1; /* Content stays ABOVE the stars */
       color: white;
       padding: 2rem;
-      min-height: auto; /* Ensures the content wrapper takes up space even if the content is small */
+      min-height: auto;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
     }
 
     @media (max-width: 768px) {
-    .content-wrapper {
-        width: 100% !important;     /* Fuerza el ancho al 100% */
-        max-width: 100% !important; /* Asegura que no tenga límites */
-        padding: 1rem !important;   /* Reduce el padding para que no se corte el texto */
-        box-sizing: border-box;     /* Crucial: evita que el padding empuje el contenedor fuera de la pantalla */
-        margin: 0 !important;       /* Elimina cualquier margen lateral */
+      .content-wrapper {
+        width: 100%;
+        max-width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+        margin: 0;
+        overflow-x: hidden;
+      }
     }
-}
   `
 })
 export class AppComponent {}
