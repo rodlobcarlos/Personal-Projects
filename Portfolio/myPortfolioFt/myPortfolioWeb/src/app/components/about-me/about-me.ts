@@ -136,12 +136,14 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     }
 
     /* Responsive: Stack everything on mobile */
-    @media (max-width: 900px) {
-      .about-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
+    @media (max-width: 768px) {
+    .about-me-container { /* Asegúrate de usar la clase real de tu contenedor */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra horizontalmente */
+        text-align: center;  /* Centra el texto */
+        padding: 0 20px;     /* Añade aire a los lados para que no toque los bordes */
       }
-      .photo-column { margin-bottom: 2rem; }
     }
   `
 })
