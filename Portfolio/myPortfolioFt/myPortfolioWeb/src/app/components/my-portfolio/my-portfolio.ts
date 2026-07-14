@@ -37,15 +37,17 @@ import { Welcome } from '../welcome/welcome';
     .portfolio-footer {
       position: fixed;
       left: 0;
-      bottom:0;
+      bottom: 0;
       width: 100%;
-      height: 3%;
-      padding: 2.5rem 0;
+      height: auto;
+      min-height: 3%;
+      padding: 1.5rem 1rem;
       background: rgba(0, 0, 0, 0.6);
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       text-align: center;
       font-size: 0.9rem;
       margin-top: 4rem;
+      box-sizing: border-box;
     }
 
     .portfolio-footer a {
@@ -60,6 +62,9 @@ import { Welcome } from '../welcome/welcome';
 
     .portfolio-footer p {
       font-style: bold;
+      margin: 0;
+      word-wrap: break-word;
+      word-break: break-word;
     }
 
     p {
@@ -69,7 +74,23 @@ import { Welcome } from '../welcome/welcome';
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-      .subtitle { font-size: 1rem; }
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .portfolio {
+        padding-bottom: 8rem;
+      }
+
+      .portfolio-footer {
+        min-height: auto;
+        padding: 1rem 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      .portfolio-footer p {
+        line-height: 1.4;
+      }
     }
   `
 })

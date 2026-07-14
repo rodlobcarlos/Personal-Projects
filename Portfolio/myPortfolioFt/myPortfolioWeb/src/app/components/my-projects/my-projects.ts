@@ -146,8 +146,41 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     }
 
     @media (max-width: 768px) {
-      .section-title { font-size: 2.5rem; }
-      .projects-grid { grid-template-columns: 1fr; }
+      .projects-section {
+        padding: 3rem 1rem;
+        max-width: 100%;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .project-card {
+        padding: 1.5rem;
+      }
+
+      .project-card h3 {
+        font-size: 1.3rem;
+      }
+
+      .description {
+        font-size: 0.95rem;
+      }
+
+      .tech-tag {
+        font-size: 0.8rem;
+      }
+
+      .github-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+      }
     }
   `
 })

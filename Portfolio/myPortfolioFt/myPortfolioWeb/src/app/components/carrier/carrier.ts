@@ -214,6 +214,54 @@ interface CareerStep {
         margin-bottom: -1rem;
       }
     }
+
+    @media (max-width: 768px) {
+      .carrier-section {
+        padding: 3rem 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .timeline-item {
+        max-width: 100%;
+        gap: 1rem;
+      }
+
+      .carrier-card {
+        padding: 1.5rem;
+      }
+
+      .carrier-card h3 {
+        font-size: 1.3rem;
+      }
+
+      .carrier-card p {
+        font-size: 0.95rem;
+      }
+
+      .event-date {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .image-container {
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .image-container img {
+        width: 120px;
+        height: 80px;
+      }
+
+      .description {
+        font-size: 1rem;
+        padding: 0 1rem;
+      }
+    }
   `
 })
 export class Carrier {
