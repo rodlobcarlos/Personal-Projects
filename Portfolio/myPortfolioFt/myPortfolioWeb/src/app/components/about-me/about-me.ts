@@ -137,7 +137,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
     /* Responsive: Stack everything on mobile */
     @media (max-width: 768px) {
-    .about-me-container { /* Asegúrate de usar la clase real de tu contenedor */
+    .about-section { /* Asegúrate de usar la clase real de tu contenedor */
         display: flex;
         flex-direction: column;
         align-items: center; /* Centra horizontalmente */
