@@ -158,11 +158,20 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       .about-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
-        width: 100%;
+        width: min(100%, 740px);
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
       }
 
       .photo-column {
         width: 100%;
+        margin-left: 0;
+      }
+
+      .profile-pic-wrapper {
+        display: flex;
+        justify-content: center;
       }
 
       .profile-pic-wrapper img {
@@ -172,10 +181,18 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
       .cards-column {
         width: 100%;
+        margin-right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
       .info-card {
         padding: 1.5rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
       }
 
       .info-card h3 {
