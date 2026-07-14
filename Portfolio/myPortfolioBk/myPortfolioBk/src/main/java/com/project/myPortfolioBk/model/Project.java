@@ -15,6 +15,6 @@ public class Project {
 
     private String title; // project title
     private String description; // project description
-    private String github_Url; // github URL
+    private String github_url; // github URL
     private String techStack; // framework used
 }
