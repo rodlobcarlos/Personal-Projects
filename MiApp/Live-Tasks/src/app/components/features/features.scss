@@ -1,0 +1,134 @@
+.features-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 100px 2rem;
+  background-color: #FFEBAF;
+  font-family: karla, sans-serif;
+  box-sizing: border-box;
+}
+
+.features-content {
+  max-width: 900px;
+  text-align: center;
+}
+
+.intro-text {
+  font-size: 1.3rem;
+  color: #1a9cce;
+  font-weight: 500;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.features-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #1a9cce;
+  margin-bottom: 3rem;
+}
+
+.download-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.download-button {
+  background-color: #FFEBAF;
+  border: 2px solid #D4AF87;
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a9cce;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: #FFE5A0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.info-box {
+  background-color: #FFEBAF;
+  border: 2px solid #D4AF87;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 350px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-text {
+  font-size: 1rem;
+  color: #1a9cce;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.6;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .features-container {
+    padding: 2rem 1rem;
+  }
+
+  .intro-text {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .features-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .download-section {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .download-button {
+    width: 100%;
+  }
+
+  .info-box {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-title {
+    font-size: 1.8rem;
+  }
+
+  .intro-text {
+    font-size: 1rem;
+  }
+
+  .download-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .info-box {
+    padding: 1.5rem;
+  }
+
+  .info-text {
+    font-size: 0.9rem;
+  }
+}
