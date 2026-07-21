@@ -26,9 +26,9 @@ import { RouterLink } from '@angular/router';
     }
 
     nav {
-      background-color: #fceea7;
+      background-color: #FFEBAF;
       border-radius: 2rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
       padding: 0.75rem 3rem;
       max-width: 900px;
       width: 85%;
@@ -52,8 +52,8 @@ import { RouterLink } from '@angular/router';
       transition: opacity 0.2s ease;
 
       &:hover, &:focus-visible {
-        opacity: 0.75;
-        outline: none;
+        color: #234f58;
+        transition: color 0.2s ease, opacity 0.2s ease;
       }
     }
   `]
