@@ -82,45 +82,49 @@ interface CareerStep {
       margin-bottom: 4rem;
     }
 
+    /* Two-per-row layout for timeline cards */
     .timeline-container {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 3rem;
-      align-items: center;
+      align-items: start;
+      justify-items: center;
     }
 
     .timeline-item {
       display: grid;
-      /* 180px Date | Flexible Card | 180px Spacer */
-      grid-template-columns: 180px 1fr 180px;
-      gap: 2rem;
+      /* Date column | Card column */
+      grid-template-columns: 60px 1fr;
+      gap: 1.5rem;
       align-items: center;
       width: 100%;
-      max-width: 1100px;
+      max-width: 620px; /* Slightly wider to make cards more elongated */
     }
 
     .event-date {
       text-align: right;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: rgba(255, 255, 255, 0.7);
       writing-mode: vertical-lr;
       transform: rotate(180deg);
       white-space: nowrap;
-      transition: color 0.3s ease; /* Smooth transition for your hover */
+      transition: color 0.3s ease;
     }
 
-    .event-date:hover {
-      color: white;
-    }
+    .event-date:hover { color: white; }
 
     .carrier-card {
+      display: block;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 2rem;
-      padding: 2.5rem;
-      transition: transform 0.3s ease, background 0.3s ease; /* Smooth transition for hover effects */
+      padding: 3rem; /* Increased padding to match About cards */
+      min-height: 220px; /* Make cards more elongated */
+      width: 110%;
+      transition: transform 0.3s ease, background 0.3s ease;
+      box-sizing: border-box;
     }
 
     .carrier-card:hover {
@@ -130,7 +134,7 @@ interface CareerStep {
     }
 
     .carrier-card h3 {
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       margin: 0 0 1.5rem 0;
       text-align: center;
     }
@@ -139,6 +143,7 @@ interface CareerStep {
       line-height: 1.7;
       opacity: 0.9;
       text-align: center;
+      font-size: 1rem;
     }
 
     .image-container {
@@ -150,117 +155,33 @@ interface CareerStep {
       flex-wrap: wrap;
     }
 
-    .python-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    } 
-
-    .java-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
-
-    .angular-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
-
-    .springboot-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
-
-    .mysql-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
-
-    .node-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
-    
-    .mongo-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
-
-    .azure-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
-
-    .azureDevOps-image:hover {
-      transform: scale(1.04);
-      transition: transform 0.4s ease;
-    }
+    .image-container div:hover { transform: scale(1.04); transition: transform 0.4s ease; }
 
     .description {
       text-align: center;
       font-size: 1.1rem;
-      margin-top: 2rem;
+      margin-top: 7rem;
       margin-bottom: 2rem;
     }
 
+    /* Responsive: single column on smaller screens */
     @media (max-width: 900px) {
-      .timeline-item {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .event-date {
-        writing-mode: horizontal-tb;
-        transform: none;
-        text-align: center;
-        margin-bottom: -1rem;
-      }
+      .timeline-container { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; text-align: center; }
+      .event-date { writing-mode: horizontal-tb; transform: none; text-align: center; margin-bottom: -1rem; }
     }
 
     @media (max-width: 768px) {
-      .carrier-section {
-        padding: 3rem 1rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
-      }
-
-      .timeline-item {
-        max-width: 100%;
-        gap: 1rem;
-      }
-
-      .carrier-card {
-        padding: 1.5rem;
-      }
-
-      .carrier-card h3 {
-        font-size: 1.3rem;
-      }
-
-      .carrier-card p {
-        font-size: 0.95rem;
-      }
-
-      .event-date {
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .image-container {
-        gap: 1rem;
-        margin-top: 2rem;
-      }
-
-      .image-container img {
-        width: 120px;
-        height: 80px;
-      }
-
-      .description {
-        font-size: 1rem;
-        padding: 0 1rem;
-      }
+      .carrier-section { padding: 3rem 1rem; }
+      .section-title { font-size: 2rem; margin-bottom: 2rem; }
+      .timeline-item { max-width: 100%; gap: 1rem; }
+      .carrier-card { padding: 1.5rem; }
+      .carrier-card h3 { font-size: 1.3rem; }
+      .carrier-card p { font-size: 0.95rem; }
+      .event-date { font-size: 0.95rem; margin-bottom: 0.5rem; }
+      .image-container { gap: 1rem; margin-top: 2rem; }
+      .image-container img { width: 120px; height: 80px; }
+      .description { font-size: 1rem; padding: 0 1rem; }
     }
   `
 })
