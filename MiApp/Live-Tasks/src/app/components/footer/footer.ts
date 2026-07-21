@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styles: [`
     .footer-container {
       background-color: #177a9a;
-      color: #e5f6fd;
+      color: #FFEBAF;
       text-align: center;
       padding: 1.25rem 1rem;
       width: 100%;
