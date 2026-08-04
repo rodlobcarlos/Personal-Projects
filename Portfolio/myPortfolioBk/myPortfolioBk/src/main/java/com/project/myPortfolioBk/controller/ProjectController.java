@@ -13,7 +13,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/projects")
-@CrossOrigin(origins = "https://crldev.up.railway.app") // for front connected
+@CrossOrigin(origins = "https://personal-projects-l4lddiurq-rodlobcarlos-5951s-projects.vercel.app") // for front connected
 public class ProjectController {
 
     private ProjectService projectService;
