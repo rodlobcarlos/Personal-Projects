@@ -13,7 +13,7 @@ export interface Project {
 export class ProjectService {
   private http = inject(HttpClient);
   // Ensure this matches your Spring Boot @RequestMapping
-  private url = 'https://personal-projects-elfgn4zph-rodlobcarlos-5951s-projects.vercel.app'; 
+  private url = 'https://personal-projects-1bjr.onrender.com'; 
 
   // The Signal that your components will listen to
   projects = signal<Project[]>([]);
