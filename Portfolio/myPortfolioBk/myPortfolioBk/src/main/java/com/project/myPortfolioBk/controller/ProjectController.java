@@ -13,6 +13,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/projects")
+@CrossOrigin(origins = "*")
 public class ProjectController {
 
     private ProjectService projectService;
