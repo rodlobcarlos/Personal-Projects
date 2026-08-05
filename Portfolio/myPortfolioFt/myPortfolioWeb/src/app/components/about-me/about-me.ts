@@ -12,9 +12,16 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       <h2 class="section-title">About me! 🧑🏼‍💻</h2>
       
       <div class="about-grid">
-        <div class="photo-column">
-          <div class="profile-pic-wrapper">
-             <img ngSrc="assets/profile.jpg" alt="Carlos Rodríguez Lobato" width="350" height="350" priority>
+        <div class="photo-block">
+          <div class="photo-column">
+            <div class="profile-pic-wrapper">
+               <img ngSrc="assets/profile.jpg" alt="Carlos Rodríguez Lobato" width="350" height="350" priority>
+            </div>
+          </div>
+
+          <div class="certificate-column">
+            <h3>Certificates 🎓</h3>
+              <img ngSrc="assets/github-foundations.svg" alt="GitHub Certification" width="80" height="80">
           </div>
         </div>
 
@@ -67,10 +74,34 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       box-sizing: border-box;
     }
 
+    .photo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      width: 100%;
+    }
+
     .photo-column {
       display: flex;
       justify-content: center;
       width: 100%;
+    }
+
+    .certificate-column {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 2rem;
+      padding: 1.75rem;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .certificate-column h3 {
+      margin: 0 0 1rem;
+      font-size: 1.6rem;
     }
 
     .profile-pic-wrapper {
@@ -150,6 +181,10 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       color: #c7d1d7;
       text-decoration: none;
       transition: color 0.3s ease;
+    }
+
+    .certificate-column {
+      
     }
 
     .social-links a:hover {
