@@ -66,7 +66,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
     .about-grid {
       display: grid;
-      grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.3fr);
+      grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.3fr); 
       gap: 3rem;
       align-items: center;
       width: min(100%, 1100px);
@@ -97,11 +97,18 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       width: 100%;
       box-sizing: border-box;
       text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
     .certificate-column h3 {
       margin: 0 0 1rem;
       font-size: 1.6rem;
+    }
+
+    .certificate-column:hover {
+      transform: scale(1.04);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .profile-pic-wrapper {
@@ -161,7 +168,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     }
 
     .info-card:hover {
-      transform: translateY(-4px);
+      transform: scale(1.04);
       background: rgba(255, 255, 255, 0.08);
       border-color: rgba(255, 255, 255, 0.2);
     }
@@ -181,10 +188,6 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       color: #c7d1d7;
       text-decoration: none;
       transition: color 0.3s ease;
-    }
-
-    .certificate-column {
-      
     }
 
     .social-links a:hover {
