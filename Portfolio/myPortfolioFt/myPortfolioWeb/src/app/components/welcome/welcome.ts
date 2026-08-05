@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-welcome',
@@ -15,10 +16,28 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           I hope you enjoy exploring it and learning more about me. 
           If you have any questions or would like to get in touch, please feel free to contact me through the provided email address.
         </p>
+        <div class="scroll-arrow" (click)="scrollToNext()">
+          <svg viewBox="0 0 24 24" class="arrow-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              [attr.d]="scrolledDown ? 'M20 6L9 17l-5-5' : 'M12 5v14M5 12l7 7 7-7'"
+            />
+          </svg>
+        </div>
       </div>
     </div>
-    <hr>
   `,
+  animations: [
+    trigger('arrowRotate', [
+      state('down', style({ transform: 'rotate(0deg)' })),
+      state('up', style({ transform: 'rotate(180deg)' })),
+      transition('down <=> up', animate('500ms ease'))
+    ])
+  ],
 
   styles: `
     :host {
@@ -42,6 +61,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       align-items: center;
       text-align: center;
       padding: 0 1rem;
+      position: relative;
     }
 
     h1 {
@@ -63,18 +83,45 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       margin: 0 auto;
     }
 
-    hr {
-      height: 1px; /* Grosor de la línea */
-      background-color: #ffffff; /* Color de la línea */
-      margin: 20px 0; /* Espacio arriba y abajo */
-      width: 100%; /* Ancho de la línea (puedes usar porcentajes o px) */
-      margin-top: 5rem; /* Espacio adicional debajo de la línea */
-    }
-
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .subtitle { font-size: 1rem; }
     }
+
+    .scroll-arrow {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c7d1d7;
+      z-index: 5;
+      margin-bottom: 5rem;
+    }
+
+    .arrow-svg {
+      width: 80px;
+      height: 80px;
+      display: block;
+      transform-origin: center;
+      transition: color 0.2s ease;
+    }
+
+    .scroll-arrow:hover { color: white; }
   `
 })
-export class Welcome {}
+export class Welcome {
+  scrolledDown = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.scrolledDown = window.scrollY > 10;
+  }
+
+  scrollToNext(): void {
+    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+  }
+}
