@@ -155,7 +155,10 @@ interface CareerStep {
       flex-wrap: wrap;
     }
 
-    .image-container div:hover { transform: scale(1.04); transition: transform 0.4s ease; }
+    .image-container div:hover { 
+      transform: scale(1.04); 
+      transition: transform 0.4s ease; 
+    }
 
     .description {
       text-align: center;
