@@ -1,0 +1,24 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env / secrets
+.env
+.env.local
+*.pem
+
+# Backend (Maven/Java)
+backend-spring-boot/target/
+*.class
+*.log
+
+# Frontend (Node/Angular)
+frontend-angular/node_modules/
+frontend-angular/dist/
+frontend-angular/.angular/
