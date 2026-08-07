@@ -99,7 +99,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       justify-content: center;
       color: #c7d1d7;
       z-index: 5;
-      margin-bottom: 5rem;
+      margin-top: 5rem;
     }
 
     .arrow-svg {
