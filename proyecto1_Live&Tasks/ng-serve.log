@@ -1,0 +1,29 @@
+[33m>[39m Building...
+[32m√[39m Building...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m        [2m | [22m [1mRaw size[22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m       [2m | [22m  [36m2.73 kB[39m[2m | [22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m         [2m | [22m  [36m2.33 kB[39m[2m | [22m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m[2m | [22m  [1m5.07 kB[22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m        [2m | [22m [1mRaw size[22m
+[32mchunk-PPIMBVA4.js[39m  [2m | [22m[2mlanding[22m      [2m | [22m [36m19.91 kB[39m[2m | [22m
+[32mchunk-QDB5HDJT.js[39m  [2m | [22m[2m-[22m            [2m | [22m [36m11.24 kB[39m[2m | [22m
+[32mchunk-DPCSK75N.js[39m  [2m | [22m[2mregister[22m     [2m | [22m  [36m3.35 kB[39m[2m | [22m
+[32mchunk-QLRBAAOI.js[39m  [2m | [22m[2mlogin[22m        [2m | [22m  [36m3.27 kB[39m[2m | [22m
+[32mchunk-7TMN36M7.js[39m  [2m | [22m[2mauth-routes[22m  [2m | [22m[36m410 bytes[39m[2m | [22m
+
+Application bundle generation complete. [1.572 seconds] - 2026-08-14T22:48:42.272Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m4200[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.5.220:[1m4200[22m/[39m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m [2m | [22m[1mRaw size[22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m[2m | [22m [36m2.73 kB[39m[2m | [22m
+
+Application bundle generation complete. [0.032 seconds] - 2026-08-14T23:01:28.488Z
+
+Stylesheet update sent to client(s).
