@@ -1,0 +1,112 @@
+<main class="shell">
+  <div class="blob blob-1" aria-hidden="true"></div>
+  <div class="blob blob-2" aria-hidden="true"></div>
+  <div class="blob blob-3" aria-hidden="true"></div>
+
+  <section class="card">
+    <header class="header">
+      <div class="header-text">
+        <h1 class="logo">📋 Gestor de Tareas</h1>
+        <p class="subtitle">Prototipo · Angular</p>
+      </div>
+
+      <div class="stats">
+        <button
+          class="btn theme-toggle"
+          [attr.aria-label]="darkMode() ? 'Activar modo claro' : 'Activar modo oscuro'"
+          title="Cambiar tema"
+          (click)="toggleTheme()"
+        >
+          @if (darkMode()) {
+            <span aria-hidden="true">☀️</span>
+          } @else {
+            <span aria-hidden="true">🌙</span>
+          }
+        </button>
+        <button class="btn counter" title="Tareas pendientes" disabled>
+          {{ remaining() }} pendiente{{ remaining() === 1 ? '' : 's' }}
+        </button>
+      </div>
+    </header>
+
+    <div class="progress-block">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress()">
+          <span class="progress-label">{{ progress() }}%</span>
+        </div>
+      </div>
+      <div class="progress-meta">
+        <span>{{ completedCount() }} de {{ tasks().length }} completadas</span>
+        @if (progress() === 100 && tasks().length > 0) {
+          <span class="congrats">🎉 ¡Todo listo!</span>
+        }
+      </div>
+    </div>
+
+    <form class="add-form" (submit)="onAdd()">
+      <input
+        class="add-input"
+        type="text"
+        placeholder="¿Qué tarea quieres añadir?"
+        [value]="newTitle()"
+        (input)="onInput($event)"
+        aria-label="Nueva tarea"
+      />
+      <button class="btn add-btn" type="submit" [disabled]="!newTitle().trim()" title="Añadir tarea">
+        <span aria-hidden="true">＋</span> Añadir
+      </button>
+    </form>
+
+    <div class="filters">
+      <button
+        class="btn filter-btn"
+        [class.active]="isAll()"
+        (click)="setFilter('all')"
+      >
+        Todas ({{ tasks().length }})
+      </button>
+      <button
+        class="btn filter-btn"
+        [class.active]="isActive()"
+        (click)="setFilter('active')"
+      >
+        Pendientes ({{ remaining() }})
+      </button>
+      <button
+        class="btn filter-btn"
+        [class.active]="isCompleted()"
+        (click)="setFilter('completed')"
+      >
+        Completadas ({{ completedCount() }})
+      </button>
+    </div>
+
+    <div class="list">
+      @for (task of filteredTasks(); track task.id) {
+        <app-task-item [task]="task" @listItem />
+      } @empty {
+        <div class="empty">
+          @if (tasks().length === 0) {
+            <span class="empty-icon" aria-hidden="true">🗒️</span>
+            <p>Sin tareas todavía. ¡Añade tu primera tarea!</p>
+          } @else {
+            <span class="empty-icon" aria-hidden="true">🔍</span>
+            <p>No hay tareas en este filtro.</p>
+          }
+        </div>
+      }
+    </div>
+
+    <footer class="footer">
+      <button
+        class="btn clear-btn"
+        [disabled]="completedCount() === 0"
+        (click)="clearCompleted()"
+        title="Eliminar todas las tareas completadas"
+      >
+        🧹 Limpiar completadas
+      </button>
+      <p class="hint">Doble clic en una tarea para editarla</p>
+    </footer>
+  </section>
+</main>
