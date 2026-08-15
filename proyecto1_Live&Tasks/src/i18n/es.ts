@@ -36,8 +36,10 @@ export const es: Translation = {
     },
   },
   auth: {
+    name: 'Nombre',
     email: 'Correo electrónico',
     password: 'Contraseña',
+    confirmPassword: 'Confirmar contraseña',
     loginTitle: 'Bienvenido de nuevo',
     loginSubtitle: 'Inicia sesión en tu cuenta',
     registerTitle: 'Crea tu cuenta',
@@ -52,6 +54,8 @@ export const es: Translation = {
     emailInUse: 'Este correo ya está registrado',
     weakPassword: 'La contraseña debe tener al menos 6 caracteres',
     invalidEmail: 'Introduce un correo válido',
+    passwordMismatch: 'Las contraseñas no coinciden',
+    tooManyRequests: 'Demasiados intentos. Espera un momento e inténtalo de nuevo.',
     googleError: 'No se pudo iniciar sesión con Google',
     genericError: 'Error de autenticación. Inténtalo de nuevo.',
     requiredField: 'Este campo es obligatorio',
@@ -64,6 +68,7 @@ export const es: Translation = {
   },
   tasks: {
     title: 'Tareas',
+    comingSoon: 'Próximamente: gestión de tareas con IA',
     addPlaceholder: 'Añade una tarea... (la IA entiende lenguaje natural)',
     addButton: 'Añadir',
     all: 'Todas',

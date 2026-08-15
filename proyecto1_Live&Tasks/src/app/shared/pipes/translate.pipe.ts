@@ -9,7 +9,7 @@ import { I18nService } from '../../core/services/i18n.service';
 export class TranslatePipe implements PipeTransform {
   private readonly i18n = inject(I18nService);
 
-  transform(key: string): string {
-    return this.i18n.t(key);
+  transform(key: string | null): string {
+    return key ? this.i18n.t(key) : '';
   }
 }
