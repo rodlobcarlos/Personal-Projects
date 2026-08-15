@@ -34,8 +34,10 @@ export const en = {
     },
   },
   auth: {
+    name: 'Name',
     email: 'Email',
     password: 'Password',
+    confirmPassword: 'Confirm password',
     loginTitle: 'Welcome back',
     loginSubtitle: 'Log in to your account',
     registerTitle: 'Create your account',
@@ -50,6 +52,8 @@ export const en = {
     emailInUse: 'This email is already registered',
     weakPassword: 'The password must be at least 6 characters',
     invalidEmail: 'Please enter a valid email',
+    passwordMismatch: 'Passwords do not match',
+    tooManyRequests: 'Too many attempts. Wait a moment and try again.',
     googleError: 'Could not sign in with Google',
     genericError: 'Authentication error. Please try again.',
     requiredField: 'This field is required',
@@ -62,6 +66,7 @@ export const en = {
   },
   tasks: {
     title: 'Tasks',
+    comingSoon: 'Coming soon: AI-powered task management',
     addPlaceholder: 'Add a task... (AI understands natural language)',
     addButton: 'Add',
     all: 'All',

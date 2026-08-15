@@ -1,17 +1,15 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_PROJECT.firebaseapp.com',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT.appspot.com',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    appId: 'YOUR_APP_ID',
+    apiKey: 'AIzaSyCO5EbpYpJUiKB7VbLib0DgNNdrM8f_hLE',
+    authDomain: 'livetasks-6bac8.firebaseapp.com',
+    projectId: 'livetasks-6bac8',
+    storageBucket: 'livetasks-6bac8.firebasestorage.app',
+    messagingSenderId: '486334737540',
+    appId: '1:486334737540:web:df3cb54ef1c3d4b37726d1',
   },
   gemini: {
     model: 'gemini-2.0-flash',
   },
-  aiProxy: {
-    url: 'https://us-central1-YOUR_PROJECT.cloudfunctions.net/proxyGemini',
-  },
+  apiUrl: '/api',
 };
