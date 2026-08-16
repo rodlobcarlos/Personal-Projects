@@ -1,7 +1,11 @@
+<div class="landing-backdrop" aria-hidden="true"></div>
+
 <header class="landing-header">
   <div class="container landing-header__inner">
     <a class="landing-brand" routerLink="/">
-      <span class="landing-brand__logo" aria-hidden="true">⚡</span>
+      <span class="landing-brand__logo">
+        <img src="assets/logoApp.png" alt="{{ 'appName' | translate }}" />
+      </span>
       <span>{{ 'appName' | translate }}</span>
     </a>
     <nav class="landing-nav" aria-label="Auth">
@@ -13,62 +17,185 @@
   </div>
 </header>
 
-<main>
+<main class="landing-main">
   <section class="hero">
     <div class="container hero__inner">
       <h1 class="hero__title">{{ 'landing.tagline' | translate }}</h1>
       <p class="hero__subtitle">{{ 'landing.subtitle' | translate }}</p>
+
       <div class="hero__actions">
         <a class="button button--primary button--lg" routerLink="/auth/register">{{
           'landing.getStarted' | translate
         }}</a>
-        <a class="button button--primary button--lg" href="#features">{{ 'landing.login' | translate }}</a>
-      </div>
-      <button class="button button--google" type="button">
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
+        <a class="button button--ghost button--lg" routerLink="/auth/login">{{
+          'landing.login' | translate
+        }}</a>
+
+        <button
+          class="button button--google button--lg"
+          type="button"
+          (click)="signInWithGoogle()"
+          [disabled]="googleLoading()"
         >
-          <path
-            fill="#4285F4"
-            d="M23.5 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.45a5.52 5.52 0 0 1-2.4 3.62v3h3.88c2.27-2.09 3.57-5.17 3.57-8.81Z"
-          />
-          <path
-            fill="#34A853"
-            d="M12 24c3.24 0 5.96-1.07 7.94-2.91l-3.88-3c-1.07.72-2.45 1.15-4.06 1.15-3.12 0-5.77-2.11-6.71-4.95H1.28v3.1A12 12 0 0 0 12 24Z"
-          />
-          <path
-            fill="#FBBC05"
-            d="M5.29 14.29A7.2 7.2 0 0 1 4.89 12c0-.8.14-1.57.4-2.29v-3.1H1.28a12 12 0 0 0 0 10.78l4.01-3.1Z"
-          />
-          <path
-            fill="#EA4335"
-            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44A11.98 11.98 0 0 0 12 0 12 12 0 0 0 1.28 6.6l4.01 3.1C6.23 6.86 8.88 4.75 12 4.75Z"
-          />
-        </svg>
-        {{ 'landing.continueWithGoogle' | translate }}
-      </button>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              fill="#4285F4"
+              d="M23.5 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.45a5.52 5.52 0 0 1-2.4 3.62v3h3.88c2.27-2.09 3.57-5.17 3.57-8.81Z"
+            />
+            <path
+              fill="#34A853"
+              d="M12 24c3.24 0 5.96-1.07 7.94-2.91l-3.88-3c-1.07.72-2.45 1.15-4.06 1.15-3.12 0-5.77-2.11-6.71-4.95H1.28v3.1A12 12 0 0 0 12 24Z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M5.29 14.29A7.2 7.2 0 0 1 4.89 12c0-.8.14-1.57.4-2.29v-3.1H1.28a12 12 0 0 0 0 10.78l4.01-3.1Z"
+            />
+            <path
+              fill="#EA4335"
+              d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44A11.98 11.98 0 0 0 12 0 12 12 0 0 0 1.28 6.6l4.01 3.1C6.23 6.86 8.88 4.75 12 4.75Z"
+            />
+          </svg>
+          {{
+            googleLoading()
+              ? ('common.loading' | translate)
+              : ('landing.continueWithGoogle' | translate)
+          }}
+        </button>
+      </div>
+
+      @if (googleError()) {
+        <p class="landing-error" role="alert">{{ googleError() | translate }}</p>
+      }
     </div>
   </section>
 
   <section id="features" class="features">
     <div class="container">
+      <header class="features__header">
+        <p class="features__eyebrow">{{ 'landing.featuresEyebrow' | translate }}</p>
+        <h2 class="features__title">{{ 'landing.featuresTitle' | translate }}</h2>
+        <p class="features__subtitle">{{ 'landing.featuresSubtitle' | translate }}</p>
+      </header>
+
       <div class="features__grid">
         @for (feature of features; track feature.key) {
           <article class="feature-card">
-            <span class="feature-card__icon" aria-hidden="true"></span>
-            <h2 class="feature-card__title">{{ 'landing.features.' + feature.key | translate }}</h2>
+            <span class="feature-card__icon" aria-hidden="true">
+              @switch (feature.key) {
+                @case ('tasks') {
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="m9 11 3 3L22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                  </svg>
+                }
+                @case ('calendar') {
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <path d="M16 2v4" />
+                    <path d="M8 2v4" />
+                    <path d="M3 10h18" />
+                  </svg>
+                }
+                @case ('monitoring') {
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M18 20V10" />
+                    <path d="M12 20V4" />
+                    <path d="M6 20v-6" />
+                  </svg>
+                }
+                @case ('notes') {
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <path d="M14 2v6h6" />
+                    <path d="M16 13H8" />
+                    <path d="M16 17H8" />
+                    <path d="M10 9H8" />
+                  </svg>
+                }
+              }
+            </span>
+            <h3 class="feature-card__title">{{ 'landing.features.' + feature.key | translate }}</h3>
             <p class="feature-card__desc">{{ 'landing.features.' + feature.desc | translate }}</p>
           </article>
         }
       </div>
     </div>
   </section>
+
+  <section class="cta">
+    <div class="container cta__inner">
+      <h2 class="cta__title">{{ 'landing.ctaTitle' | translate }}</h2>
+      <p class="cta__subtitle">{{ 'landing.ctaSubtitle' | translate }}</p>
+      <a class="button button--ghost button--lg" routerLink="/auth/register">{{
+        'landing.getStarted' | translate
+      }}</a>
+    </div>
+  </section>
 </main>
 
 <footer class="landing-footer">
-  <div class="container">{{ 'appName' | translate }}</div>
+  <div class="container landing-footer__inner">
+    <a class="landing-brand" routerLink="/">
+      <span class="landing-brand__logo">
+        <img src="assets/logoApp.png" alt="{{ 'appName' | translate }}" />
+      </span>
+      <span>{{ 'appName' | translate }}</span>
+    </a>
+    <p class="landing-footer__tagline">{{ 'landing.footerTagline' | translate }}</p>
+    <nav class="landing-footer__nav" aria-label="Footer">
+      <a class="landing-footer__link" routerLink="/auth/login">{{ 'landing.login' | translate }}</a>
+      <a class="landing-footer__link" routerLink="/auth/register">{{
+        'landing.register' | translate
+      }}</a>
+    </nav>
+    <p class="landing-footer__copyright">
+      &copy; {{ currentYear }} {{ 'appName' | translate }}. {{ 'landing.footerRights' | translate }}
+    </p>
+  </div>
 </footer>

@@ -4,9 +4,10 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 
 ## Entorno
 
-- Proyecto: `C:\Users\rodlo\Documents\GitHub\Personal-Projects\proyecto1_Live&Tasks\`
+- Proyecto: `C:\Users\rodlo\Documents\GitHub\Personal-Projects\proyecto1_LiveTasks\` (carpeta renombrada, ya sin `&`).
 - Frontend (Angular): `http://localhost:4200/`. Backend (Express): `http://localhost:3000/`.
-- **Bug Windows:** el `&` del nombre de la carpeta rompe los scripts de npm. NO usar `npm run <cmd>`; invocar Angular directo:
+- `apiUrl` del frontend: `http://localhost:3000/api` (dev) / `/api` (prod) en `src/environments/environment{,prod}.ts`.
+- Los scripts de npm funcionan (el bug del `&` desapareció al renombrar). Si algún día fallaran, usar el binario directo:
   ```bash
   node "node_modules\@angular\cli\bin\ng.js" serve
   node "node_modules\@angular\cli\bin\ng.js" build
@@ -55,12 +56,30 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - `scripts/apply-schema.ts` (`npm run db:setup`) aplica `schema.sql`.
 - Verificado: `npm run typecheck`, `npm run build`, arranque del servidor y `GET /api/health` → `{"status":"ok","db":"up"}`.
 
+### Paso 3 completado: pulido de vistas públicas
+
+- **Landing** (`features/landing`): hero con CTA (Empezar + Iniciar sesión ghost + botón Google funcional vía `AuthService`), sección features con iconos SVG (tareas/calendario/monitoreo/notas), banda CTA y footer enriquecido (links + copyright con año). Overlay `landing-backdrop` (crema translúcido fijo) para legibilidad sobre la imagen de fondo.
+- **Logo**: `public/assets/logoApp.png` (cuadrado) en header y footer de la landing a 2rem (`.landing-brand__logo img`, `object-fit: contain`).
+- **Auth** (`features/auth/login|register`): `login.scss`/`register.scss` con escrim difuminado, tarjeta frosted + barra de acento degradada, animación de entrada y ajuste responsive. Botón `.auth-back` "Volver" → `/` en ambas tarjetas (clave `common.back`).
+- **Primitivas**: `.button--ghost` en `styles.scss` ahora es ghost real (transparente, borde/texto primary).
+- **Presupuesto CSS**: `angular.json` → `anyComponentStyle` warning 4 kB → **6 kB** (error 8 kB).
+- **i18n**: nuevas claves `landing.featuresEyebrow/featuresTitle/featuresSubtitle`, `landing.ctaTitle/ctaSubtitle`, `landing.footerTagline/footerRights` en `{es,en}.ts`.
+- Verificado: `npm run lint`, `npm run build` (sin warnings) y tests (2/2).
+
 ## Plan por ejecutar (en orden)
 
 1. **Shell + navegación** — layout con 4 pestañas (Tareas, Calendario, Monitoreo, Notas) y logout (`i18n/nav`).
 2. **Tasks** — modelo en `models/`, CRUD `/api/tasks` (backend) + `task.service` (frontend), entrada en lenguaje natural, filtros, prioridades, estados (`i18n/tasks`).
 3. **Calendar / Monitoring / Notes** — resumen IA del día, estadísticas + tendencia 7 días, notas rich-text con autosave (ngx-editor) → `/api/notes`.
 4. **Integración IA (Gemini) en backend** — `POST /api/ai/*` con `@google/generative-ai` server-side (parsing de lenguaje natural, priorización, chat asistente) (`i18n/ai`).
+
+### Claves para los próximos pasos
+
+- Backend listo: middleware `authenticate` (verifyToken + ensureUser) en `server/src/middleware/auth.ts` para rutas protegidas; tablas `tasks` y `notes` ya creadas en `live_tasks`; `GET /api/health` como referencia. **Faltan** las rutas `/api/tasks`, `/api/notes` y `/api/ai/*`.
+- `GEMINI_API_KEY` sigue vacía en `server/.env` (solo hará falta en el paso de IA).
+- Frontend: `src/app/models/` vacío (solo `.gitkeep`); crear modelo `Task` y `task.service`; la ruta `/tasks` es un placeholder protegido.
+- i18n: las secciones `nav`, `tasks`, `calendar`, `monitoring`, `notes` y `ai` ya existen en `{es,en}.ts` (spec de pantallas) — usarlas al construir vistas.
+- Auth login/register comparten SCSS/HTML casi idénticos: al pulir una, espejar los cambios en la otra.
 
 ## Convenciones
 
