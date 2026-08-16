@@ -24,6 +24,13 @@ export const es: Translation = {
     register: 'Registrarse',
     continueWithGoogle: 'Continuar con Google',
     or: 'o',
+    featuresEyebrow: 'Características',
+    featuresTitle: 'Todo en un solo lugar',
+    featuresSubtitle: 'Cuatro herramientas que trabajan juntas para que organices mejor tu día.',
+    ctaTitle: '¿Listo para organizar tu día?',
+    ctaSubtitle: 'Crea tu cuenta gratis y deja que la IA te ayude con tus tareas.',
+    footerTagline: 'Tareas, calendario, monitoreo y notas impulsados por IA.',
+    footerRights: 'Todos los derechos reservados.',
     features: {
       tasks: 'Tareas inteligentes',
       tasksDesc: 'Crea tareas con lenguaje natural y deja que la IA las priorice.',

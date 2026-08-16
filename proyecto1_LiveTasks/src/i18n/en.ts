@@ -22,6 +22,13 @@ export const en = {
     register: 'Sign up',
     continueWithGoogle: 'Continue with Google',
     or: 'or',
+    featuresEyebrow: 'Features',
+    featuresTitle: 'Everything in one place',
+    featuresSubtitle: 'Four tools that work together so you can organize your day better.',
+    ctaTitle: 'Ready to organize your day?',
+    ctaSubtitle: 'Create your free account and let AI help you with your tasks.',
+    footerTagline: 'Tasks, calendar, monitoring and notes powered by AI.',
+    footerRights: 'All rights reserved.',
     features: {
       tasks: 'Smart tasks',
       tasksDesc: 'Create tasks with natural language and let AI prioritize them.',

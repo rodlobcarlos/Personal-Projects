@@ -145,13 +145,13 @@ button {
 }
 
 .button--ghost {
-  background: var(--color-primary);
-  color: #fff;
+  background: transparent;
+  color: var(--color-primary);
   border-color: var(--color-primary);
 
   &:hover:not(:disabled) {
-    background: var(--color-primary-hover);
-    border-color: var(--color-primary-hover);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
     color: #fff;
   }
 }
