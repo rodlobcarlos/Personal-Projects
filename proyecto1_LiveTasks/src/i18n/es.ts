@@ -1,7 +1,7 @@
 import type { Translation } from './en';
 
 export const es: Translation = {
-  appName: 'Live&Tasks',
+  appName: 'Life&Tasks',
   common: {
     cancel: 'Cancelar',
     save: 'Guardar',
@@ -14,11 +14,14 @@ export const es: Translation = {
     retry: 'Reintentar',
     logout: 'Cerrar sesión',
     back: 'Volver',
+    language: 'Idioma',
+    darkMode: 'Modo oscuro',
+    lightMode: 'Modo claro',
   },
   landing: {
     tagline: 'Organiza tu vida con IA.',
     subtitle:
-      'Tareas, calendario inteligente, monitoreo y notas — todo impulsado por inteligencia artificial.',
+      'Tareas, calendario, monitoreo y notas — todo impulsado por inteligencia artificial.',
     getStarted: 'Empezar',
     login: 'Iniciar sesión',
     register: 'Registrarse',
@@ -33,13 +36,13 @@ export const es: Translation = {
     footerRights: 'Todos los derechos reservados.',
     features: {
       tasks: 'Tareas inteligentes',
-      tasksDesc: 'Crea tareas con lenguaje natural y deja que la IA las priorice.',
-      calendar: 'Calendario IA',
+      tasksDesc: 'Crea tareas con lenguaje natural y deja que la IA te aconseje y priorize esas tareas para una mayor eficiencia.',
+      calendar: 'Calendario inteligente',
       calendarDesc: 'Consulta tu día y obtén un resumen diario generado por IA.',
       monitoring: 'Monitoreo',
-      monitoringDesc: 'Sigue las tareas creadas, completadas y en curso.',
+      monitoringDesc: 'Sigue las tareas totales, completadas y las tareas de cada estado.',
       notes: 'Notas',
-      notesDesc: 'Un bloc en blanco con texto enriquecido que se guarda solo.',
+      notesDesc: 'Un bloc de notas con texto enriquecido que se guarda automáticamente.',
     },
   },
   auth: {
@@ -50,7 +53,7 @@ export const es: Translation = {
     loginTitle: 'Bienvenido de nuevo',
     loginSubtitle: 'Inicia sesión en tu cuenta',
     registerTitle: 'Crea tu cuenta',
-    registerSubtitle: 'Empieza a organizar tus tareas con IA',
+    registerSubtitle: 'Empieza a organizar tu vida con IA',
     haveAccount: '¿Ya tienes una cuenta?',
     noAccount: '¿No tienes una cuenta?',
     loginCta: 'Iniciar sesión',

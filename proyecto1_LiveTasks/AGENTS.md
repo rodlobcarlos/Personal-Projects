@@ -1,4 +1,4 @@
-# Live&Tasks
+# Life&Tasks
 
 Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/Express + MySQL + Google Gemini + ngx-editor). Repo: `Personal-Projects` (rama `main`).
 

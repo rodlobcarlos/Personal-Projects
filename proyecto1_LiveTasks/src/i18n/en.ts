@@ -1,5 +1,5 @@
 export const en = {
-  appName: 'Live&Tasks',
+  appName: 'Life&Tasks',
   common: {
     cancel: 'Cancel',
     save: 'Save',
@@ -12,6 +12,9 @@ export const en = {
     retry: 'Retry',
     logout: 'Log out',
     back: 'Back',
+    language: 'Language',
+    darkMode: 'Dark mode',
+    lightMode: 'Light mode',
   },
   landing: {
     tagline: 'Organize your life with AI.',
@@ -31,13 +34,13 @@ export const en = {
     footerRights: 'All rights reserved.',
     features: {
       tasks: 'Smart tasks',
-      tasksDesc: 'Create tasks with natural language and let AI prioritize them.',
-      calendar: 'AI calendar',
+      tasksDesc: 'Create tasks with natural language and let AI advise and prioritize them for greater efficiency.',
+      calendar: 'Smart calendar',
       calendarDesc: 'See your day and get an AI-generated daily summary.',
       monitoring: 'Monitoring',
-      monitoringDesc: 'Track created, completed and in-progress tasks.',
+      monitoringDesc: 'Track total tasks, completed tasks and tasks in each status.',
       notes: 'Notes',
-      notesDesc: 'A blank rich-text notepad that saves automatically.',
+      notesDesc: 'A rich-text notepad that saves automatically.',
     },
   },
   auth: {
@@ -48,7 +51,7 @@ export const en = {
     loginTitle: 'Welcome back',
     loginSubtitle: 'Log in to your account',
     registerTitle: 'Create your account',
-    registerSubtitle: 'Start organizing your tasks with AI',
+    registerSubtitle: 'Start organizing your life with AI',
     haveAccount: 'Already have an account?',
     noAccount: "Don't have an account?",
     loginCta: 'Log in',

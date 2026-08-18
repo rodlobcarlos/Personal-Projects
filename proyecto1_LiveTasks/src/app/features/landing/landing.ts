@@ -1,6 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { ScrollAnimateDirective } from '../../core/directives/scroll-animate';
+import { LangToggleComponent } from '../../shared/components/lang-toggle/lang-toggle';
+import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 interface Feature {
@@ -10,7 +13,7 @@ interface Feature {
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterLink, TranslatePipe],
+  imports: [RouterLink, ScrollAnimateDirective, LangToggleComponent, ThemeToggleComponent, TranslatePipe],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })
