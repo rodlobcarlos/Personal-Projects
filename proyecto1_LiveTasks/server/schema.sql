@@ -1,4 +1,4 @@
--- Live&Tasks — Esquema de base de datos (MySQL)
+-- Life&Tasks — Esquema de base de datos (MySQL)
 -- La base live_tasks ya debe existir (creada por un admin) y el usuario
 -- necesita privilegios sobre ella. No se crea aquí por permisos.
 USE live_tasks;

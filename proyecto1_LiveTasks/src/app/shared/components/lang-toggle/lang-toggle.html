@@ -1,0 +1,8 @@
+<button
+  class="toggle-pill"
+  type="button"
+  [attr.aria-label]="'common.language' | translate"
+  (click)="toggle()"
+>
+  {{ i18n.lang() === 'es' ? 'EN' : 'ES' }}
+</button>

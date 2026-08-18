@@ -6,5 +6,5 @@ import './config/firebase.js';
 const app = createApp();
 
 app.listen(env.PORT, () => {
-  console.log(`Live&Tasks API escuchando en http://localhost:${env.PORT}`);
+  console.log(`Life&Tasks API escuchando en http://localhost:${env.PORT}`);
 });

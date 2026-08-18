@@ -9,6 +9,8 @@
       <span>{{ 'appName' | translate }}</span>
     </a>
     <nav class="landing-nav" aria-label="Auth">
+      <app-lang-toggle />
+      <app-theme-toggle />
       <a class="landing-nav__link" routerLink="/auth/login">{{ 'landing.login' | translate }}</a>
       <a class="button button--primary" routerLink="/auth/register">{{
         'landing.register' | translate
@@ -18,7 +20,7 @@
 </header>
 
 <main class="landing-main">
-  <section class="hero">
+  <section class="hero" appScrollAnimate>
     <div class="container hero__inner">
       <h1 class="hero__title">{{ 'landing.tagline' | translate }}</h1>
       <p class="hero__subtitle">{{ 'landing.subtitle' | translate }}</p>
@@ -77,7 +79,7 @@
 
   <section id="features" class="features">
     <div class="container">
-      <header class="features__header">
+      <header class="features__header" appScrollAnimate>
         <p class="features__eyebrow">{{ 'landing.featuresEyebrow' | translate }}</p>
         <h2 class="features__title">{{ 'landing.featuresTitle' | translate }}</h2>
         <p class="features__subtitle">{{ 'landing.featuresSubtitle' | translate }}</p>
@@ -85,7 +87,7 @@
 
       <div class="features__grid">
         @for (feature of features; track feature.key) {
-          <article class="feature-card">
+          <article class="feature-card" appScrollAnimate>
             <span class="feature-card__icon" aria-hidden="true">
               @switch (feature.key) {
                 @case ('tasks') {
@@ -169,7 +171,7 @@
   </section>
 
   <section class="cta">
-    <div class="container cta__inner">
+    <div class="container cta__inner" appScrollAnimate>
       <h2 class="cta__title">{{ 'landing.ctaTitle' | translate }}</h2>
       <p class="cta__subtitle">{{ 'landing.ctaSubtitle' | translate }}</p>
       <a class="button button--ghost button--lg" routerLink="/auth/register">{{
@@ -179,7 +181,7 @@
   </section>
 </main>
 
-<footer class="landing-footer">
+<footer class="landing-footer" appScrollAnimate>
   <div class="container landing-footer__inner">
     <a class="landing-brand" routerLink="/">
       <span class="landing-brand__logo">
