@@ -1,0 +1,35 @@
+<nav class="shell-nav">
+  <div class="container shell-nav__inner">
+    <a class="shell-brand" routerLink="/app/tasks">
+      <img class="shell-brand__logo" src="assets/logoApp.png" alt="" />
+      <span class="shell-brand__name">Life&amp;Tasks</span>
+    </a>
+
+    <div class="shell-tabs">
+      <a class="shell-tab" routerLink="/app/tasks" routerLinkActive="shell-tab--active">
+        {{ 'nav.tasks' | translate }}
+      </a>
+      <a class="shell-tab" routerLink="/app/calendar" routerLinkActive="shell-tab--active">
+        {{ 'nav.calendar' | translate }}
+      </a>
+      <a class="shell-tab" routerLink="/app/monitoring" routerLinkActive="shell-tab--active">
+        {{ 'nav.monitoring' | translate }}
+      </a>
+      <a class="shell-tab" routerLink="/app/notes" routerLinkActive="shell-tab--active">
+        {{ 'nav.notes' | translate }}
+      </a>
+    </div>
+
+    <div class="shell-actions">
+      <app-lang-toggle />
+      <app-theme-toggle />
+      <button class="shell-logout" type="button" (click)="logout()">
+        {{ 'common.logout' | translate }}
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="shell-content">
+  <router-outlet />
+</main>
