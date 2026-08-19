@@ -1,4 +1,121 @@
-<section class="tasks-placeholder">
-  <h1>{{ 'tasks.title' | translate }}</h1>
-  <p>{{ 'tasks.comingSoon' | translate }}</p>
-</section>
+<div class="tasks-page container">
+  <h1 class="tasks-title">{{ 'tasks.title' | translate }}</h1>
+
+  <form class="task-input" (submit)="$event.preventDefault(); addTask()">
+    <input
+      class="field__input task-input__field"
+      type="text"
+      [placeholder]="'tasks.addPlaceholder' | translate"
+      [ngModel]="newTitle()"
+      (ngModelChange)="newTitle.set($event)"
+      name="newTask"
+    />
+    <button
+      class="button button--primary"
+      type="submit"
+      [disabled]="loading() || !newTitle().trim()"
+    >
+      {{ 'tasks.addButton' | translate }}
+    </button>
+  </form>
+
+  <div class="task-filters">
+    <button
+      class="task-filter"
+      [class.task-filter--active]="filter() === 'all'"
+      (click)="setFilter('all')"
+    >
+      {{ 'tasks.all' | translate }}
+    </button>
+    <button
+      class="task-filter"
+      [class.task-filter--active]="filter() === 'todo'"
+      (click)="setFilter('todo')"
+    >
+      {{ 'tasks.status.pending' | translate }}
+    </button>
+    <button
+      class="task-filter"
+      [class.task-filter--active]="filter() === 'doing'"
+      (click)="setFilter('doing')"
+    >
+      {{ 'tasks.status.inProgress' | translate }}
+    </button>
+    <button
+      class="task-filter"
+      [class.task-filter--active]="filter() === 'done'"
+      (click)="setFilter('done')"
+    >
+      {{ 'tasks.status.completed' | translate }}
+    </button>
+  </div>
+
+  @if (filteredTasks().length === 0) {
+    <div class="tasks-empty">
+      @if (tasks().length === 0) {
+        <p>{{ 'tasks.empty' | translate }}</p>
+      } @else {
+        <p>{{ 'tasks.emptyFilter' | translate }}</p>
+      }
+    </div>
+  } @else {
+    <ul class="task-list">
+      @for (task of filteredTasks(); track task.id) {
+        <li class="task-item" [class.task-item--done]="task.status === 'done'">
+          <button
+            class="task-item__checkbox"
+            [class.task-item__checkbox--todo]="task.status === 'todo'"
+            [class.task-item__checkbox--doing]="task.status === 'doing'"
+            [class.task-item__checkbox--done]="task.status === 'done'"
+            (click)="cycleStatus(task)"
+            [attr.aria-label]="task.status"
+          >
+            @if (task.status === 'done') {
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            } @else if (task.status === 'doing') {
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            }
+          </button>
+
+          <div class="task-item__body">
+            <span class="task-item__title">{{ task.title }}</span>
+            <span class="task-item__meta">
+              <span class="task-item__priority" [class]="priorityClass(task.priority)">
+                {{ 'tasks.priority.' + task.priority | translate }}
+              </span>
+            </span>
+          </div>
+
+          <button
+            class="task-item__delete"
+            (click)="deleteTask(task.id)"
+            [attr.aria-label]="'common.delete' | translate"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (tasks().length > 0) {
+    <div class="tasks-footer">
+      <span class="tasks-footer__count">
+        {{ pendingCount() }} {{ 'tasks.remaining' | translate }}
+      </span>
+      @if (completedCount() > 0) {
+        <button class="tasks-footer__clear" (click)="clearCompleted()">
+          {{ 'tasks.clearCompleted' | translate }}
+        </button>
+      }
+    </div>
+  }
+</div>

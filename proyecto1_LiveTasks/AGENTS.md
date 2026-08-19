@@ -66,9 +66,37 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - **i18n**: nuevas claves `landing.featuresEyebrow/featuresTitle/featuresSubtitle`, `landing.ctaTitle/ctaSubtitle`, `landing.footerTagline/footerRights` en `{es,en}.ts`.
 - Verificado: `npm run lint`, `npm run build` (sin warnings) y tests (2/2).
 
+### Paso 4 completado: i18n + dark mode + nombre Life&Tasks
+
+- **ThemeService** (`core/services/theme.service.ts`): signal `theme`, `toggleTheme()`, persistencia `localStorage`, atributo `data-theme` en `<html>`. Respeta `prefers-color-scheme`.
+- **LangToggleComponent** (`shared/components/lang-toggle/`): pill button ES↔EN, usa `I18nService.setLang()`.
+- **ThemeToggleComponent** (`shared/components/theme-toggle/`): pill button sol/luna con SVG inline, usa `ThemeService.toggleTheme()`.
+- **Dark mode real**: `[data-theme='dark']` en `styles.scss` con paleta oscura (#1a1625 bg, #231e30 surface, #a78bfa primary). Transiciones en body. Imagen de fondo visible en dark mode con overlay más opaco.
+- **Nombre**: "Live&Tasks" → "Life&Tasks" en todos los archivos (i18n, server, AGENTS.md).
+- **Claves i18n**: `common.language`, `common.darkMode`, `common.lightMode` en `{es,en}.ts`.
+- Toggles en landing header (`.landing-nav`).
+- Verificado: lint, build, tests 2/2.
+
+### Paso 5 completado: Shell + navegación
+
+- **ShellComponent** (`features/shell/`): navbar sticky con backdrop blur, logo Life&Tasks, 4 tabs (`routerLinkActive` con borde inferior animado), lang toggle, theme toggle, botón logout.
+- **Rutas anidadas**: `/app` → `ShellComponent` → children (`/app/tasks`, `/app/calendar`, `/app/monitoring`, `/app/notes`). Default redirect a `/app/tasks`.
+- **Placeholder components**: `CalendarComponent`, `MonitoringComponent`, `NotesComponent` con título i18n + "Próximamente".
+- **Navegación actualizada**: login, register y landing ahora navegan a `/app/tasks`.
+- **i18n**: `nav.tasks`, `nav.calendar`, `nav.monitoring`, `nav.notes` ya existentes.
+- Verificado: lint, build, tests 2/2.
+
+### Paso 6 en ejecución: Tasks (CRUD frontend + backend)
+
+- Modelo `Task` en `src/app/models/task.model.ts` con tipos `TaskStatus` (todo/doing/done), `TaskPriority` (low/medium/high), interfaces `Task`, `CreateTaskPayload`, `UpdateTaskPayload`.
+- `TaskService` (`core/services/task.service.ts`): CRUD HTTP con `HttpClient` ( interceptor auth automático).
+- Backend `server/src/routes/tasks.ts`: GET/POST/PATCH/DELETE `/api/tasks` con Zod + `authenticate`.
+- `TasksComponent` completo: input de creación, filtros por status, lista con checkbox/eliminar, contador de pendientes.
+- Mapeo DB→Frontend: `todo↔pending`, `doing↔inProgress`, `done↔completed`.
+
 ## Plan por ejecutar (en orden)
 
-1. **Shell + navegación** — layout con 4 pestañas (Tareas, Calendario, Monitoreo, Notas) y logout (`i18n/nav`).
+1. ~~**Shell + navegación**~~ ✅ Completado (paso 5).
 2. **Tasks** — modelo en `models/`, CRUD `/api/tasks` (backend) + `task.service` (frontend), entrada en lenguaje natural, filtros, prioridades, estados (`i18n/tasks`).
 3. **Calendar / Monitoring / Notes** — resumen IA del día, estadísticas + tendencia 7 días, notas rich-text con autosave (ngx-editor) → `/api/notes`.
 4. **Integración IA (Gemini) en backend** — `POST /api/ai/*` con `@google/generative-ai` server-side (parsing de lenguaje natural, priorización, chat asistente) (`i18n/ai`).

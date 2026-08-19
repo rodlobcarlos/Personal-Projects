@@ -29,7 +29,7 @@ export class LoginComponent {
     this.loading.set(true);
     this.errorKey.set(null);
     this.authService.signIn(email, password).subscribe({
-      next: () => this.router.navigate(['/tasks']),
+      next: () => this.router.navigate(['/app/tasks']),
       error: (error: unknown) => {
         const key = this.authService.errorKey(error);
         if (key) this.errorKey.set(key);
@@ -43,7 +43,7 @@ export class LoginComponent {
     this.loading.set(true);
     this.errorKey.set(null);
     this.authService.signInWithGoogle().subscribe({
-      next: () => this.router.navigate(['/tasks']),
+      next: () => this.router.navigate(['/app/tasks']),
       error: (error: unknown) => {
         const key = this.authService.errorKey(error);
         if (key) this.errorKey.set(key);

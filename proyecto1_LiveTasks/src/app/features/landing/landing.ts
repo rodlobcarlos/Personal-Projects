@@ -38,7 +38,7 @@ export class LandingComponent {
     this.googleLoading.set(true);
     this.googleError.set(null);
     this.authService.signInWithGoogle().subscribe({
-      next: () => this.router.navigate(['/tasks']),
+      next: () => this.router.navigate(['/app/tasks']),
       error: (error: unknown) => {
         const key = this.authService.errorKey(error);
         if (key) this.googleError.set(key);
