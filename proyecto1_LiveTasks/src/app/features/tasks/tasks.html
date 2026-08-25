@@ -5,7 +5,7 @@
     <input
       class="field__input task-input__field"
       type="text"
-      [placeholder]="'tasks.addPlaceholder' | translate"
+      [placeholder]="aiMode() ? ('ai.naturalEntry' | translate) : ('tasks.addPlaceholder' | translate)"
       [ngModel]="newTitle()"
       (ngModelChange)="newTitle.set($event)"
       name="newTask"
@@ -15,39 +15,65 @@
       type="submit"
       [disabled]="loading() || !newTitle().trim()"
     >
+      @if (aiParsing()) {
+        <span class="ai-spinner"></span>
+      }
       {{ 'tasks.addButton' | translate }}
     </button>
   </form>
 
-  <div class="task-filters">
-    <button
-      class="task-filter"
-      [class.task-filter--active]="filter() === 'all'"
-      (click)="setFilter('all')"
-    >
-      {{ 'tasks.all' | translate }}
-    </button>
-    <button
-      class="task-filter"
-      [class.task-filter--active]="filter() === 'todo'"
-      (click)="setFilter('todo')"
-    >
-      {{ 'tasks.status.pending' | translate }}
-    </button>
-    <button
-      class="task-filter"
-      [class.task-filter--active]="filter() === 'doing'"
-      (click)="setFilter('doing')"
-    >
-      {{ 'tasks.status.inProgress' | translate }}
-    </button>
-    <button
-      class="task-filter"
-      [class.task-filter--active]="filter() === 'done'"
-      (click)="setFilter('done')"
-    >
-      {{ 'tasks.status.completed' | translate }}
-    </button>
+  <div class="task-actions">
+    <div class="task-filters">
+      <button
+        class="task-filter"
+        [class.task-filter--active]="filter() === 'all'"
+        (click)="setFilter('all')"
+      >
+        {{ 'tasks.all' | translate }}
+      </button>
+      <button
+        class="task-filter"
+        [class.task-filter--active]="filter() === 'todo'"
+        (click)="setFilter('todo')"
+      >
+        {{ 'tasks.status.pending' | translate }}
+      </button>
+      <button
+        class="task-filter"
+        [class.task-filter--active]="filter() === 'doing'"
+        (click)="setFilter('doing')"
+      >
+        {{ 'tasks.status.inProgress' | translate }}
+      </button>
+      <button
+        class="task-filter"
+        [class.task-filter--active]="filter() === 'done'"
+        (click)="setFilter('done')"
+      >
+        {{ 'tasks.status.completed' | translate }}
+      </button>
+    </div>
+
+    <div class="task-ai-actions">
+      <button
+        class="button button--ghost button--sm"
+        [class.task-ai-btn--active]="aiMode()"
+        type="button"
+        (click)="toggleAiMode()"
+      >
+        {{ 'ai.naturalEntry' | translate }}
+      </button>
+      @if (pendingCount() > 0) {
+        <button
+          class="button button--ghost button--sm"
+          type="button"
+          (click)="prioritizeWithAI()"
+          [disabled]="loading()"
+        >
+          {{ 'ai.prioritize' | translate }}
+        </button>
+      }
+    </div>
   </div>
 
   @if (filteredTasks().length === 0) {
@@ -59,9 +85,9 @@
       }
     </div>
   } @else {
-    <ul class="task-list">
+    <ul #taskList class="task-list">
       @for (task of filteredTasks(); track task.id) {
-        <li class="task-item" [class.task-item--done]="task.status === 'done'">
+        <li class="task-item" [attr.data-task-id]="task.id" [class.task-item--done]="task.status === 'done'">
           <button
             class="task-item__checkbox"
             [class.task-item__checkbox--todo]="task.status === 'todo'"
