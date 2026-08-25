@@ -18,10 +18,18 @@
   flex: 1;
 }
 
+.task-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
 .task-filters {
   display: flex;
   gap: var(--space-1);
-  margin-bottom: var(--space-4);
 }
 
 .task-filter {
@@ -224,5 +232,37 @@
 
   &:hover {
     color: var(--color-danger);
+  }
+}
+
+.task-ai-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.task-ai-btn--active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.button--sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.ai-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

@@ -94,19 +94,49 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - `TasksComponent` completo: input de creación, filtros por status, lista con checkbox/eliminar, contador de pendientes.
 - Mapeo DB→Frontend: `todo↔pending`, `doing↔inProgress`, `done↔completed`.
 
+### Paso 6b completado: GSAP Animations
+
+- **GSAP** (`gsap` npm package) integrado en todo el frontend.
+- **`GsapService`** (`core/services/gsap.service.ts`): utilidades reutilizables `fadeUp`, `fadeIn`, `staggerIn`, `scaleIn`, `slideIn` con defaults (`duration: 0.6`, `ease: power2.out`).
+- **`ScrollAnimateDirective`** actualizada: IntersectionObserver + GSAP (reemplaza CSS transitions previas).
+- **Landing**: header slide-down, hero children stagger-in (0.15s), feature cards con `appScrollAnimate`.
+- **Shell**: navbar entrance animation.
+- **Tasks**: title fade-up, list stagger-in, new task slide-in, delete slide-out before HTTP.
+- **Auth (login + register)**: card entrance (`scale: 0.95 → 1`, `y: 30 → 0`, `autoAlpha`).
+- **`styles.scss`**: eliminadas reglas `.scroll-animate`/`.scroll-visible` (reemplazadas por GSAP). `prefers-reduced-motion` general.
+- `DestroyRef` para cleanup de observers/tweens en cada componente.
+
+### Paso 7 completado: Calendar / Monitoring / Notes
+
+- **Backend**: `server/src/routes/notes.ts` — CRUD completo `/api/notes` (GET all, GET by id, POST, PATCH, DELETE) con Zod + `authenticate`, registrado en `server/src/app.ts`.
+- **Modelo**: `src/app/models/note.model.ts` — interfaces `Note`, `CreateNotePayload`, `UpdateNotePayload`.
+- **NoteService** (`core/services/note.service.ts`): CRUD HTTP con `HttpClient`.
+- **NotesComponent** (`features/notes/`): editor rich-text con `ngx-editor` v19 (toolbar completa: bold/italic/underline/strike/code/blockquote/lists/headings/link/image/colors/alignment/hr), sidebar con lista de notas, autosave con debounce 1s, status indicator (saving/saved/error), crear/eliminar notas, responsive (sidebar colapsa en mobile).
+- **CalendarComponent** (`features/calendar/`): grilla de mes con navegación (prev/next), dots de color por tarea según status (todo=warning, doing=primary, done=success), selección de día con sidebar de tareas del día, botón "Hoy", highlight de día actual, month label capitalizado con `TitleCasePipe`.
+- **MonitoringComponent** (`features/monitoring/`): 5 stat cards (total, completadas, pendientes, en curso, tasa de completado con progress bar), gráfico de barras últimos 7 días (created vs completed con leyenda), empty state cuando no hay datos.
+- Verificado: backend typecheck OK, lint OK, build OK (422 kB initial, 316 kB lazy notes chunk por ngx-editor), tests 2/2 OK.
+
 ## Plan por ejecutar (en orden)
 
 1. ~~**Shell + navegación**~~ ✅ Completado (paso 5).
-2. **Tasks** — modelo en `models/`, CRUD `/api/tasks` (backend) + `task.service` (frontend), entrada en lenguaje natural, filtros, prioridades, estados (`i18n/tasks`).
-3. **Calendar / Monitoring / Notes** — resumen IA del día, estadísticas + tendencia 7 días, notas rich-text con autosave (ngx-editor) → `/api/notes`.
-4. **Integración IA (Gemini) en backend** — `POST /api/ai/*` con `@google/generative-ai` server-side (parsing de lenguaje natural, priorización, chat asistente) (`i18n/ai`).
+2. ~~**Tasks**~~ ✅ Completado (paso 6).
+3. ~~**Calendar / Monitoring / Notes**~~ ✅ Completado (paso 7).
+4. ~~**Integración IA (Gemini)**~~ ✅ Completado (paso 8).
+
+### Paso 8 completado: Integración IA (Gemini)
+
+- **Backend** (`server/src/services/gemini.ts`): wrapper de `@google/generative-ai` con 4 funciones: `parseNaturalTask`, `prioritizeTasks`, `chatWithAI`, `generateDailySummary`. Prompt injection previene abusos. `isGeminiAvailable()` checkeable.
+- **Backend rutas** (`server/src/routes/ai.ts`): `POST /api/ai/parse`, `POST /api/ai/prioritize`, `POST /api/ai/chat`, `POST /api/ai/summary`. Todas con `authenticate` + Zod + error 503 si `GEMINI_API_KEY` falta.
+- **Frontend `AiService`** (`core/services/ai.service.ts`): `parseNatural`, `prioritize`, `chat`, `dailySummary` — HTTP calls a los endpoints AI.
+- **Tasks**: toggle "Entrada inteligente" que activa parsing con IA (título + prioridad + fecha desde lenguaje natural). Botón "Priorizar" para re-priorizar tareas pendientes con IA. Fallback a creación directa si la IA falla. Spinner en input durante parsing.
+- **Calendar**: botón "Generar resumen" en sidebar que llama `POST /api/ai/summary` con la fecha seleccionada. Muestra el resumen generado por Gemini.
+- `GEMINI_API_KEY` sigue vacía en `server/.env` — solo falta añadirla para activar la IA.
 
 ### Claves para los próximos pasos
 
-- Backend listo: middleware `authenticate` (verifyToken + ensureUser) en `server/src/middleware/auth.ts` para rutas protegidas; tablas `tasks` y `notes` ya creadas en `live_tasks`; `GET /api/health` como referencia. **Faltan** las rutas `/api/tasks`, `/api/notes` y `/api/ai/*`.
-- `GEMINI_API_KEY` sigue vacía en `server/.env` (solo hará falta en el paso de IA).
-- Frontend: `src/app/models/` vacío (solo `.gitkeep`); crear modelo `Task` y `task.service`; la ruta `/tasks` es un placeholder protegido.
-- i18n: las secciones `nav`, `tasks`, `calendar`, `monitoring`, `notes` y `ai` ya existen en `{es,en}.ts` (spec de pantallas) — usarlas al construir vistas.
+- **Todas las funcionalidades principales están implementadas**: auth, landing, shell, tasks CRUD, calendar, monitoring, notes rich-text, IA (Gemini).
+- `GEMINI_API_KEY` en `server/.env` — añadirla para activar funcionalidad IA.
+- Opciones de mejora: chat widget integrado en shell, notificaciones push, tests E2E, PWA, despliegue.
 - Auth login/register comparten SCSS/HTML casi idénticos: al pulir una, espejar los cambios en la otra.
 
 ## Convenciones

@@ -1,0 +1,100 @@
+<div class="calendar-page container">
+  <div class="calendar-header">
+    <h1 class="calendar-title">{{ 'calendar.title' | translate }}</h1>
+    <button class="button button--ghost" type="button" (click)="goToToday()">
+      {{ 'calendar.today' | translate }}
+    </button>
+  </div>
+
+  <div class="calendar-layout">
+    <div class="calendar-grid-wrapper">
+      <div class="calendar-nav">
+        <button class="calendar-nav__btn" type="button" (click)="prevMonth()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <h2 class="calendar-nav__label">{{ monthLabel() | titlecase }}</h2>
+        <button class="calendar-nav__btn" type="button" (click)="nextMonth()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="calendar-grid">
+        @for (wd of weekDays; track wd) {
+          <div class="calendar-grid__weekday">{{ wd }}</div>
+        }
+
+        @for (day of calendarDays(); track $index) {
+          <button
+            class="calendar-day"
+            [class.calendar-day--other]="!day.isCurrentMonth"
+            [class.calendar-day--today]="day.isToday"
+            [class.calendar-day--selected]="selectedDate() && day.date.getTime() === selectedDate()!.getTime()"
+            (click)="selectDay(day)"
+            type="button"
+          >
+            <span class="calendar-day__number">{{ day.day }}</span>
+            @if (day.tasks.length > 0) {
+              <div class="calendar-day__dots">
+                @for (task of day.tasks.slice(0, 3); track task.id) {
+                  <span class="calendar-dot" [class]="statusClass(task.status)"></span>
+                }
+              </div>
+            }
+          </button>
+        }
+      </div>
+    </div>
+
+    <aside class="calendar-sidebar">
+      @if (selectedDate()) {
+        <h3 class="calendar-sidebar__title">
+          {{ selectedDate() | date:'fullDate' }}
+        </h3>
+
+        @if (selectedDayTasks().length === 0) {
+          <p class="calendar-sidebar__empty">{{ 'calendar.noTasks' | translate }}</p>
+        } @else {
+          <ul class="calendar-tasks">
+            @for (task of selectedDayTasks(); track task.id) {
+              <li class="calendar-task">
+                <span class="calendar-task__indicator" [class]="statusClass(task.status)"></span>
+                <div class="calendar-task__body">
+                  <span class="calendar-task__title">{{ task.title }}</span>
+                  <span class="calendar-task__status">{{ 'tasks.status.' + (task.status === 'todo' ? 'pending' : task.status === 'doing' ? 'inProgress' : 'completed') | translate }}</span>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+
+        <div class="calendar-summary">
+          @if (aiSummary()) {
+            <div class="calendar-summary__content">
+              <h4 class="calendar-summary__title">{{ 'calendar.aiSummary' | translate }}</h4>
+              <p class="calendar-summary__text">{{ aiSummary() }}</p>
+            </div>
+          } @else if (summaryLoading()) {
+            <div class="calendar-summary__loading">
+              <span class="ai-spinner"></span>
+              {{ 'calendar.generating' | translate }}
+            </div>
+          } @else {
+            <button
+              class="button button--ghost button--block"
+              type="button"
+              (click)="generateSummary()"
+            >
+              {{ 'calendar.summaryButton' | translate }}
+            </button>
+          }
+        </div>
+      } @else {
+        <p class="calendar-sidebar__empty">{{ 'calendar.noDaySelected' | translate }}</p>
+      }
+    </aside>
+  </div>
+</div>

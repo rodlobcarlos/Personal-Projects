@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { gsap } from 'gsap';
 import { AuthService } from '../../core/services/auth.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
@@ -10,10 +11,13 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly cardRef = viewChild<ElementRef>('card');
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -22,6 +26,19 @@ export class LoginComponent {
 
   readonly loading = signal(false);
   readonly errorKey = signal<string | null>(null);
+
+  ngAfterViewInit(): void {
+    const card = this.cardRef()?.nativeElement;
+    if (card) {
+      gsap.from(card, {
+        autoAlpha: 0,
+        y: 30,
+        scale: 0.95,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    }
+  }
 
   onSubmit(): void {
     if (this.form.invalid || this.loading()) return;

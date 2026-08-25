@@ -1,6 +1,6 @@
 <div class="landing-backdrop" aria-hidden="true"></div>
 
-<header class="landing-header">
+<header #header class="landing-header">
   <div class="container landing-header__inner">
     <a class="landing-brand" routerLink="/">
       <span class="landing-brand__logo">
@@ -20,7 +20,7 @@
 </header>
 
 <main class="landing-main">
-  <section class="hero" appScrollAnimate>
+  <section #hero class="hero">
     <div class="container hero__inner">
       <h1 class="hero__title">{{ 'landing.tagline' | translate }}</h1>
       <p class="hero__subtitle">{{ 'landing.subtitle' | translate }}</p>

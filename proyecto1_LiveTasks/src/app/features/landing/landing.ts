@@ -1,5 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { gsap } from 'gsap';
 import { AuthService } from '../../core/services/auth.service';
 import { ScrollAnimateDirective } from '../../core/directives/scroll-animate';
 import { LangToggleComponent } from '../../shared/components/lang-toggle/lang-toggle';
@@ -17,9 +18,13 @@ interface Feature {
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })
-export class LandingComponent {
+export class LandingComponent implements AfterViewInit {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly heroRef = viewChild<ElementRef>('hero');
+  private readonly headerRef = viewChild<ElementRef>('header');
 
   readonly features: Feature[] = [
     { key: 'tasks', desc: 'tasksDesc' },
@@ -32,6 +37,32 @@ export class LandingComponent {
   readonly googleError = signal<string | null>(null);
 
   readonly currentYear = new Date().getFullYear();
+
+  ngAfterViewInit(): void {
+    const header = this.headerRef()?.nativeElement;
+    const hero = this.heroRef()?.nativeElement;
+
+    if (header) {
+      gsap.from(header, {
+        autoAlpha: 0,
+        y: -20,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    }
+
+    if (hero) {
+      const children = hero.children;
+      gsap.from(children, {
+        autoAlpha: 0,
+        y: 30,
+        stagger: 0.15,
+        duration: 0.6,
+        ease: 'power2.out',
+        delay: 0.2,
+      });
+    }
+  }
 
   signInWithGoogle(): void {
     if (this.googleLoading()) return;

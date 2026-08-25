@@ -1,0 +1,74 @@
+<div class="notes-page container">
+  <div class="notes-layout">
+    <aside class="notes-sidebar">
+      <div class="notes-sidebar__header">
+        <h2 class="notes-sidebar__title">{{ 'notes.title' | translate }}</h2>
+        <button class="button button--primary button--sm" type="button" (click)="createNote()">
+          {{ 'common.add' | translate }}
+        </button>
+      </div>
+
+      <div class="notes-list">
+        @for (note of notes(); track note.id) {
+          <button
+            class="notes-list__item"
+            [class.notes-list__item--active]="note.id === activeNoteId()"
+            (click)="selectNote(note.id)"
+            type="button"
+          >
+            <span class="notes-list__item-title">
+              {{ note.title || ('notes.placeholder' | translate) | slice:0:40 }}
+            </span>
+            <span class="notes-list__item-date">
+              {{ note.updated_at | date:'dd/MM/yy' }}
+            </span>
+          </button>
+        } @empty {
+          <p class="notes-sidebar__empty">{{ 'notes.placeholder' | translate }}</p>
+        }
+      </div>
+    </aside>
+
+    <main class="notes-editor">
+      @if (activeNoteId()) {
+        <div class="notes-editor__toolbar">
+          <div class="notes-editor__status">
+            @switch (saveStatus()) {
+              @case ('saving') {
+                <span class="notes-status notes-status--saving">{{ 'notes.saving' | translate }}</span>
+              }
+              @case ('saved') {
+                <span class="notes-status notes-status--saved">{{ 'notes.saved' | translate }}</span>
+              }
+              @case ('error') {
+                <span class="notes-status notes-status--error">{{ 'notes.error' | translate }}</span>
+              }
+            }
+          </div>
+          <button
+            class="button button--ghost button--sm notes-delete-btn"
+            type="button"
+            (click)="deleteNote(activeNoteId()!)"
+          >
+            {{ 'common.delete' | translate }}
+          </button>
+        </div>
+
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" />
+        <ngx-editor
+          [editor]="editor"
+          [ngModel]="activeContent"
+          (ngModelChange)="onContentChange($event)"
+          [placeholder]="'notes.placeholder' | translate"
+        />
+      } @else {
+        <div class="notes-editor__empty">
+          <p>{{ 'notes.placeholder' | translate }}</p>
+          <button class="button button--primary" type="button" (click)="createNote()">
+            {{ 'common.add' | translate }}
+          </button>
+        </div>
+      }
+    </main>
+  </div>
+</div>
