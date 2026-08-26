@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-welcome',
@@ -12,11 +11,19 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         <h1>Personal portfolio</h1>
         <h2>Carlos Rodríguez Lobato || Junior full-stack developer</h2>
         <p class="subtitle">
-          Hi!👋🏼 Welcome to my personal portfolio. Here you can find information about my skills, projects, and experiences. 
-          I hope you enjoy exploring it and learning more about me. 
+          Hi! Welcome to my personal portfolio. Here you can find information about my skills, projects, and experiences.
+          I hope you enjoy exploring it and learning more about me.
           If you have any questions or would like to get in touch, please feel free to contact me through the provided email address.
         </p>
-        <div class="scroll-arrow" (click)="scrollToNext()">
+        <div
+          class="scroll-arrow"
+          role="button"
+          tabindex="0"
+          (click)="scrollToNext()"
+          (keydown.enter)="scrollToNext()"
+          (keydown.space)="scrollToNext()"
+          aria-label="Scroll to next section"
+        >
           <svg viewBox="0 0 24 24" class="arrow-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path
               fill="none"
@@ -31,13 +38,6 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       </div>
     </div>
   `,
-  animations: [
-    trigger('arrowRotate', [
-      state('down', style({ transform: 'rotate(0deg)' })),
-      state('up', style({ transform: 'rotate(180deg)' })),
-      transition('down <=> up', animate('500ms ease'))
-    ])
-  ],
 
   styles: `
     :host {
@@ -47,10 +47,10 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 
     .portfolio-wrapper {
       position: relative;
-      z-index: 1; /* Ensures text is above the space background component */
+      z-index: 1;
       color: white;
-      margin-top: -5rem; /* Adjust this value based on your header height */
-      margin-bottom: -3rem; /* Adjust this value based on your footer height */
+      margin-top: -5rem;
+      margin-bottom: -3rem;
     }
 
     .title-content {
@@ -83,7 +83,6 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       margin: 0 auto;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 768px) {
       .subtitle { font-size: 1rem; }
     }
@@ -102,6 +101,12 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       margin-top: 5rem;
     }
 
+    .scroll-arrow:focus-visible {
+      outline: 2px solid #4ae3ff;
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
     .arrow-svg {
       width: 80px;
       height: 80px;
@@ -113,7 +118,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     .scroll-arrow:hover { color: white; }
   `
 })
-export class Welcome {
+export class WelcomeComponent {
   scrolledDown = false;
 
   @HostListener('window:scroll', [])

@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, OnDestroy } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, OnDestroy, inject } from '@angular/core';
 
 @Directive({
   selector: '[appScrollReveal]',
@@ -6,8 +6,7 @@ import { AfterViewInit, Directive, ElementRef, OnDestroy } from '@angular/core';
 })
 export class ScrollRevealDirective implements AfterViewInit, OnDestroy {
   private observer?: IntersectionObserver;
-
-  constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
+  private elementRef = inject(ElementRef<HTMLElement>);
 
   ngAfterViewInit(): void {
     const element = this.elementRef.nativeElement;

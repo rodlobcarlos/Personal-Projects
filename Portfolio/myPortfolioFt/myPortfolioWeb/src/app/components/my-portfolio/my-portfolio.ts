@@ -1,14 +1,14 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AboutComponent } from '../about-me/about-me';
-import { Carrier } from '../carrier/carrier';
+import { CarrierComponent } from '../carrier/carrier';
 import { ProjectsComponent } from '../my-projects/my-projects';
-import { Welcome } from '../welcome/welcome';
+import { WelcomeComponent } from '../welcome/welcome';
 
 @Component({
   selector: 'app-my-portfolio',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AboutComponent, Carrier, ProjectsComponent, Welcome], 
+  imports: [AboutComponent, CarrierComponent, ProjectsComponent, WelcomeComponent],
   template: `
     <div class="portfolio">
       <app-welcome />
@@ -18,7 +18,7 @@ import { Welcome } from '../welcome/welcome';
 
       <footer class="portfolio-footer">
         <p>Portfolio realized by Carlos Rodríguez Lobato. |
-        Contact me -> <a href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSHwfJhNDBXmGmSWzBrhVGcSrJnZrsxJHKVXTzGKlKhbfMVLBBqzXXzFVTQzFLSfxMkMHNnC">rodlobcarlos@gmail.com</a></p>
+        Contact me -> <a href="mailto:rodlobcarlos@gmail.com">rodlobcarlos@gmail.com</a></p>
       </footer>
     </div>
 
@@ -27,13 +27,12 @@ import { Welcome } from '../welcome/welcome';
   styles: `
   .portfolio {
       position: relative;
-      z-index: 1; /* Keep text above the space stars */
+      z-index: 1;
       font-family: 'Karla', system-ui, sans-serif;
       cursor: default;
 
     }
 
-    /* Footer Styling */
     .portfolio-footer {
       position: fixed;
       left: 0;
@@ -61,7 +60,7 @@ import { Welcome } from '../welcome/welcome';
     }
 
     .portfolio-footer p {
-      font-style: bold;
+      font-weight: bold;
       margin: 0;
       word-wrap: break-word;
       word-break: break-word;
@@ -72,7 +71,6 @@ import { Welcome } from '../welcome/welcome';
       text-align: center;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 768px) {
       .subtitle {
         font-size: 1rem;

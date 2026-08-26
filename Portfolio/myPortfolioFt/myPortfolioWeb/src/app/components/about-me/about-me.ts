@@ -10,7 +10,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
   template: `
     <section class="about-section" appScrollReveal>
       <h2 class="section-title">About me! 🧑🏼‍💻</h2>
-      
+
       <div class="about-grid">
         <div class="photo-block">
           <div class="photo-column">
@@ -29,19 +29,19 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
           <div class="info-card">
             <h3>Myself 🎓</h3>
             <p>
-              I am Carlos Rodríguez Lobato, I'm junior full-stack developer. 
-              I was born in Spain (Seville), I live in a town called Alcalá del Río(Seville). 
-              Right now, I'm especializing in DevOps. 
-              A work metodology that allows me to develop and deploy applications in a more efficient way and helps to improve the collaboration between development and operations teams on a organization.
+              I am Carlos Rodríguez Lobato, a junior full-stack developer.
+              I was born in Spain (Seville), I live in a town called Alcalá del Río (Seville).
+              Right now, I'm specializing in DevOps.
+              A work methodology that allows me to develop and deploy applications in a more efficient way and helps to improve the collaboration between development and operations teams in an organization.
             </p>
           </div>
 
           <div class="info-card social-card">
             <h3>Social media 📲</h3>
             <ul class="social-links">
-              <li><a href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/" target="_blank">Carlos Rodríguez Lobato · LinkedIn Profile</a></li>
-              <li><a href="https://www.infojobs.net/candidate/cv/view/index.xhtml?codeCv=6d3c60ca-2f0c-4a0c-a65a-1b1e011a8b3a&dgv=795694009736341453" target="_blank">Carlos Rodríguez Lobato · InfoJobs Profile</a></li>
-              <li><a href="https://github.com/rodlobcarlos" target="_blank">rodlobcarlos · GitHub</a></li>
+              <li><a href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/" target="_blank" rel="noopener noreferrer">Carlos Rodríguez Lobato · LinkedIn Profile</a></li>
+              <li><a href="https://www.infojobs.net/candidate/cv/view/index.xhtml?codeCv=6d3c60ca-2f0c-4a0c-a65a-1b1e011a8b3a&dgv=795694009736341453" target="_blank" rel="noopener noreferrer">Carlos Rodríguez Lobato · InfoJobs Profile</a></li>
+              <li><a href="https://github.com/rodlobcarlos" target="_blank" rel="noopener noreferrer">rodlobcarlos · GitHub</a></li>
             </ul>
           </div>
         </div>
@@ -66,7 +66,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
     .about-grid {
       display: grid;
-      grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.3fr); 
+      grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.3fr);
       gap: 3rem;
       align-items: center;
       width: min(100%, 1100px);

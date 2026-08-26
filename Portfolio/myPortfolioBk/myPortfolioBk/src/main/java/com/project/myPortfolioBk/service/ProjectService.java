@@ -8,66 +8,47 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
-@Data // auto getters and setters
+@Data
 public class ProjectService {
 
-    // logger
     private static final Logger logger = LogManager.getLogger(ProjectService.class);
-    // repository class
     private ProjectRepository projectRepository;
 
     public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 
-    // save new project
-    public Project create(Project project, List<Project> projectList) throws Exception {
-        if(projectList.contains(project)) {
-            throw new PortfolioException("This project already exists on list. Can`t be create!.");
+    public Project create(Project project) throws Exception {
+        List<Project> existingProjects = projectRepository.findAll();
+        if (existingProjects.contains(project)) {
+            throw new PortfolioException("This project already exists on list. Can't be created.");
         }
         return projectRepository.save(project);
     }
 
-    // deleted project
-    public void delete(Project project, List<Project> projectList) throws Exception {
-        if(!projectList.contains(project)) {
-            throw new PortfolioException("This project doesn`t exists on list. Can`t be delete!.");
-        } else {
-            projectRepository.delete(project);
+    public void delete(Long id) throws Exception {
+        if (!projectRepository.existsById(id)) {
+            throw new PortfolioException("Project not found. Can't be deleted.");
         }
+        projectRepository.deleteById(id);
     }
 
-    // update project
-    public Project update(Project updatedProject, List<Project> projectList) throws Exception {
-        Project existingProject = projectList.stream()
-                .filter(project -> project.equals(updatedProject))
-                .findFirst()
+    public Project update(Long id, Project updatedProject) throws Exception {
+        Project existingProject = projectRepository.findById(id)
                 .orElseThrow(() -> new PortfolioException("Project not found."));
 
-        // Remove the old version and add the new one
-        projectList.remove(existingProject);
-        projectList.add(updatedProject);
-        return updatedProject;
+        existingProject.setTitle(updatedProject.getTitle());
+        existingProject.setDescription(updatedProject.getDescription());
+        existingProject.setTechStack(updatedProject.getTechStack());
+        existingProject.setGithub_url(updatedProject.getGithub_url());
+
+        return projectRepository.save(existingProject);
     }
 
-    // read project
-    // In ProjectService.java
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
-        // If it's empty, it just returns [], which Angular handles gracefully
-    }
-
-    // Functional approach: Returns a NEW set with the updated item
-    public List<Project> getUpdatedSet(Project updatedProject, List<Project> projectList) {
-        return projectList.stream()
-                .map(p -> p.equals(updatedProject) ? updatedProject : p)
-                .collect(Collectors.toList());
     }
 }
