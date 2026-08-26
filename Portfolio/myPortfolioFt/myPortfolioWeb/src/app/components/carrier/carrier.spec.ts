@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Carrier } from './carrier';
+import { CarrierComponent } from './carrier';
 
-describe('Carrier', () => {
-  let component: Carrier;
-  let fixture: ComponentFixture<Carrier>;
+describe('CarrierComponent', () => {
+  let component: CarrierComponent;
+  let fixture: ComponentFixture<CarrierComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Carrier],
+      imports: [CarrierComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Carrier);
+    fixture = TestBed.createComponent(CarrierComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

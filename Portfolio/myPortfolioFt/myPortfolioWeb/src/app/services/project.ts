@@ -1,19 +1,19 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export interface Project {
   id?: number;
-  title: string;      
-  description: string; 
-  techStack: string;  
-  github_url: string; 
+  title: string;
+  description: string;
+  techStack: string;
+  github_url: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
   private http = inject(HttpClient);
-  // Ensure this matches your Spring Boot @RequestMapping
-  private url = 'https://personal-projects-1bjr.onrender.com/api/projects'; 
+  private url = environment.apiUrl;
 
   // The Signal that your components will listen to
   projects = signal<Project[]>([]);

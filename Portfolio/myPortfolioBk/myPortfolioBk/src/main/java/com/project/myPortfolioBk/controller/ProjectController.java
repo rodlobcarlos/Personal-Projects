@@ -2,14 +2,9 @@ package com.project.myPortfolioBk.controller;
 
 import com.project.myPortfolioBk.model.Project;
 import com.project.myPortfolioBk.service.ProjectService;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/projects")
@@ -23,12 +18,21 @@ public class ProjectController {
 
     @PostMapping
     public Project create(@RequestBody Project project) throws Exception {
-        List<Project> projectList = projectService.getAllProjects();
-        return projectService.create(project, projectList);
+        return projectService.create(project);
     }
 
     @GetMapping
-    public List<Project> projectSet() {
+    public List<Project> getAllProjects() {
         return projectService.getAllProjects();
+    }
+
+    @PutMapping("/{id}")
+    public Project update(@PathVariable Long id, @RequestBody Project project) throws Exception {
+        return projectService.update(id, project);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) throws Exception {
+        projectService.delete(id);
     }
 }

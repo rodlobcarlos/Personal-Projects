@@ -1,12 +1,11 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ProjectService } from '../../services/project';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective],
+  imports: [ScrollRevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="projects-section" appScrollReveal>
@@ -17,17 +16,17 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
           <div class="project-card">
             <div class="card-content">
               <h3>{{ project.title }}</h3>
-              
+
               <p class="description">
                 {{ project.description }}
               </p>
-              
+
               <div class="tech-stack">
                 <span class="tech-tag">{{ project.techStack }}</span>
               </div>
 
               <div class="card-footer">
-                <a [href]="project.github_url" target="_blank" class="github-btn">
+                <a [href]="project.github_url" target="_blank" rel="noopener noreferrer" class="github-btn">
                   View on GitHub
                 </a>
               </div>
@@ -58,7 +57,6 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
     .projects-grid {
       display: grid;
-      /* Responsive: 3 columns on desktop, 1 on mobile */
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 2.5rem;
       justify-items: center;
@@ -76,7 +74,6 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
-    /* Hover effect matching your Carrier section */
     .project-card:hover {
       transform: translateY(-10px);
       background: rgba(255, 255, 255, 0.08);
@@ -94,7 +91,6 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       line-height: 1.6;
       opacity: 0.8;
       margin-bottom: 1.5rem;
-      /* Limits text to 3 lines for visual consistency */
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -116,7 +112,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     }
 
     .card-footer {
-      margin-top: auto; /* Pushes button to the bottom of the card */
+      margin-top: auto;
     }
 
     .github-btn {
@@ -185,11 +181,9 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
   `
 })
 export class ProjectsComponent implements OnInit {
-  // Inject the service that communicates with Spring Boot
   public projectService = inject(ProjectService);
 
   ngOnInit(): void {
-    // Trigger the MySQL fetch as soon as the component initializes
     this.projectService.loadProjects();
   }
 }
