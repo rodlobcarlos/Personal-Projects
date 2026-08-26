@@ -44,7 +44,7 @@ jobs:
           SPRING_DATASOURCE_PASSWORD:
           SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
           SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
-        run: ./mvnw --batch-mode --no-transfer-progress clean verify
+        run: bash mvnw --batch-mode --no-transfer-progress clean verify
 
   publish:
     name: Publish container image
