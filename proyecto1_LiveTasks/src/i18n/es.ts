@@ -128,6 +128,9 @@ export const es: Translation = {
     trendCompleted: 'Completadas',
     day: 'Día',
     noData: 'Aún no hay datos. Añade tareas para ver tu progreso.',
+    weekSummary: 'Esta semana has creado',
+    weekCreated: 'tareas y completado',
+    weekCompleted: 'tareas.',
   },
   notes: {
     title: 'Notas',
@@ -135,6 +138,10 @@ export const es: Translation = {
     saved: 'Guardado',
     saving: 'Guardando...',
     error: 'No se pudo guardar la nota',
+    words: 'palabras',
+    lastUpdated: 'Editada',
+    empty: 'Todavía no tienes notas. ¡Crea la primera!',
+    emptyList: 'Sin notas todavía',
   },
   ai: {
     naturalEntry: 'Entrada inteligente',

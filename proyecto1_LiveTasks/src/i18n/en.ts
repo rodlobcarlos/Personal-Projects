@@ -126,6 +126,9 @@ export const en = {
     trendCompleted: 'Completed',
     day: 'Day',
     noData: 'No data yet. Add some tasks to see your progress.',
+    weekSummary: 'This week you created',
+    weekCreated: 'tasks and completed',
+    weekCompleted: 'tasks.',
   },
   notes: {
     title: 'Notes',
@@ -133,6 +136,10 @@ export const en = {
     saved: 'Saved',
     saving: 'Saving...',
     error: 'Could not save your note',
+    words: 'words',
+    lastUpdated: 'Edited',
+    empty: 'No notes yet. Create your first one!',
+    emptyList: 'No notes yet',
   },
   ai: {
     naturalEntry: 'Smart entry',

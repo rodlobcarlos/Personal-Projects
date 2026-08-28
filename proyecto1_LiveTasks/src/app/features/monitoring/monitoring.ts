@@ -29,6 +29,8 @@ export class MonitoringComponent {
 
   readonly doneCount = computed(() => this.tasks().filter((t) => t.status === 'done').length);
 
+  readonly pendingCount = computed(() => this.todoCount() + this.doingCount());
+
   readonly completionRate = computed(() => {
     const total = this.totalCount();
     if (total === 0) return 0;
@@ -66,6 +68,23 @@ export class MonitoringComponent {
     return days;
   });
 
+  readonly createdThisWeek = computed(() =>
+    this.last7Days().reduce((sum, d) => sum + d.created, 0),
+  );
+
+  readonly completedThisWeek = computed(() =>
+    this.last7Days().reduce((sum, d) => sum + d.completed, 0),
+  );
+
+  readonly busiestDay = computed(() => {
+    const days = this.last7Days();
+    let best = days[0];
+    for (const d of days) {
+      if (d.created + d.completed > best.created + best.completed) best = d;
+    }
+    return best;
+  });
+
   readonly maxTrendValue = computed(() => {
     const days = this.last7Days();
     let max = 1;
@@ -74,6 +93,13 @@ export class MonitoringComponent {
       if (d.completed > max) max = d.completed;
     }
     return max;
+  });
+
+  readonly trendTotal = computed(() => {
+    const days = this.last7Days();
+    const created = days.reduce((s, d) => s + d.created, 0);
+    const completed = days.reduce((s, d) => s + d.completed, 0);
+    return { created, completed };
   });
 
   constructor() {
