@@ -62,7 +62,7 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - **Logo**: `public/assets/logoApp.png` (cuadrado) en header y footer de la landing a 2rem (`.landing-brand__logo img`, `object-fit: contain`).
 - **Auth** (`features/auth/login|register`): `login.scss`/`register.scss` con escrim difuminado, tarjeta frosted + barra de acento degradada, animación de entrada y ajuste responsive. Botón `.auth-back` "Volver" → `/` en ambas tarjetas (clave `common.back`).
 - **Primitivas**: `.button--ghost` en `styles.scss` ahora es ghost real (transparente, borde/texto primary).
-- **Presupuesto CSS**: `angular.json` → `anyComponentStyle` warning 4 kB → **6 kB** (error 8 kB).
+- **Presupuesto CSS**: `angular.json` → `anyComponentStyle` warning 4 kB → **6 kB**, luego 6 → **8 kB** (error 10 kB) al enriquecer los componentes.
 - **i18n**: nuevas claves `landing.featuresEyebrow/featuresTitle/featuresSubtitle`, `landing.ctaTitle/ctaSubtitle`, `landing.footerTagline/footerRights` en `{es,en}.ts`.
 - Verificado: `npm run lint`, `npm run build` (sin warnings) y tests (2/2).
 
@@ -131,6 +131,20 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - **Tasks**: toggle "Entrada inteligente" que activa parsing con IA (título + prioridad + fecha desde lenguaje natural). Botón "Priorizar" para re-priorizar tareas pendientes con IA. Fallback a creación directa si la IA falla. Spinner en input durante parsing.
 - **Calendar**: botón "Generar resumen" en sidebar que llama `POST /api/ai/summary` con la fecha seleccionada. Muestra el resumen generado por Gemini.
 - `GEMINI_API_KEY` sigue vacía en `server/.env` — solo falta añadirla para activar la IA.
+
+### Paso 9 completado: Mejoras de legibilidad (Tasks / Calendar / Monitoring / Notes)
+
+- **Tasks** (`features/tasks/`): tarjetas con acento lateral de prioridad (alta=rojo/media=naranja/baja=verde), badges de vencimiento (`due--overdue/today/tomorrow/future` vía `getDueDateInfo()`), fecha de creación, contador por filtro (`.task-filter__count`), header con total, input/acciones AI en tarjeta, empty states con icono, lista con estilo coloreado por prioridad y resaltado de atrasadas.
+- **Calendar** (`features/calendar/`): celdas más altas con fondo sutil si tienen tareas + count badge, task cards en sidebar con prioridad badge, sidebar sticky, header de día con badge de count, empty states con icono, nav buttons más grandes, resumen IA con encabezado e icono.
+- **Monitoring** (`features/monitoring/`): stat cards con iconos SVG de color (total/completadas/pendientes/en curso/tasa), tarjeta resumen semanal con datos de la semana (`trendTotal`), empty state con icono, chart con mejor espaciado.
+- **Notes** (`features/notes/`): preview de contenido en la sidebar (`getChipPreview()`), word counter en la toolbar (`wordCount`), "Editada dd/MM/yy" con clave `notes.lastUpdated`, empty states con icono, active state con barra lateral, botón add con icono.
+- **i18n**: nuevas claves `monitoring.weekSummary/weekCreated/weekCompleted`, `notes.words/lastUpdated/empty/emptyList` en `{es,en}.ts`.
+- **Presupuesto CSS**: `anyComponentStyle` 6→**8 kB** warning (error 10 kB) por los styles enriquecidos.
+- **Estilo landing replicado**: tarjetas (calendar/stat-cards/trend/tasks/notes) con `--color-surface` + borde + `--shadow-sm` y hover lift (`translateY(-4px)` + `--shadow-md` + borde primary), como las `feature-card` de la landing.
+- **Corrección de tokens**: eliminados usos de `--space-5` (token inexistente) en calendar/monitoring → `--space-6`. Celdas de calendario con `min-height` y padding correctos.
+- **Modo claro mejorado**: `--color-text` → `#5b2ab0` (más oscuro, mejor contraste) y `--color-text-muted` → `#8a75a8` (morado atenuado; antes era idéntico a `--color-text`, sin jerarquía) en `styles.scss`.
+- **Modo oscuro**: overrides de contraste en tasks (filtro activo y checkbox done) y calendar (número del día "hoy") usando `var(--color-bg)` como texto sobre primary/success claros.
+- Verificado: lint OK, build OK (sin warnings), tests 2/2 OK.
 
 ### Claves para los próximos pasos
 

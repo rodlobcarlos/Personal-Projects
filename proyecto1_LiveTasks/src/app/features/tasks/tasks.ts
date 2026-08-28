@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { gsap } from 'gsap';
 import { Task, TaskStatus } from '../../models/task.model';
@@ -9,7 +10,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [FormsModule, TranslatePipe],
+  imports: [FormsModule, TranslatePipe, DatePipe],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
@@ -39,6 +40,14 @@ export class TasksComponent implements AfterViewInit {
 
   readonly completedCount = computed(() =>
     this.tasks().filter((t) => t.status === 'done').length,
+  );
+
+  readonly todoCount = computed(() =>
+    this.tasks().filter((t) => t.status === 'todo').length,
+  );
+
+  readonly doingCount = computed(() =>
+    this.tasks().filter((t) => t.status === 'doing').length,
   );
 
   constructor() {
@@ -220,5 +229,31 @@ export class TasksComponent implements AfterViewInit {
 
   toggleAiMode(): void {
     this.aiMode.update((v) => !v);
+  }
+
+  getDueDateInfo(task: Task): { label: string; class: string } | null {
+    if (!task.due_date) return null;
+
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const due = new Date(task.due_date);
+    due.setHours(0, 0, 0, 0);
+
+    const diffMs = due.getTime() - now.getTime();
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) return { label: 'tasks.overdue', class: 'due--overdue' };
+    if (diffDays === 0) return { label: 'tasks.dueToday', class: 'due--today' };
+    if (diffDays === 1) return { label: 'tasks.dueTomorrow', class: 'due--tomorrow' };
+    return { label: due.toLocaleDateString(), class: 'due--future' };
+  }
+
+  isOverdue(task: Task): boolean {
+    if (!task.due_date || task.status === 'done') return false;
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const due = new Date(task.due_date);
+    due.setHours(0, 0, 0, 0);
+    return due.getTime() < now.getTime();
   }
 }

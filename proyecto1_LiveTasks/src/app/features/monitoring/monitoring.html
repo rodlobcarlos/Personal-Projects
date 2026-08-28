@@ -2,28 +2,65 @@
   <h1 class="monitoring-title">{{ 'monitoring.title' | translate }}</h1>
 
   @if (totalCount() === 0) {
-    <div class="monitoring-empty">
+    <div class="monitoring-empty-state">
+      <div class="monitoring-empty-state__icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18" />
+          <path d="M18 17V9" />
+          <path d="M13 17V5" />
+          <path d="M8 17v-3" />
+        </svg>
+      </div>
       <p>{{ 'monitoring.noData' | translate }}</p>
     </div>
   } @else {
     <div class="monitoring-stats">
       <div class="stat-card">
+        <span class="stat-card__icon stat-card__icon--total">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4" />
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+          </svg>
+        </span>
         <span class="stat-card__value">{{ totalCount() }}</span>
         <span class="stat-card__label">{{ 'monitoring.totalCreated' | translate }}</span>
       </div>
-      <div class="stat-card stat-card--done">
+      <div class="stat-card">
+        <span class="stat-card__icon stat-card__icon--completed">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="8 12 11 15 16 9" />
+          </svg>
+        </span>
         <span class="stat-card__value">{{ doneCount() }}</span>
         <span class="stat-card__label">{{ 'monitoring.completed' | translate }}</span>
       </div>
-      <div class="stat-card stat-card--todo">
-        <span class="stat-card__value">{{ todoCount() }}</span>
+      <div class="stat-card">
+        <span class="stat-card__icon stat-card__icon--pending">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+          </svg>
+        </span>
+        <span class="stat-card__value">{{ pendingCount() }}</span>
         <span class="stat-card__label">{{ 'monitoring.pending' | translate }}</span>
       </div>
-      <div class="stat-card stat-card--doing">
+      <div class="stat-card">
+        <span class="stat-card__icon stat-card__icon--doing">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </span>
         <span class="stat-card__value">{{ doingCount() }}</span>
         <span class="stat-card__label">{{ 'monitoring.inProgress' | translate }}</span>
       </div>
       <div class="stat-card stat-card--rate">
+        <span class="stat-card__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </span>
         <span class="stat-card__value">{{ completionRate() }}%</span>
         <span class="stat-card__label">{{ 'monitoring.completionRate' | translate }}</span>
         <div class="stat-card__progress">
@@ -32,8 +69,20 @@
       </div>
     </div>
 
+    <div class="monitoring-summary">
+      <p>
+        {{ 'monitoring.weekSummary' | translate }}
+        <strong>{{ trendTotal().created }}</strong>
+        {{ 'monitoring.weekCreated' | translate }},
+        <strong>{{ trendTotal().completed }}</strong>
+        {{ 'monitoring.weekCompleted' | translate }}.
+      </p>
+    </div>
+
     <div class="monitoring-trend">
-      <h2 class="monitoring-trend__title">{{ 'monitoring.trend' | translate }}</h2>
+      <div class="monitoring-trend__header">
+        <h2 class="monitoring-trend__title">{{ 'monitoring.trend' | translate }}</h2>
+      </div>
 
       <div class="trend-chart">
         <div class="trend-chart__bars">

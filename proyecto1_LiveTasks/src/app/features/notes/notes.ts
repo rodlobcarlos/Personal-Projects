@@ -72,6 +72,21 @@ export class NotesComponent implements AfterViewInit, OnDestroy {
     return this.activeNote?.content ?? '';
   }
 
+  get wordCount(): number {
+    const content = this.activeContent;
+    const text = content.replace(/<[^>]*>/g, ' ');
+    const words = text.trim().split(/\s+/).filter((w) => w.length > 0);
+    return words.length;
+  }
+
+  getChipPreview(note: Note): string {
+    const text = note.content
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return text.length > 60 ? text.slice(0, 60) + '…' : text;
+  }
+
   onContentChange(html: string): void {
     if (this.autosaveTimer) clearTimeout(this.autosaveTimer);
 
