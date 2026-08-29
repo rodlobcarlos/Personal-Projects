@@ -1,0 +1,47 @@
+/* ============================================
+   LIVE TASKS — Temas de color (Dark & Light)
+   ============================================ */
+
+:root,
+[data-theme='dark'] {
+  --bg-primary: #202d21;
+  --bg-secondary: #4a6048;
+  --bg-tertiary: #414d40;
+  --accent: #6f856e;
+  --accent-hover: #5b6f5a;
+  --text-primary: #e8f0e8;
+  --text-secondary: #98ba98;
+  --border: #414d40;
+
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg-primary: #d9c7b2;
+  --bg-secondary: #a08069;
+  --bg-tertiary: #967f67;
+  --accent: #664e37;
+  --accent-hover: #4f3c2a;
+  --text-primary: #403022;
+  --text-secondary: #5c4a38;
+  --border: #967f67;
+
+  color-scheme: light;
+}
+
+/* ============================================
+   Estados de Tareas
+   ============================================ */
+
+:root,
+[data-theme='dark'] {
+  --status-pending: #b3a04d;
+  --status-progress: #4d7ab3;
+  --status-completed: #4da66f;
+}
+
+[data-theme='light'] {
+  --status-pending: #a8872d;
+  --status-progress: #3a6da3;
+  --status-completed: #3d8a5c;
+}
