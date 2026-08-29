@@ -1,0 +1,26 @@
+{
+  "name": "livetasks",
+  "version": "1.1.0",
+  "private": true,
+  "description": "LiveTasks — Gestor de tareas personales con IA",
+  "scripts": {
+    "install:all": "npm --prefix frontend install && npm --prefix backend install",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend start",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build": "npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend run build",
+    "typecheck": "npm --prefix backend run typecheck && npm --prefix frontend run build"
+  },
+  "keywords": [
+    "tasks",
+    "ai",
+    "productivity",
+    "angular",
+    "express"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
