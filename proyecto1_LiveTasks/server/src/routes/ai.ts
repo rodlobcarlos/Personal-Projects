@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
 import { Router } from 'express';
-import { z } from 'zod';
 import { pool } from '../config/db.js';
 import { authenticate } from '../middleware/auth.js';
 import { chatWithAI, generateDailySummary, isGeminiAvailable, parseNaturalTask, prioritizeTasks } from '../services/gemini.js';
+import { aiChatSchema, aiParseSchema, aiSummarySchema } from '../validation/schemas.js';
 
 const router = Router();
 
@@ -18,8 +18,7 @@ function requireGemini(res: Response): boolean {
 router.post('/ai/parse', authenticate, async (req: Request, res: Response) => {
   if (!requireGemini(res)) return;
 
-  const schema = z.object({ input: z.string().min(1).max(500) });
-  const parsed = schema.safeParse(req.body);
+  const parsed = aiParseSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: 'VALIDATION_ERROR' });
     return;
@@ -67,8 +66,7 @@ router.post('/ai/prioritize', authenticate, async (req: Request, res: Response) 
 router.post('/ai/chat', authenticate, async (req: Request, res: Response) => {
   if (!requireGemini(res)) return;
 
-  const schema = z.object({ message: z.string().min(1).max(1000) });
-  const parsed = schema.safeParse(req.body);
+  const parsed = aiChatSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: 'VALIDATION_ERROR' });
     return;
@@ -92,8 +90,7 @@ router.post('/ai/chat', authenticate, async (req: Request, res: Response) => {
 router.post('/ai/summary', authenticate, async (req: Request, res: Response) => {
   if (!requireGemini(res)) return;
 
-  const schema = z.object({ date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/) });
-  const parsed = schema.safeParse(req.body);
+  const parsed = aiSummarySchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: 'VALIDATION_ERROR' });
     return;

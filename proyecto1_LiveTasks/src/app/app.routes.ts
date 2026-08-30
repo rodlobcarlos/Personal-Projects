@@ -16,24 +16,27 @@ export const routes: Routes = [
     loadComponent: () => import('./features/shell/shell').then((m) => m.ShellComponent),
     children: [
       {
+        path: '',
+        loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.DashboardComponent),
+      },
+      {
         path: 'tasks',
-        loadComponent: () => import('./features/tasks/tasks').then((m) => m.TasksComponent),
+        redirectTo: '',
+        pathMatch: 'full',
       },
       {
         path: 'calendar',
-        loadComponent: () => import('./features/calendar/calendar').then((m) => m.CalendarComponent),
+        redirectTo: '',
+        pathMatch: 'full',
       },
       {
         path: 'monitoring',
-        loadComponent: () => import('./features/monitoring/monitoring').then((m) => m.MonitoringComponent),
+        redirectTo: '',
+        pathMatch: 'full',
       },
       {
         path: 'notes',
-        loadComponent: () => import('./features/notes/notes').then((m) => m.NotesComponent),
-      },
-      {
-        path: '',
-        redirectTo: 'tasks',
+        redirectTo: '',
         pathMatch: 'full',
       },
     ],

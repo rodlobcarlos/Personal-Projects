@@ -1,0 +1,73 @@
+.dash {
+  --dash-gap: 2.5rem;
+
+  position: relative;
+  padding: 2.5rem var(--space-4) var(--space-8);
+  background:
+    radial-gradient(
+      60rem 40rem at 15% -10%,
+      color-mix(in srgb, var(--color-primary) 14%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      50rem 35rem at 100% 20%,
+      color-mix(in srgb, var(--color-primary) 10%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-bg) 0%,
+      color-mix(in srgb, var(--color-bg) 96%, var(--color-primary)) 100%
+    );
+}
+
+.dash-section {
+  display: block;
+  max-width: 72rem;
+  margin: 0 auto var(--dash-gap);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    border-color var(--transition-normal);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+  }
+}
+
+[data-theme='dark'] .dash {
+  background:
+    radial-gradient(
+      60rem 40rem at 15% -10%,
+      color-mix(in srgb, var(--color-primary) 18%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      50rem 35rem at 100% 20%,
+      color-mix(in srgb, var(--color-primary) 12%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #1a1625 0%, #2a2140 100%);
+}
+
+@media (max-width: 640px) {
+  .dash {
+    --dash-gap: var(--space-6);
+    padding: var(--space-5) var(--space-3) var(--space-6);
+  }
+
+  .dash-section {
+    padding: var(--space-4);
+  }
+}

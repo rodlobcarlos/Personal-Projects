@@ -1,20 +1,10 @@
 import type { Request, Response } from 'express';
 import { Router } from 'express';
-import { z } from 'zod';
 import { pool } from '../config/db.js';
 import { authenticate } from '../middleware/auth.js';
+import { createTaskSchema, updateTaskSchema } from '../validation/schemas.js';
 
 const router = Router();
-
-const createTaskSchema = z.object({
-  title: z.string().min(1).max(255),
-  description: z.string().nullable().optional(),
-  status: z.enum(['todo', 'doing', 'done']).optional(),
-  priority: z.enum(['low', 'medium', 'high']).optional(),
-  due_date: z.string().nullable().optional(),
-});
-
-const updateTaskSchema = createTaskSchema.partial();
 
 router.get('/tasks', authenticate, async (req: Request, res: Response) => {
   try {

@@ -1,21 +1,21 @@
 <nav #nav class="shell-nav">
   <div class="container shell-nav__inner">
-    <a class="shell-brand" routerLink="/app/tasks">
+    <a class="shell-brand" href="#" (click)="scrollToTop($event)">
       <img class="shell-brand__logo" src="assets/logoApp.png" alt="" />
       <span class="shell-brand__name">Life&amp;Tasks</span>
     </a>
 
     <div class="shell-tabs">
-      <a class="shell-tab" routerLink="/app/tasks" routerLinkActive="shell-tab--active">
+      <a class="shell-tab" href="#tasks" data-scroll-target="tasks" (click)="$event.preventDefault(); scrollTo('tasks')">
         {{ 'nav.tasks' | translate }}
       </a>
-      <a class="shell-tab" routerLink="/app/calendar" routerLinkActive="shell-tab--active">
+      <a class="shell-tab" href="#calendar" data-scroll-target="calendar" (click)="$event.preventDefault(); scrollTo('calendar')">
         {{ 'nav.calendar' | translate }}
       </a>
-      <a class="shell-tab" routerLink="/app/monitoring" routerLinkActive="shell-tab--active">
+      <a class="shell-tab" href="#monitoring" data-scroll-target="monitoring" (click)="$event.preventDefault(); scrollTo('monitoring')">
         {{ 'nav.monitoring' | translate }}
       </a>
-      <a class="shell-tab" routerLink="/app/notes" routerLinkActive="shell-tab--active">
+      <a class="shell-tab" href="#notes" data-scroll-target="notes" (click)="$event.preventDefault(); scrollTo('notes')">
         {{ 'nav.notes' | translate }}
       </a>
     </div>
