@@ -89,7 +89,7 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - **i18n**: `nav.tasks`, `nav.calendar`, `nav.monitoring`, `nav.notes` ya existentes.
 - Verificado: lint, build, tests 2/2.
 
-### Paso 6 en ejecución: Tasks (CRUD frontend + backend)
+### Paso 6 completado: Tasks (CRUD frontend + backend)
 
 - Modelo `Task` en `src/app/models/task.model.ts` con tipos `TaskStatus` (todo/doing/done), `TaskPriority` (low/medium/high), interfaces `Task`, `CreateTaskPayload`, `UpdateTaskPayload`.
 - `TaskService` (`core/services/task.service.ts`): CRUD HTTP con `HttpClient` ( interceptor auth automático).
@@ -142,6 +142,41 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
   - Resultado: **4 archivos / 27 tests**.
 - **Verificado pre-despliegue** (todo OK): lint raíz, tests frontend (57), typecheck+build server, build producción raíz sin warnings de presupuesto.
 
+## Fase A completada: Robustez (error handling global)
+
+- **`error.interceptor.ts`** (`core/interceptors/`): interceptor HTTP global — ante **401** hace `authService.logOut()` (si hay usuario) para evitar bucles de red/LO; no interfiere con el login (no retry). Registrado en `app.config.ts` con `withInterceptors([authInterceptor, errorInterceptor])`.
+- **Retry en vista**: señales `loadError` + botón `retry()` en **Tasks**, **Monitoring** y **Calendar**; bloques de error con botón reintentar en los 3 HTML.
+- **i18n**: `common.close`, `tasks.loadFailed`, `calendar.loadFailed`, `monitoring.loadFailed` (es/en).
+- Accesibilidad/teclado de chat y aria-labels se consolidaron dentro de otras fases.
+
+## Fase B completada: Chat widget IA
+
+- **`features/shell/chat-widget.ts|html|scss`**: FAB flotante + panel (22rem) que reutiliza `AiService.chat()` ya existente. Signals `open/input/sending/messages`, GSAP open/close, i18n (`ai.chatSend/chatClear/chatToggle`, `common.close`), ARIA (dialog, `aria-expanded`, `aria-label`). Integrado en `shell.ts` imports + `shell.html` (`<app-chat-widget />`).
+- **Tests**: `chat-widget.spec.ts` (7 tests; `setup(chat?)` parametrizado para caso de error con `throwError`); `shell.spec.ts` ahora mockea `AiService` y `NotificationService`.
+
+## Fase D completada: PWA (manual, sin schematic)
+
+- **`@angular/pwa` schematic falló** con el builder moderno `@angular/build:application` (`browser` field) → PWA configurada a mano.
+- `src/ngsw-config.json` (assetGroups app prefetch + assets lazy; **excluye** `!/firebase-messaging-sw.js` de la precaché para no servir un SW de FCM cacheado); `public/manifest.webmanifest` (iconos `logoApp.png` 192/512 any + 512 maskable); `index.html` (manifest, theme-color `#6d32d1`, apple-touch-icon, noscript); `app.config.ts` con `provideServiceWorker('ngsw-worker.js', { enabled: true, registrationStrategy: 'registerWhenStable:30000' })`; `angular.json` build option `"serviceWorker": "src/ngsw-config.json"`. Build genera `ngsw-worker.js` + `ngsw.json` + `manifest.webmanifest`.
+
+## Fase C completada: Notificaciones push (FCM)
+
+- **Backend**: `schema.sql` tabla `push_subscriptions` (user_id, token, UNIQUE `uq_push_token` token(255)); `services/push.ts` (`subscribeToken`, `unsubscribeToken`, `getTokensForUser`, `sendToUser` con limpieza de tokens FCM inválidos — `getMessaging` **lazy** dentro de la función, no top-level, para no romper tests); `routes/push.ts` (`POST /api/push/token`, `DELETE /api/push/token` con zod); registrado en `app.ts`; trigger en `POST /api/tasks`: si `due_date` es hoy → `sendToUser` (no bloqueante `.catch(() => undefined)`, texto simple).
+- **Frontend service** (`core/services/notification.service.ts`): `requestPermission` (getToken con VAPID), `disable`, `syncOfflineToken`, `onForegroundMessage` (muestra `new Notification` si permiso concedido), guard `typeof Notification === 'undefined'`, localStorage `pushEnabled`/`pushToken`; `isConfigured` si `vapidKey` es real.
+- **Toggle** (`shared/components/notification-toggle/`): botón activar/desactivar notificaciones (oculto si `!isConfigured`, `aria-pressed`, muestra `notifications.permissionDenied/error`). **Integrado en el shell** (`shell-actions`) + `shell.ngAfterViewInit` llama `syncOfflineToken()` y registra `onForegroundMessage`.
+- **VAPID key** real en `environment.{,prod}.ts` (`firebase.vapidKey`).
+- **Service Worker background** (`public/firebase-messaging-sw.js`): patrón `importScripts` CDN oficial de Firebase (compat 10.12.5) con `onBackgroundMessage` → `showNotification`. Gestionado por FCM (se registra solo en `/firebase-messaging-sw.js` en la raíz, lista para producción/HTTPS; coexiste con `ngsw-worker.js`).
+- **Tests**: `notification.service.spec.ts` (isConfigured/enabled sin Notification, disable, syncOffline), `notification-toggle.spec.ts` (4 tests parametrizados). Shell spec mockea NotificationService.
+
+## Fase E completada: Tests E2E (Playwright)
+
+- **`@playwright/test`** (devDep) instalado + `npx playwright install chromium`. Scripts `e2e` / `e2e:ui`.
+- **`playwright.config.ts`**: `testDir './e2e'`, proyecto chromium, `baseURL http://localhost:4200`, `webServer` con `npm start` (reuse en no-CI, timeout 120s).
+- **`e2e/landing.spec.ts`**: 5 tests de la vista pública (no requieren backend): carga del título/marca, navegación a register/login, toggle de idioma (ES↔EN), toggle de tema (`data-theme` en `<html>`).
+- `.gitignore`: `test-results/`, `playwright-report/`, `/playwright/.cache/`.
+- Nota: el idioma por defecto de la app es **inglés**; los selectores E2E usan "Get started" / "Log in" (EN por defecto).
+- Verificado: **5/5 E2E passing**.
+
 ## Plan por ejecutar (en orden)
 
 1. ~~**Shell + navegación**~~ ✅ Completado (paso 5).
@@ -150,6 +185,7 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 4. ~~**Integración IA (Gemini)**~~ ✅ Completado (paso 8).
 5. ~~**Dashboard (vista única + fondo + GSAP)**~~ ✅ Completado (paso 10).
 6. ~~**Suite de tests integral**~~ ✅ Completado (paso 11).
+7. ~~**Fase A: Robustez / B: Chat / C: Push FCM / D: PWA / E: E2E**~~ ✅ Completado (ver secciones).
 
 ### Paso 8 completado: Integración IA (Gemini)
 
@@ -176,9 +212,9 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 
 ### Claves para los próximos pasos
 
-- **Todas las funcionalidades principales están implementadas**: auth, landing, shell, dashboard unificado (tasks/calendar/monitoring/notes), notes rich-text, IA (Gemini).
-- `GEMINI_API_KEY` en `server/.env` — añadirla para activar funcionalidad IA (los tests ya cubren el 503 "sin key").
-- Opciones de mejora: chat widget integrado en shell, notificaciones push, tests E2E, PWA, despliegue.
+- **Todas las funcionalidades están implementadas**: auth, landing, shell, dashboard unificado (tasks/calendar/monitoring/notes), notes rich-text, IA (Gemini), chat widget, notificaciones push FCM, PWA, y suites de tests (unit + E2E).
+- **Pendientes para producción/despliegue**: añadir `GEMINI_API_KEY` en `server/.env` (los tests ya cubren el 503 "sin key"); **rotar la Gemini API key** que estuvo expuesta en un `.env.example` commiteado (`.env` no está trackeado); servir el frontend por **HTTPS/dominio** para activar notificaciones FCM en background; despliegue.
+- El idioma por defecto es **inglés**; los selectores E2E usan "Get started" / "Log in" (EN).
 - Auth login/register comparten SCSS/HTML casi idénticos: al pulir una, espejar los cambios en la otra.
 - El shell ya no usa `routerLinkActive` (anclas de scroll + ScrollTrigger para marcar tab activa); si se reintroducen rutas hijas, restaurar el patrón anterior.
 

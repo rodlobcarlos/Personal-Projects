@@ -23,6 +23,7 @@
     <div class="shell-actions">
       <app-lang-toggle />
       <app-theme-toggle />
+      <app-notification-toggle />
       <button class="shell-logout" type="button" (click)="logout()">
         {{ 'common.logout' | translate }}
       </button>
@@ -33,3 +34,5 @@
 <main class="shell-content">
   <router-outlet />
 </main>
+
+<app-chat-widget />

@@ -6,23 +6,43 @@ import { AuthService } from '../../core/services/auth.service';
 import { LangToggleComponent } from '../../shared/components/lang-toggle/lang-toggle';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { ChatWidgetComponent } from './chat-widget';
+import { NotificationToggleComponent } from '../../shared/components/notification-toggle/notification-toggle';
+import { NotificationService } from '../../core/services/notification.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [RouterOutlet, LangToggleComponent, ThemeToggleComponent, TranslatePipe],
+  imports: [
+    RouterOutlet,
+    LangToggleComponent,
+    ThemeToggleComponent,
+    TranslatePipe,
+    ChatWidgetComponent,
+    NotificationToggleComponent,
+  ],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })
 export class ShellComponent implements AfterViewInit {
   protected readonly authService = inject(AuthService);
+  private readonly notificationService = inject(NotificationService);
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly navRef = viewChild<ElementRef<HTMLElement>>('nav');
 
   ngAfterViewInit(): void {
+    this.notificationService.syncOfflineToken();
+    this.notificationService.onForegroundMessage((payload) => {
+      const title = payload.notification?.title;
+      const body = payload.notification?.body;
+      if ('Notification' in window && Notification.permission === 'granted' && title) {
+        new Notification(title, { body, icon: 'assets/logoApp.png' });
+      }
+    });
+
     const nav = this.navRef()?.nativeElement;
     if (nav) {
       gsap.from(nav, {

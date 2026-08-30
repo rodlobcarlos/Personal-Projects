@@ -1,0 +1,83 @@
+<div class="chat-widget">
+  <div #panel class="chat-panel" role="dialog" aria-label="{{ 'ai.chatTitle' | translate }}">
+    <div class="chat-panel__header">
+      <span class="chat-panel__title">{{ 'ai.chatTitle' | translate }}</span>
+      <button class="chat-panel__icon-btn" type="button" (click)="clear()" [attr.aria-label]="'ai.chatClear' | translate">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="21" x2="4" y2="14" />
+          <line x1="4" y1="10" x2="4" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12" y2="3" />
+          <line x1="20" y1="21" x2="20" y2="16" />
+          <line x1="20" y1="12" x2="20" y2="3" />
+          <line x1="1" y1="14" x2="7" y2="14" />
+          <line x1="9" y1="8" x2="15" y2="8" />
+          <line x1="17" y1="16" x2="23" y2="16" />
+        </svg>
+      </button>
+      <button class="chat-panel__icon-btn" type="button" (click)="toggle()" [attr.aria-label]="'common.close' | translate">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="chat-panel__messages">
+      @if (messages().length === 0) {
+        <p class="chat-panel__empty">{{ 'ai.chatEmpty' | translate }}</p>
+      } @else {
+        @for (msg of messages(); track msg; let i = $index) {
+          <div class="chat-msg" [class.chat-msg--user]="msg.role === 'user'" [class.chat-msg--error]="msg.text === 'ai.chatError'">
+            <span class="chat-msg__bubble">{{ msg.text | translate }}</span>
+          </div>
+        }
+        @if (sending()) {
+          <div class="chat-msg chat-msg--assistant">
+            <span class="chat-msg__bubble">
+              <span class="ai-spinner"></span>
+              {{ 'ai.sending' | translate }}
+            </span>
+          </div>
+        }
+      }
+    </div>
+
+    <form class="chat-panel__input" (submit)="$event.preventDefault(); send()">
+      <input
+        class="chat-panel__field"
+        type="text"
+        [placeholder]="'ai.chatPlaceholder' | translate"
+        [ngModel]="input()"
+        (ngModelChange)="input.set($event)"
+        name="chatInput"
+        aria-label="{{ 'ai.chatPlaceholder' | translate }}"
+        [disabled]="sending()"
+      />
+      <button class="chat-panel__send" type="submit" [disabled]="sending() || !input().trim()">
+        {{ 'ai.chatSend' | translate }}
+      </button>
+    </form>
+  </div>
+
+  <button
+    class="chat-fab"
+    type="button"
+    (click)="toggle()"
+    [attr.aria-label]="'ai.chatToggle' | translate"
+    aria-expanded="{{ open() }}"
+  >
+    @if (open()) {
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    } @else {
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        <path d="M8 9h8" />
+        <path d="M8 13h5" />
+      </svg>
+    }
+  </button>
+</div>

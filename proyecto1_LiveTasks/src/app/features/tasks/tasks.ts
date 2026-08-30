@@ -27,6 +27,7 @@ export class TasksComponent implements AfterViewInit {
   readonly loading = signal(false);
   readonly aiMode = signal(false);
   readonly aiParsing = signal(false);
+  readonly loadError = signal(false);
 
   readonly filteredTasks = computed(() => {
     const f = this.filter();
@@ -67,12 +68,18 @@ export class TasksComponent implements AfterViewInit {
   }
 
   loadTasks(): void {
+    this.loadError.set(false);
     this.taskService.getTasks().subscribe({
       next: (res) => {
         this.tasks.set(res.tasks);
         this.animateList();
       },
+      error: () => this.loadError.set(true),
     });
+  }
+
+  retry(): void {
+    this.loadTasks();
   }
 
   private animateList(): void {

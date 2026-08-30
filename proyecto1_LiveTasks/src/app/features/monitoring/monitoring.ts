@@ -20,6 +20,7 @@ export class MonitoringComponent {
   private readonly taskService = inject(TaskService);
 
   readonly tasks = signal<Task[]>([]);
+  readonly loadError = signal(false);
 
   readonly totalCount = computed(() => this.tasks().length);
 
@@ -107,9 +108,15 @@ export class MonitoringComponent {
   }
 
   loadTasks(): void {
+    this.loadError.set(false);
     this.taskService.getTasks().subscribe({
       next: (res) => this.tasks.set(res.tasks),
+      error: () => this.loadError.set(true),
     });
+  }
+
+  retry(): void {
+    this.loadTasks();
   }
 
   barHeight(value: number): string {

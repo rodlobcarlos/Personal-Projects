@@ -1,7 +1,21 @@
 <div class="monitoring-page container">
   <h1 class="monitoring-title">{{ 'monitoring.title' | translate }}</h1>
 
-  @if (totalCount() === 0) {
+  @if (loadError()) {
+    <div class="monitoring-empty-state">
+      <div class="monitoring-empty-state__icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <p>{{ 'monitoring.loadFailed' | translate }}</p>
+      <button class="button button--primary button--sm" (click)="retry()">
+        {{ 'common.retry' | translate }}
+      </button>
+    </div>
+  } @else if (totalCount() === 0) {
     <div class="monitoring-empty-state">
       <div class="monitoring-empty-state__icon">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
