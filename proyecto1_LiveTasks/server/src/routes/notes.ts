@@ -1,20 +1,10 @@
 import type { Request, Response } from 'express';
 import { Router } from 'express';
-import { z } from 'zod';
 import { pool } from '../config/db.js';
 import { authenticate } from '../middleware/auth.js';
+import { createNoteSchema, updateNoteSchema } from '../validation/schemas.js';
 
 const router = Router();
-
-const createNoteSchema = z.object({
-  title: z.string().max(255).optional(),
-  content: z.string().min(1),
-});
-
-const updateNoteSchema = z.object({
-  title: z.string().max(255).optional(),
-  content: z.string().min(1).optional(),
-});
 
 router.get('/notes', authenticate, async (req: Request, res: Response) => {
   try {

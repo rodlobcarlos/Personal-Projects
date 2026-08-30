@@ -14,6 +14,7 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
   node "node_modules\@angular\cli\bin\ng.js" lint
   node "node_modules\@angular\cli\bin\ng.js" test
   ```
+- Tests frontend (Vitest vía `@angular/build:unit-test`): `npm test` (watch) / `npm run test:ci` (una pasada). Setup global en `src/test-setup.ts` (mock de `matchMedia`) declarado en `angular.json → test.setupFiles` e incluido en `tsconfig.spec.json`.
 - Backend (`server/`):
   ```bash
   npm install
@@ -21,6 +22,8 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
   npm run db:setup # aplica schema.sql a MySQL
   npm run build    # tsc → dist/
   npm run start    # node dist/index.js
+  npm run typecheck # tsc --noEmit
+  npm test          # vitest run (suite backend)
   ```
 - MySQL local: base **`live_tasks`** (no `liveTasks`; el usuario `crl` solo tiene permisos ahí y no puede crear BDs). Credenciales en `server/.env` (NO versionado).
 - Pendiente: renombrar la carpeta a `live-tasks` cuando ningún proceso la tenga abierta.
@@ -116,12 +119,37 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - **MonitoringComponent** (`features/monitoring/`): 5 stat cards (total, completadas, pendientes, en curso, tasa de completado con progress bar), gráfico de barras últimos 7 días (created vs completed con leyenda), empty state cuando no hay datos.
 - Verificado: backend typecheck OK, lint OK, build OK (422 kB initial, 316 kB lazy notes chunk por ngx-editor), tests 2/2 OK.
 
+### Paso 10 completado: Dashboard — vista única unificada
+
+- **DashboardComponent** (`features/dashboard/`): una sola página de scroll largo que **reúne las 4 secciones** reutilizando los componentes existentes (`<app-tasks/>`, `<app-calendar/>`, `<app-monitoring/>`, `<app-notes/>`) en `<section id="tasks|calendar|monitoring|notes">`, sin duplicar lógica.
+- **Orden**: Tasks → Calendar → Monitoring → Notes. Cada sección en tarjeta `.dash-section` (borde + `--color-surface` + `--shadow-sm`, hover lift) replicando el estilo de la landing.
+- **Fondo distinto propio**: degradado radial/lineal en paleta de marca (crema→morado claro; en dark `#1a1625`→`#2a2140`). Paneles con superficie semi-opaca para legibilidad.
+- **GSAP**: entrada de secciones con `ScrollTrigger.batch` (`once`, fadeUp al entrar en viewport) + `prefers-reduced-motion` + cleanup `DestroyRef`.
+- **Rutas** (`app.routes.ts`): las 4 rutas hijas de `/app` se reemplazan por **una** (`''` → Dashboard). Las antiguas `/app/tasks|calendar|monitoring|notes` redirigen a `''` por compatibilidad.
+- **Shell**: los 4 tabs ahora son **anclas de scroll** (`data-scroll-target` + `scrollIntoView({behavior:'smooth'})`); la **tab activa se marca por ScrollTrigger** según la sección visible (sustituye `routerLinkActive`). Brand vuelve al top.
+- **Presupuesto CSS**: `angular.json` → `anyComponentStyle` warning **12 kB** (error **14 kB**) por dashboard.scss.
+
+### Paso 11 completado: Suite de tests integral (pre-despliegue)
+
+- **Frontend** (`src/`): Vitest vía `@angular/build:unit-test`; `setupFiles: ["src/test-setup.ts"]` (mock de `matchMedia` para GSAP/ScrollTrigger) en `angular.json`; scripts `test` (watch) y `test:ci` (`ng test --watch=false`).
+  - `dashboard.spec.ts` (smoke: se crea + renderiza los 4 anchors), `shell.spec.ts` (logout, scrollTo).
+  - Services: `theme`, `i18n`, `task`, `note`, `ai` (HTTP con `provideHttpClientTesting`).
+  - Componentes con services mockeados: `tasks` (CRUD, ciclo status, filtros, contadores, overdue, fallback IA con `vi.mock('gsap')`), `calendar` (grilla 42 días, navegación, filtro por día, resumen IA), `monitoring` (stat counts, tasa, trend 7 días, empty).
+  - Resultado: **11 archivos / 57 tests**.
+- **Backend** (`server/`): añadido **Vitest** (devDep) + `vitest.config.ts` (env `node`, `setupFiles: vitest.setup.ts` que define env mínima) + script `test` (`vitest run`). `.spec.ts` y archivos de config de vitest **excluidos** de `tsconfig.json` (no van al build `dist`).
+  - `validation/schemas.ts` (nuevo): schemas Zod de tasks/notes/ai **extraídos** y reutilizados por las rutas (`tasks.ts`, `notes.ts`, `ai.ts` simplificados) → testeables sin DB.
+  - `schemas.spec.ts` (validación tasks/notes/ai), `gemini.spec.ts` (`isGeminiAvailable` con/sin key vía `vi.stubEnv` + re-import), `auth.spec.ts` (`verifyToken`: 401 sin/Bearer/inválido, y set de `req.user` mockeando firebase). `app.spec.ts` (servidor HTTP real sobre `createApp()` + fetch: 404, health db up/down, 401 sin token, AI 503 sin key).
+  - Resultado: **4 archivos / 27 tests**.
+- **Verificado pre-despliegue** (todo OK): lint raíz, tests frontend (57), typecheck+build server, build producción raíz sin warnings de presupuesto.
+
 ## Plan por ejecutar (en orden)
 
 1. ~~**Shell + navegación**~~ ✅ Completado (paso 5).
 2. ~~**Tasks**~~ ✅ Completado (paso 6).
 3. ~~**Calendar / Monitoring / Notes**~~ ✅ Completado (paso 7).
 4. ~~**Integración IA (Gemini)**~~ ✅ Completado (paso 8).
+5. ~~**Dashboard (vista única + fondo + GSAP)**~~ ✅ Completado (paso 10).
+6. ~~**Suite de tests integral**~~ ✅ Completado (paso 11).
 
 ### Paso 8 completado: Integración IA (Gemini)
 
@@ -148,10 +176,11 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 
 ### Claves para los próximos pasos
 
-- **Todas las funcionalidades principales están implementadas**: auth, landing, shell, tasks CRUD, calendar, monitoring, notes rich-text, IA (Gemini).
-- `GEMINI_API_KEY` en `server/.env` — añadirla para activar funcionalidad IA.
+- **Todas las funcionalidades principales están implementadas**: auth, landing, shell, dashboard unificado (tasks/calendar/monitoring/notes), notes rich-text, IA (Gemini).
+- `GEMINI_API_KEY` en `server/.env` — añadirla para activar funcionalidad IA (los tests ya cubren el 503 "sin key").
 - Opciones de mejora: chat widget integrado en shell, notificaciones push, tests E2E, PWA, despliegue.
 - Auth login/register comparten SCSS/HTML casi idénticos: al pulir una, espejar los cambios en la otra.
+- El shell ya no usa `routerLinkActive` (anclas de scroll + ScrollTrigger para marcar tab activa); si se reintroducen rutas hijas, restaurar el patrón anterior.
 
 ## Convenciones
 
