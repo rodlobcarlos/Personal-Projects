@@ -1,0 +1,31 @@
+{
+  "name": "Life&Tasks",
+  "short_name": "Life&Tasks",
+  "description": "Gestor de tareas con IA: tareas, calendario, monitoreo y notas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf5ea",
+  "theme_color": "#6d32d1",
+  "scope": "/",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "assets/logoApp.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/logoApp.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/logoApp.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

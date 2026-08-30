@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { pool } from '../config/db.js';
 import { authenticate } from '../middleware/auth.js';
 import { createTaskSchema, updateTaskSchema } from '../validation/schemas.js';
+import { sendToUser } from '../services/push.js';
 
 const router = Router();
 
@@ -88,6 +89,21 @@ router.post('/tasks', authenticate, async (req: Request, res: Response) => {
 
     const task = (rows as Record<string, unknown>[])[0];
     res.status(201).json({ task });
+
+    if (task && typeof task.due_date === 'string') {
+      const due = new Date(task.due_date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      if (due.getTime() >= today.getTime() && due.getTime() < tomorrow.getTime()) {
+        sendToUser(userId, {
+          title: 'Life&Tasks',
+          body: `Hoy: ${title}`,
+          url: '/#tasks',
+        }).catch(() => undefined);
+      }
+    }
   } catch {
     res.status(500).json({ error: 'INTERNAL_ERROR' });
   }

@@ -29,6 +29,7 @@ export class CalendarComponent {
   readonly selectedDate = signal<Date | null>(null);
   readonly aiSummary = signal<string | null>(null);
   readonly summaryLoading = signal(false);
+  readonly loadError = signal(false);
 
   readonly weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 
@@ -114,9 +115,15 @@ export class CalendarComponent {
   }
 
   loadTasks(): void {
+    this.loadError.set(false);
     this.taskService.getTasks().subscribe({
       next: (res) => this.tasks.set(res.tasks),
+      error: () => this.loadError.set(true),
     });
+  }
+
+  retry(): void {
+    this.loadTasks();
   }
 
   prevMonth(): void {
