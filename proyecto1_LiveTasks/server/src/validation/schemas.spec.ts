@@ -64,10 +64,10 @@ describe('taskIdSchema', () => {
 });
 
 describe('createNoteSchema', () => {
-  it('requires content', () => {
+  it('requires content but allows empty string for a fresh note', () => {
     expect(createNoteSchema.safeParse({ content: 'hola' }).success).toBe(true);
     expect(createNoteSchema.safeParse({}).success).toBe(false);
-    expect(createNoteSchema.safeParse({ content: '' }).success).toBe(false);
+    expect(createNoteSchema.safeParse({ content: '' }).success).toBe(true);
   });
 
   it('accepts an optional title', () => {

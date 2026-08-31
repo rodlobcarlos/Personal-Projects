@@ -8,8 +8,8 @@ export class AiService {
   private readonly http = inject(HttpClient);
   private readonly url = `${environment.apiUrl}/ai`;
 
-  parseNatural(input: string): Observable<{ title: string; priority: 'low' | 'medium' | 'high'; due_date: string | null }> {
-    return this.http.post<{ title: string; priority: 'low' | 'medium' | 'high'; due_date: string | null }>(
+  parseNatural(input: string): Observable<{ title: string; description: string | null; priority: 'low' | 'medium' | 'high'; due_date: string | null }> {
+    return this.http.post<{ title: string; description: string | null; priority: 'low' | 'medium' | 'high'; due_date: string | null }>(
       `${this.url}/parse`,
       { input },
     );

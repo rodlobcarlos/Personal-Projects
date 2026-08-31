@@ -3,12 +3,12 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  background: color-mix(in srgb, var(--color-bg) 55%, transparent);
   transition: background 0.3s ease;
 }
 
 [data-theme='dark'] .landing-backdrop {
-  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  background: color-mix(in srgb, var(--color-bg) 65%, transparent);
 }
 
 .landing-header {

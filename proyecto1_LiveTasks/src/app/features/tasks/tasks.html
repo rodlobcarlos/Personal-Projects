@@ -24,9 +24,70 @@
         @if (aiParsing()) {
           <span class="ai-spinner"></span>
         }
-        {{ 'tasks.addButton' | translate }}
+        {{ aiSuggestion() ? ('ai.aiCreateReview' | translate) : ('tasks.addButton' | translate) }}
       </button>
     </form>
+
+    @if (newTitle().trim() && !loading()) {
+      <div class="task-fields">
+        <div class="task-fields__row">
+          <div class="task-fields__group task-fields__group--grow">
+            <label class="field__label" for="task-description">{{ 'tasks.descriptionLabel' | translate }}</label>
+            <textarea
+              id="task-description"
+              class="field__input task-fields__textarea"
+              [placeholder]="'tasks.descriptionPlaceholder' | translate"
+              [ngModel]="newDescription()"
+              (ngModelChange)="newDescription.set($event)"
+              name="taskDescription"
+              rows="2"
+            ></textarea>
+          </div>
+          <div class="task-fields__group task-fields__group--sm">
+            <label class="field__label" for="task-due">{{ 'tasks.dueDateLabel' | translate }}</label>
+            <input
+              id="task-due"
+              class="field__input"
+              type="date"
+              [ngModel]="newDueDate()"
+              (ngModelChange)="newDueDate.set($event)"
+              name="taskDue"
+            />
+          </div>
+          <div class="task-fields__group task-fields__group--sm">
+            <label class="field__label" for="task-priority">{{ 'tasks.priorityLabel' | translate }}</label>
+            <select
+              id="task-priority"
+              class="field__input"
+              [ngModel]="newPriority()"
+              (ngModelChange)="newPriority.set($event)"
+              name="taskPriority"
+            >
+              <option value="low">{{ 'tasks.priority.low' | translate }}</option>
+              <option value="medium">{{ 'tasks.priority.medium' | translate }}</option>
+              <option value="high">{{ 'tasks.priority.high' | translate }}</option>
+            </select>
+          </div>
+        </div>
+
+        @if (aiSuggestion()) {
+          <div class="task-ai-suggestion">
+            <span class="task-ai-suggestion__icon" aria-hidden="true">✦</span>
+            <div class="task-ai-suggestion__body">
+              <strong>{{ 'ai.aiSuggested' | translate }}</strong>
+              <span>{{ 'ai.aiSuggestedBody' | translate }}</span>
+            </div>
+            <button
+              class="button button--ghost button--sm"
+              type="button"
+              (click)="cancelAiSuggestion()"
+            >
+              {{ 'ai.aiCancel' | translate }}
+            </button>
+          </div>
+        }
+      </div>
+    }
 
     <div class="task-ai-actions">
       <button
@@ -163,6 +224,9 @@
 
           <div class="task-item__body">
             <span class="task-item__title">{{ task.title }}</span>
+            @if (task.description) {
+              <p class="task-item__desc">{{ task.description }}</p>
+            }
             <div class="task-item__meta">
               <span class="task-item__priority" [class]="priorityClass(task.priority)">
                 {{ 'tasks.priority.' + task.priority | translate }}

@@ -16,8 +16,8 @@
     ),
     linear-gradient(
       180deg,
-      var(--color-bg) 0%,
-      color-mix(in srgb, var(--color-bg) 96%, var(--color-primary)) 100%
+      color-mix(in srgb, var(--color-bg) 70%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 82%, transparent) 100%
     );
 }
 
@@ -58,7 +58,11 @@
       color-mix(in srgb, var(--color-primary) 12%, transparent),
       transparent 55%
     ),
-    linear-gradient(180deg, #1a1625 0%, #2a2140 100%);
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, #1a1625 70%, transparent) 0%,
+      color-mix(in srgb, #2a2140 82%, transparent) 100%
+    );
 }
 
 @media (max-width: 640px) {

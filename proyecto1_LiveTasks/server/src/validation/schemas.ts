@@ -14,7 +14,7 @@ export const taskIdSchema = z.coerce.number().int().positive();
 
 export const createNoteSchema = z.object({
   title: z.string().max(255).optional(),
-  content: z.string().min(1),
+  content: z.string(),
 });
 
 export const updateNoteSchema = z.object({

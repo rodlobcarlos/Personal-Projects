@@ -14,6 +14,7 @@ function getModel() {
 
 export async function parseNaturalTask(input: string): Promise<{
   title: string;
+  description: string | null;
   priority: 'low' | 'medium' | 'high';
   due_date: string | null;
 }> {
@@ -21,11 +22,12 @@ export async function parseNaturalTask(input: string): Promise<{
 
   const prompt = `You are a task parsing assistant. Given a natural language task description, extract:
 - title: a clear, concise task title
+- description: a short, useful description, or null if none is needed
 - priority: "low", "medium", or "high"
 - due_date: ISO 8601 date string (YYYY-MM-DD) or null if no date mentioned. Today is ${new Date().toISOString().split('T')[0]}.
 
 Respond ONLY with valid JSON, no markdown fences. Example:
-{"title":"Buy groceries","priority":"medium","due_date":"2025-01-15"}
+{"title":"Buy groceries","description":"Get milk and eggs","priority":"medium","due_date":"2025-01-15"}
 
 User input: "${input}"`;
 
@@ -33,7 +35,7 @@ User input: "${input}"`;
   const text = result.response.text().trim();
 
   const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-  return JSON.parse(cleaned) as { title: string; priority: 'low' | 'medium' | 'high'; due_date: string | null };
+  return JSON.parse(cleaned) as { title: string; description: string | null; priority: 'low' | 'medium' | 'high'; due_date: string | null };
 }
 
 export async function prioritizeTasks(tasks: Array<{ id: number; title: string; status: string; priority: string }>): Promise<Array<{ id: number; priority: 'low' | 'medium' | 'high' }>> {
