@@ -1,6 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Task } from '../../models/task.model';
-import { TaskService } from '../../core/services/task.service';
+import { TaskStateService } from '../../core/services/task-state.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 interface DayTrend {
@@ -17,9 +16,9 @@ interface DayTrend {
   styleUrl: './monitoring.scss',
 })
 export class MonitoringComponent {
-  private readonly taskService = inject(TaskService);
+  private readonly taskState = inject(TaskStateService);
 
-  readonly tasks = signal<Task[]>([]);
+  readonly tasks = computed(() => this.taskState.tasks());
   readonly loadError = signal(false);
 
   readonly totalCount = computed(() => this.tasks().length);
@@ -104,15 +103,13 @@ export class MonitoringComponent {
   });
 
   constructor() {
-    this.loadTasks();
+    if (this.taskState.tasks().length === 0) {
+      this.loadTasks();
+    }
   }
 
   loadTasks(): void {
-    this.loadError.set(false);
-    this.taskService.getTasks().subscribe({
-      next: (res) => this.tasks.set(res.tasks),
-      error: () => this.loadError.set(true),
-    });
+    this.taskState.loadTasks().then(() => this.loadError.set(false));
   }
 
   retry(): void {

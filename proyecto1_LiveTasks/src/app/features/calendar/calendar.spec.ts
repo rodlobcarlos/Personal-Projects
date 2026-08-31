@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { signal } from '@angular/core';
 import { CalendarComponent } from './calendar';
-import { TaskService } from '../../core/services/task.service';
+import { TaskStateService } from '../../core/services/task-state.service';
 import { AiService } from '../../core/services/ai.service';
 import { Task } from '../../models/task.model';
 
 describe('CalendarComponent', () => {
-  let taskServiceSpy: { getTasks: ReturnType<typeof vi.fn> };
   let aiServiceSpy: { dailySummary: ReturnType<typeof vi.fn> };
 
   const baseTask = (over: Partial<Task>): Task => ({
@@ -23,12 +23,11 @@ describe('CalendarComponent', () => {
   });
 
   function setup(tasks: Task[], initialDate = new Date()): CalendarComponent {
-    taskServiceSpy = { getTasks: vi.fn(() => of({ tasks })) };
     aiServiceSpy = { dailySummary: vi.fn(() => of({ summary: 'resumen' })) };
     TestBed.configureTestingModule({
       imports: [CalendarComponent],
       providers: [
-        { provide: TaskService, useValue: taskServiceSpy },
+        { provide: TaskStateService, useValue: { tasks: signal(tasks), loadTasks: vi.fn(() => Promise.resolve()) } },
         { provide: AiService, useValue: aiServiceSpy },
       ],
     });

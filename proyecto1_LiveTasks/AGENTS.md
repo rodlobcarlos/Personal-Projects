@@ -211,6 +211,17 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - **Modo oscuro**: overrides de contraste en tasks (filtro activo y checkbox done) y calendar (número del día "hoy") usando `var(--color-bg)` como texto sobre primary/success claros.
 - Verificado: lint OK, build OK (sin warnings), tests 2/2 OK.
 
+### Paso 12 completado: Fondo, formulario de tareas + IA, sync, fix notas
+
+- **Fondo visible** (la imagen ya no queda tapada por el color): reducida la opacidad del wash de `.landing-backdrop` (85%→55% light, 92%→65% dark) y del overlay de auth/login/register `::before` (75%→45% + blur 3→2px). En el dashboard `.dash`, el `linear-gradient` pasó de opaco a semi-transparente (`color-mix(... 70/82%, transparent)`) para que la imagen del body se asome bajo el gradiente de marca.
+- **Formulario de crear tarea ampliado** (`tasks.html`): al escribir un título se despliegan **descripción** (textarea), **fecha de vencimiento** (`input type="date"`) y **prioridad** (select low/medium/high), con señales `newDescription/newDueDate/newPriority`. Al crear (modo manual) se envían todos los campos.
+- **IA rellena el formulario editable**: en modo "Entrada inteligente", `Gemini parseNaturalTask` ahora también devuelve **`description`** (además de title/priority/due_date); `AiService.parseNatural()` actualizado. Al parsear, la IA **autocompleta los campos del formulario** (sin crear aún), muestra el banner `ai.aiSuggested` "Sugerencia de IA" con botón "Cancelar sugerencia" (`cancelAiSuggestion()`), y el botón pasa a "Revisar y crear" (`ai.aiCreateReview`); el usuario edita y pulsa para confirmar (`commitAiTask()`). Si la IA falla, fallback a creación directa.
+- **Descripción visible en la lista**: cada `task-item` muestra `task.description` bajo el título (`.task-item__desc`) cuando existe.
+- **Sync Tasks ↔ Calendar ↔ Monitoring**: nuevo `core/services/task-state.service.ts` (`TaskStateService`, `providedIn: 'root'`) con un signal `tasks` centralizado y métodos `loadTasks/createTask/updateTask/deleteTask` que hacen HTTP **y** actualizan el signal compartido. Los tres componentes ahora leen de `computed(() => taskState.tasks())` en vez de tener un signal propio → al crear/editar/eliminar en Tasks, Calendar y Monitoring se actualizan al instante. Calendar y Monitoring solo llaman `loadTasks()` si el state está vacío. Replace del inyectado `TaskService` directo en esos 3 componentes.
+- **Fix notas** (botón crear no funcionaba): `createNoteSchema` en `server/src/validation/schemas.ts` exigía `content: z.string().min(1)` pero el frontend crea notas con `{ content: '' }` → 400 silencioso. Cambiado a `content: z.string()` (permite notas vacías al crear; `updateNoteSchema` conserva `min(1).optional()`). Añadido `error` handler en `NotesComponent.createNote()` (marca `saveStatus='error'`).
+- **i18n**: nuevas claves en `{es,en}.ts`: `tasks.descriptionLabel/descriptionPlaceholder/dueDateLabel/priorityLabel`, y `ai.aiSuggested/aiSuggestedBody/aiCreateReview/aiCancel`.
+- Verificado: lint OK, build producción OK (sin warnings), tests frontend **77** (14 archivos; +3 tests IA en tasks), tests backend **27** (4 archivos; test de `createNoteSchema` actualizado para permitir `content: ''`), typecheck+build server OK.
+
 ### Claves para los próximos pasos
 
 - **Todas las funcionalidades están implementadas**: auth, landing, shell, dashboard unificado (tasks/calendar/monitoring/notes), notes rich-text, IA (Gemini), chat widget, notificaciones push FCM, PWA, y suites de tests (unit + E2E).

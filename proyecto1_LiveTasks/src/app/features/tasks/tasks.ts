@@ -2,8 +2,8 @@ import { AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, sig
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { gsap } from 'gsap';
-import { Task, TaskStatus } from '../../models/task.model';
-import { TaskService } from '../../core/services/task.service';
+import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
+import { TaskStateService } from '../../core/services/task-state.service';
 import { AiService } from '../../core/services/ai.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
@@ -15,15 +15,19 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
   styleUrl: './tasks.scss',
 })
 export class TasksComponent implements AfterViewInit {
-  private readonly taskService = inject(TaskService);
+  private readonly taskState = inject(TaskStateService);
   private readonly aiService = inject(AiService);
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly listRef = viewChild<ElementRef>('taskList');
 
-  readonly tasks = signal<Task[]>([]);
+  readonly tasks = computed(() => this.taskState.tasks());
   readonly filter = signal<TaskStatus | 'all'>('all');
   readonly newTitle = signal('');
+  readonly newDescription = signal('');
+  readonly newDueDate = signal('');
+  readonly newPriority = signal<TaskPriority>('medium');
+  readonly aiSuggestion = signal(false);
   readonly loading = signal(false);
   readonly aiMode = signal(false);
   readonly aiParsing = signal(false);
@@ -52,7 +56,7 @@ export class TasksComponent implements AfterViewInit {
   );
 
   constructor() {
-    this.loadTasks();
+    this.taskState.loadTasks().then(() => this.animateList());
   }
 
   ngAfterViewInit(): void {
@@ -68,14 +72,7 @@ export class TasksComponent implements AfterViewInit {
   }
 
   loadTasks(): void {
-    this.loadError.set(false);
-    this.taskService.getTasks().subscribe({
-      next: (res) => {
-        this.tasks.set(res.tasks);
-        this.animateList();
-      },
-      error: () => this.loadError.set(true),
-    });
+    this.taskState.loadTasks().then(() => this.animateList());
   }
 
   retry(): void {
@@ -109,45 +106,84 @@ export class TasksComponent implements AfterViewInit {
 
   private addTaskDirect(title: string): void {
     this.loading.set(true);
-    this.taskService.createTask({ title }).subscribe({
-      next: (res) => {
-        this.tasks.update((list) => [res.task, ...list]);
-        this.newTitle.set('');
+    this.taskState
+      .createTask({
+        title,
+        description: this.newDescription().trim() || null,
+        due_date: this.newDueDate() || null,
+        priority: this.newPriority(),
+      })
+      .then((res) => {
         this.loading.set(false);
-        this.animateNewItem();
-      },
-      error: () => this.loading.set(false),
-    });
+        if (res) {
+          this.resetForm();
+          this.animateNewItem();
+        }
+      });
   }
 
   private addTaskWithAI(input: string): void {
+    if (this.aiSuggestion()) {
+      this.commitAiTask();
+      return;
+    }
+
     this.loading.set(true);
     this.aiParsing.set(true);
 
     this.aiService.parseNatural(input).subscribe({
       next: (parsed) => {
-        this.taskService.createTask({
-          title: parsed.title,
-          priority: parsed.priority,
-          due_date: parsed.due_date,
-        }).subscribe({
-          next: (res) => {
-            this.tasks.update((list) => [res.task, ...list]);
-            this.newTitle.set('');
-            this.loading.set(false);
-            this.aiParsing.set(false);
-            this.animateNewItem();
-          },
-          error: () => {
-            this.loading.set(false);
-            this.aiParsing.set(false);
-          },
-        });
+        this.loading.set(false);
+        this.aiParsing.set(false);
+        this.newTitle.set(parsed.title);
+        this.newDescription.set(parsed.description ?? '');
+        this.newDueDate.set(parsed.due_date ?? '');
+        this.newPriority.set(parsed.priority);
+        this.aiSuggestion.set(true);
+        this.animateNewItem();
       },
       error: () => {
+        this.loading.set(false);
+        this.aiParsing.set(false);
         this.addTaskDirect(input);
       },
     });
+  }
+
+  private commitAiTask(): void {
+    this.loading.set(true);
+    const title = this.newTitle().trim();
+    if (!title) {
+      this.loading.set(false);
+      return;
+    }
+    this.taskState
+      .createTask({
+        title,
+        description: this.newDescription().trim() || null,
+        due_date: this.newDueDate() || null,
+        priority: this.newPriority(),
+      })
+      .then((res) => {
+        this.loading.set(false);
+        if (res) {
+          this.resetForm();
+          this.animateNewItem();
+        }
+      });
+  }
+
+  cancelAiSuggestion(): void {
+    this.aiSuggestion.set(false);
+    this.resetForm();
+  }
+
+  private resetForm(): void {
+    this.newTitle.set('');
+    this.newDescription.set('');
+    this.newDueDate.set('');
+    this.newPriority.set('medium');
+    this.aiSuggestion.set(false);
   }
 
   private animateNewItem(): void {
@@ -186,13 +222,7 @@ export class TasksComponent implements AfterViewInit {
     };
     const newStatus = next[task.status];
 
-    this.taskService.updateTask(task.id, { status: newStatus }).subscribe({
-      next: (res) => {
-        this.tasks.update((list) =>
-          list.map((t) => (t.id === task.id ? res.task : t)),
-        );
-      },
-    });
+    this.taskState.updateTask(task.id, { status: newStatus });
   }
 
   deleteTask(id: number): void {
@@ -206,15 +236,11 @@ export class TasksComponent implements AfterViewInit {
         duration: 0.25,
         ease: 'power2.in',
         onComplete: () => {
-          this.taskService.deleteTask(id).subscribe({
-            next: () => this.tasks.update((list) => list.filter((t) => t.id !== id)),
-          });
+          this.taskState.deleteTask(id);
         },
       });
     } else {
-      this.taskService.deleteTask(id).subscribe({
-        next: () => this.tasks.update((list) => list.filter((t) => t.id !== id)),
-      });
+      this.taskState.deleteTask(id);
     }
   }
 

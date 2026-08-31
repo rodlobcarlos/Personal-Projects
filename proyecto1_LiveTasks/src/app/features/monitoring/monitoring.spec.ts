@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { signal } from '@angular/core';
 import { MonitoringComponent } from './monitoring';
-import { TaskService } from '../../core/services/task.service';
+import { TaskStateService } from '../../core/services/task-state.service';
 import { Task } from '../../models/task.model';
 
 describe('MonitoringComponent', () => {
   let component: MonitoringComponent;
-  let taskServiceSpy: { getTasks: ReturnType<typeof vi.fn> };
 
   const baseTask = (over: Partial<Task>): Task => ({
     id: 1,
@@ -22,10 +21,11 @@ describe('MonitoringComponent', () => {
   });
 
   function setup(tasks: Task[]): { component: MonitoringComponent } {
-    taskServiceSpy = { getTasks: vi.fn(() => of({ tasks })) };
     TestBed.configureTestingModule({
       imports: [MonitoringComponent],
-      providers: [{ provide: TaskService, useValue: taskServiceSpy }],
+      providers: [
+        { provide: TaskStateService, useValue: { tasks: signal(tasks), loadTasks: vi.fn(() => Promise.resolve()) } },
+      ],
     });
     const fixture = TestBed.createComponent(MonitoringComponent);
     component = fixture.componentInstance;

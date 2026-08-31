@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { Task } from '../../models/task.model';
-import { TaskService } from '../../core/services/task.service';
+import { TaskStateService } from '../../core/services/task-state.service';
 import { AiService } from '../../core/services/ai.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
@@ -21,10 +21,10 @@ interface CalendarDay {
   styleUrl: './calendar.scss',
 })
 export class CalendarComponent {
-  private readonly taskService = inject(TaskService);
+  private readonly taskState = inject(TaskStateService);
   private readonly aiService = inject(AiService);
 
-  readonly tasks = signal<Task[]>([]);
+  readonly tasks = computed(() => this.taskState.tasks());
   readonly currentDate = signal(new Date());
   readonly selectedDate = signal<Date | null>(null);
   readonly aiSummary = signal<string | null>(null);
@@ -88,7 +88,9 @@ export class CalendarComponent {
   });
 
   constructor() {
-    this.loadTasks();
+    if (this.taskState.tasks().length === 0) {
+      this.loadTasks();
+    }
   }
 
   private buildDay(date: Date, isCurrentMonth: boolean, today: Date): CalendarDay {
@@ -115,11 +117,7 @@ export class CalendarComponent {
   }
 
   loadTasks(): void {
-    this.loadError.set(false);
-    this.taskService.getTasks().subscribe({
-      next: (res) => this.tasks.set(res.tasks),
-      error: () => this.loadError.set(true),
-    });
+    this.taskState.loadTasks().then(() => this.loadError.set(false));
   }
 
   retry(): void {

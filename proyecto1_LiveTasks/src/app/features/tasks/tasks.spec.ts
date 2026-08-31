@@ -51,7 +51,7 @@ describe('TasksComponent', () => {
       ),
       deleteTask: vi.fn(() => of(undefined)),
     };
-    aiServiceSpy = { parseNatural: vi.fn(() => of({ title: 'IA', priority: 'high', due_date: null })) };
+    aiServiceSpy = { parseNatural: vi.fn(() => of({ title: 'IA', description: null, priority: 'high', due_date: null })) };
 
     TestBed.configureTestingModule({
       imports: [TasksComponent],
@@ -94,7 +94,12 @@ describe('TasksComponent', () => {
     comp.aiMode.set(false);
     comp.newTitle.set('  Nueva tarea  ');
     comp.addTask();
-    expect(taskServiceSpy.createTask).toHaveBeenCalledWith({ title: 'Nueva tarea' });
+    expect(taskServiceSpy.createTask).toHaveBeenCalledWith({
+      title: 'Nueva tarea',
+      description: null,
+      due_date: null,
+      priority: 'medium',
+    });
   });
 
   it('should not add empty task', () => {
@@ -137,6 +142,60 @@ describe('TasksComponent', () => {
     aiServiceSpy.parseNatural.mockReturnValue(throwError(() => new Error('fail')));
     comp.newTitle.set('Tarea');
     comp.addTask();
-    expect(taskServiceSpy.createTask).toHaveBeenCalledWith({ title: 'Tarea' });
+    expect(taskServiceSpy.createTask).toHaveBeenCalledWith({
+      title: 'Tarea',
+      description: null,
+      due_date: null,
+      priority: 'medium',
+    });
+  });
+
+  it('should fill the form with the AI suggestion before creating', () => {
+    const comp = setup([]);
+    comp.aiMode.set(true);
+    aiServiceSpy.parseNatural.mockReturnValue(
+      of({ title: 'Preparar informe', description: 'Resumen trimestral', priority: 'high', due_date: '2026-09-15' }),
+    );
+    comp.newTitle.set('Preparar el informe trimestral para mañana');
+    comp.addTask();
+    expect(taskServiceSpy.createTask).not.toHaveBeenCalled();
+    expect(comp.aiSuggestion()).toBe(true);
+    expect(comp.newTitle()).toBe('Preparar informe');
+    expect(comp.newDescription()).toBe('Resumen trimestral');
+    expect(comp.newPriority()).toBe('high');
+    expect(comp.newDueDate()).toBe('2026-09-15');
+  });
+
+  it('should create the task with the edited form fields when AI suggestion is active', () => {
+    const comp = setup([]);
+    comp.aiMode.set(true);
+    comp.newTitle.set('Preparar informe');
+    comp.newDescription.set('Resumen trimestral');
+    comp.newPriority.set('high');
+    comp.newDueDate.set('2026-09-15');
+    comp.aiSuggestion.set(true);
+    comp.addTask();
+    expect(taskServiceSpy.createTask).toHaveBeenCalledWith({
+      title: 'Preparar informe',
+      description: 'Resumen trimestral',
+      due_date: '2026-09-15',
+      priority: 'high',
+    });
+  });
+
+  it('should cancel the AI suggestion and reset the form', () => {
+    const comp = setup([]);
+    comp.aiMode.set(true);
+    comp.newTitle.set('T');
+    comp.newDescription.set('D');
+    comp.newPriority.set('high');
+    comp.newDueDate.set('2026-09-15');
+    comp.aiSuggestion.set(true);
+    comp.cancelAiSuggestion();
+    expect(comp.aiSuggestion()).toBe(false);
+    expect(comp.newTitle()).toBe('');
+    expect(comp.newDescription()).toBe('');
+    expect(comp.newDueDate()).toBe('');
+    expect(comp.newPriority()).toBe('medium');
   });
 });

@@ -124,6 +124,9 @@ export class NotesComponent implements AfterViewInit, OnDestroy {
         this.notes.update((list) => [res.note, ...list]);
         this.selectNote(res.note.id);
       },
+      error: () => {
+        this.saveStatus.set('error');
+      },
     });
   }
 
