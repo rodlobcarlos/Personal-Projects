@@ -26,7 +26,8 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
   npm test          # vitest run (suite backend)
   ```
 - MySQL local: base **`live_tasks`** (no `liveTasks`; el usuario `crl` solo tiene permisos ahí y no puede crear BDs). Credenciales en `server/.env` (NO versionado).
-- Pendiente: renombrar la carpeta a `live-tasks` cuando ningún proceso la tenga abierta.
+- **El backend es solo una API**: la raíz `http://localhost:3000/` devuelve `404 {"error":"NOT_FOUND"}` (esperado). Para comprobar que arrancó usar `http://localhost:3000/api/health`. La app se usa en `http://localhost:4200`. Si el frontend responde 504/404 con `{"error":"NOT_FOUND"}`, suele ser que el backend (3000) está caído → arrancarlo con `npm run dev` en `server/` y dejar solo una instancia (matar duplicados en el puerto 3000).
+- Pendiente (organizativo): renombrar la carpeta a `live-tasks` cuando ningún proceso la tenga abierta.
 
 ## Arquitectura
 
@@ -55,7 +56,7 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - `server/src/middleware/auth.ts`: `verifyToken` (Bearer → `firebase-admin`) + `ensureUser` (upsert del usuario en tabla `users`); export `authenticate` para rutas protegidas.
 - `server/schema.sql`: tablas `users` / `tasks` / `notes` en BD `live_tasks` (aplicadas).
 - `GET /api/health` (público) verifica conexión a MySQL → `{ status, db }`.
-- `server/.env` (credenciales MySQL + `GEMINI_API_KEY` pendiente) y `server/serviceAccountKey.json` NO se versionan (gitignore propio).
+- `server/.env` (credenciales MySQL + `GEMINI_API_KEY` ya definida) y `server/serviceAccountKey.json` NO se versionan (gitignore propio).
 - `scripts/apply-schema.ts` (`npm run db:setup`) aplica `schema.sql`.
 - Verificado: `npm run typecheck`, `npm run build`, arranque del servidor y `GET /api/health` → `{"status":"ok","db":"up"}`.
 
@@ -135,12 +136,12 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
   - `dashboard.spec.ts` (smoke: se crea + renderiza los 4 anchors), `shell.spec.ts` (logout, scrollTo).
   - Services: `theme`, `i18n`, `task`, `note`, `ai` (HTTP con `provideHttpClientTesting`).
   - Componentes con services mockeados: `tasks` (CRUD, ciclo status, filtros, contadores, overdue, fallback IA con `vi.mock('gsap')`), `calendar` (grilla 42 días, navegación, filtro por día, resumen IA), `monitoring` (stat counts, tasa, trend 7 días, empty).
-  - Resultado: **11 archivos / 57 tests**.
+  - Resultado (tras Fases A–E): **14 archivos / 74 tests**. Entre las añadidas están `chat-widget.spec.ts` (7 tests), `notification.service.spec.ts`, `notification-toggle.spec.ts` (4 parametrizados) y `shell.spec.ts` (mockea `AiService` + `NotificationService`).
 - **Backend** (`server/`): añadido **Vitest** (devDep) + `vitest.config.ts` (env `node`, `setupFiles: vitest.setup.ts` que define env mínima) + script `test` (`vitest run`). `.spec.ts` y archivos de config de vitest **excluidos** de `tsconfig.json` (no van al build `dist`).
   - `validation/schemas.ts` (nuevo): schemas Zod de tasks/notes/ai **extraídos** y reutilizados por las rutas (`tasks.ts`, `notes.ts`, `ai.ts` simplificados) → testeables sin DB.
   - `schemas.spec.ts` (validación tasks/notes/ai), `gemini.spec.ts` (`isGeminiAvailable` con/sin key vía `vi.stubEnv` + re-import), `auth.spec.ts` (`verifyToken`: 401 sin/Bearer/inválido, y set de `req.user` mockeando firebase). `app.spec.ts` (servidor HTTP real sobre `createApp()` + fetch: 404, health db up/down, 401 sin token, AI 503 sin key).
   - Resultado: **4 archivos / 27 tests**.
-- **Verificado pre-despliegue** (todo OK): lint raíz, tests frontend (57), typecheck+build server, build producción raíz sin warnings de presupuesto.
+- **Verificado pre-despliegue** (todo OK): lint raíz, tests frontend (74), tests backend (27), E2E (5), typecheck+build server, build producción raíz sin warnings de presupuesto.
 
 ## Fase A completada: Robustez (error handling global)
 
@@ -194,7 +195,7 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 - **Frontend `AiService`** (`core/services/ai.service.ts`): `parseNatural`, `prioritize`, `chat`, `dailySummary` — HTTP calls a los endpoints AI.
 - **Tasks**: toggle "Entrada inteligente" que activa parsing con IA (título + prioridad + fecha desde lenguaje natural). Botón "Priorizar" para re-priorizar tareas pendientes con IA. Fallback a creación directa si la IA falla. Spinner en input durante parsing.
 - **Calendar**: botón "Generar resumen" en sidebar que llama `POST /api/ai/summary` con la fecha seleccionada. Muestra el resumen generado por Gemini.
-- `GEMINI_API_KEY` sigue vacía en `server/.env` — solo falta añadirla para activar la IA.
+- `GEMINI_API_KEY` ya definida en `server/.env` → IA activa (a futuro: **rotar la key** que estuvo expuesta en un `.env.example` commiteado; los tests cubren el 503 "sin key").
 
 ### Paso 9 completado: Mejoras de legibilidad (Tasks / Calendar / Monitoring / Notes)
 
@@ -213,7 +214,7 @@ Gestor de tareas con IA (Angular 21 standalone, SCSS, Firebase Auth + API Node/E
 ### Claves para los próximos pasos
 
 - **Todas las funcionalidades están implementadas**: auth, landing, shell, dashboard unificado (tasks/calendar/monitoring/notes), notes rich-text, IA (Gemini), chat widget, notificaciones push FCM, PWA, y suites de tests (unit + E2E).
-- **Pendientes para producción/despliegue**: añadir `GEMINI_API_KEY` en `server/.env` (los tests ya cubren el 503 "sin key"); **rotar la Gemini API key** que estuvo expuesta en un `.env.example` commiteado (`.env` no está trackeado); servir el frontend por **HTTPS/dominio** para activar notificaciones FCM en background; despliegue.
+- **Pendientes para producción/despliegue**: **rotar la Gemini API key** que estuvo expuesta en un `.env.example` commiteado (`.env` no está trackeado; `GEMINI_API_KEY` ya está definida y la IA funciona); servir el frontend por **HTTPS/dominio** para activar notificaciones FCM en background; despliegue.
 - El idioma por defecto es **inglés**; los selectores E2E usan "Get started" / "Log in" (EN).
 - Auth login/register comparten SCSS/HTML casi idénticos: al pulir una, espejar los cambios en la otra.
 - El shell ya no usa `routerLinkActive` (anclas de scroll + ScrollTrigger para marcar tab activa); si se reintroducen rutas hijas, restaurar el patrón anterior.
