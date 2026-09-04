@@ -69,6 +69,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       border-radius: 2rem;
       padding: 2.5rem;
       width: 100%;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
