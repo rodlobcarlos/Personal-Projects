@@ -67,7 +67,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 2rem;
-      padding: 6rem;
+      padding: 2.5rem;
       width: 100%;
       display: flex;
       flex-direction: column;
