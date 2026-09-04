@@ -1,18 +1,18 @@
-=== INFORMACIÓN DE LA CPU ===
+=== INFORMACION DE LA CPU ===
 12th Gen Intel(R) Core(TM) i5-12400F
 
-=== INFORMACIÓN DE LA RAM ===
+=== INFORMACION DE LA RAM ===
 MemTotal:       33385112 kB
-MemFree:        20929940 kB
+MemFree:        20766556 kB
 HighTotal:             0 kB
 HighFree:              0 kB
 
-=== INFORMACIÓN DEL DISCO ===
+=== INFORMACION DEL DISCO ===
 Filesystem            Size  Used Avail Use% Mounted on
 C:/Program Files/Git  931G  561G  371G  61% /
 H:                    931G  579G  352G  63% /h
 
-=== INFORMACIÓN DE LOS SERVICIOS ===
+=== INFORMACION DE LOS SERVICIOS ===
 
 Name                 DisplayName                                             Status
 ----                 -----------                                             ------
@@ -28,7 +28,7 @@ cbdhsvc_93867        Servicio de usuario del portapapeles_93867             Runn
 CDPSvc               Servicio de plataforma de dispositivos conectados      Running
 
 
-=== INFORMACIÓN DE CONECTIVIDAD ===
+=== INFORMACION DE CONECTIVIDAD ===
   TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       1724
   TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
   TCP    0.0.0.0:3306           0.0.0.0:0              LISTENING       5508
@@ -45,7 +45,7 @@ CDPSvc               Servicio de plataforma de dispositivos conectados      Runn
   TCP    127.0.0.1:49672        127.0.0.1:49673        ESTABLISHED     5508
   TCP    127.0.0.1:49673        127.0.0.1:49672        ESTABLISHED     5508
 
-=== INFORMACIÓN DE ESPACIO DISPONIBLE ===
+=== INFORMACION DE ESPACIO DISPONIBLE ===
 
 DeviceId Model             MediaType Size_GB
 -------- -----             --------- -------
