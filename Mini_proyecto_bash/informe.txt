@@ -1,0 +1,54 @@
+=== INFORMACIÓN DE LA CPU ===
+12th Gen Intel(R) Core(TM) i5-12400F
+
+=== INFORMACIÓN DE LA RAM ===
+MemTotal:       33385112 kB
+MemFree:        20929940 kB
+HighTotal:             0 kB
+HighFree:              0 kB
+
+=== INFORMACIÓN DEL DISCO ===
+Filesystem            Size  Used Avail Use% Mounted on
+C:/Program Files/Git  931G  561G  371G  61% /
+H:                    931G  579G  352G  63% /h
+
+=== INFORMACIÓN DE LOS SERVICIOS ===
+
+Name                 DisplayName                                             Status
+----                 -----------                                             ------
+Appinfo              Informaci�n de la aplicaci�n                           Running
+AppXSvc              Servicio de implementaci�n de AppX (AppXSVC)           Running
+AudioEndpointBuilder Compilador de extremo de audio de Windows              Running
+Audiosrv             Audio de Windows                                       Running
+BFE                  Motor de filtrado de base                              Running
+BrokerInfrastructure Servicio de infraestructura de tareas en segundo plano Running
+bthserv              Servicio de compatibilidad con Bluetooth               Running
+camsvc               Servicio Administrador de funcionalidad de acceso      Running
+cbdhsvc_93867        Servicio de usuario del portapapeles_93867             Running
+CDPSvc               Servicio de plataforma de dispositivos conectados      Running
+
+
+=== INFORMACIÓN DE CONECTIVIDAD ===
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       1724
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
+  TCP    0.0.0.0:3306           0.0.0.0:0              LISTENING       5508
+  TCP    0.0.0.0:5040           0.0.0.0:0              LISTENING       9616
+  TCP    0.0.0.0:33060          0.0.0.0:0              LISTENING       5508
+  TCP    0.0.0.0:49664          0.0.0.0:0              LISTENING       1456
+  TCP    0.0.0.0:49665          0.0.0.0:0              LISTENING       1284
+  TCP    0.0.0.0:49666          0.0.0.0:0              LISTENING       2024
+  TCP    0.0.0.0:49667          0.0.0.0:0              LISTENING       2644
+  TCP    0.0.0.0:49668          0.0.0.0:0              LISTENING       3736
+  TCP    0.0.0.0:49678          0.0.0.0:0              LISTENING       1364
+  TCP    0.0.0.0:54010          0.0.0.0:0              LISTENING       16572
+  TCP    127.0.0.1:27017        0.0.0.0:0              LISTENING       4388
+  TCP    127.0.0.1:49672        127.0.0.1:49673        ESTABLISHED     5508
+  TCP    127.0.0.1:49673        127.0.0.1:49672        ESTABLISHED     5508
+
+=== INFORMACIÓN DE ESPACIO DISPONIBLE ===
+
+DeviceId Model             MediaType Size_GB
+-------- -----             --------- -------
+0        WD Blue SN580 1TB SSD        931,51
+
+
