@@ -292,7 +292,8 @@ export class CarrierComponent {
         { name: 'GitHub Actions', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg' },
         { name: 'Git', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg' },
         { name: 'GitHub Copilot', src: 'https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/githubcopilot.svg' },
-        { name: 'CodeQL', src: 'assets/codeql.jpeg' }
+        { name: 'CodeQL', src: 'assets/codeql.jpeg' },
+        { name: 'Bash', src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyP4JtzOYMzhzxw4SGDXrNi9Eey-yVGMEK6cSvm1jGtx8MgDeA-7BXQuaq&s=10' }
       ]
     }
   ]);
