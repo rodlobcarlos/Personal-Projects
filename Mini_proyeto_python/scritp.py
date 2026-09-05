@@ -2,15 +2,23 @@
 
 # Abrir el archivo bash y leer su contenido
 import subprocess
-from pathlib import Path # Importar la clase Path del módulo pathlib para manejar rutas de archivos
+from pathlib import Path
 
-# Definir la ruta del script bash
+# Obtener la ruta del script bash
 ruta_script_sh = Path(__file__).resolve().parent.parent / "Mini_proyecto_bash" / "script.sh"
 
-# Ejecutar el script bash y capturar su salida
-salida = subprocess.run(['bash', str(ruta_script_sh)], 
-                        check=True,
-                        stdout=subprocess.PIPE, # Capturar la salida estándar
-                        stderr=subprocess.PIPE) # Capturar la salida estándar y el error estándar
+# Convertir la ruta del script bash a la ruta de WSL
+ruta_wsl = subprocess.check_output(
+    ["wsl.exe", "wslpath", str(ruta_script_sh)],
+    text=True
+).strip()
 
-print(salida.stdout.decode('utf-8')) # Imprimir la salida del script bash
+# Ejecutar el script bash en WSL y capturar la salida
+salida = subprocess.run(
+    ["wsl.exe", "bash", ruta_wsl],
+    check=True,
+    capture_output=True,
+    text=True
+)
+
+print(salida.stdout)
