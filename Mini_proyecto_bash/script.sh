@@ -21,8 +21,8 @@
     powershell.exe -Command "Get-Service | Where-Object {\$_.Status -eq 'Running'} | Select-Object -First 10 | Format-Table Name, DisplayName, Status" | tr -d '\r'
 
     echo "=== INFORMACION DE CONECTIVIDAD ==="
-    # Muestra las conexiones TCP activas y los puertos que están escuchando (listening)
-    netstat -ano | grep -E "LISTENING|ESTABLISHED" | head -n 15
+    # Muestra los primeros 15 puertos en escucha y conexiones establecidas en el sistema
+    ss -tuln | grep -E "LISTEN|ESTAB" | head -n 15
 
     echo
     echo "=== INFORMACION DE ESPACIO DISPONIBLE ==="
