@@ -1,0 +1,58 @@
+=== INFORMACION DE LA CPU ===
+12th Gen Intel(R) Core(TM) i5-12400F
+
+=== INFORMACION DE LA RAM ===
+MemTotal:       16290424 kB
+MemFree:        15017396 kB
+MemAvailable:   15568536 kB
+Buffers:           46620 kB
+
+=== INFORMACION DEL DISCO ===
+Filesystem      Size  Used Avail Use% Mounted on
+none            7.8G     0  7.8G   0% /usr/lib/modules/6.18.33.2-microsoft-standard-WSL2
+none            7.8G  4.0K  7.8G   1% /mnt/wsl
+drivers         931G  575G  357G  62% /usr/lib/wsl/drivers
+/dev/sdd       1007G  1.7G  954G   1% /
+none            7.8G   36K  7.8G   1% /mnt/wslg
+none            7.8G     0  7.8G   0% /usr/lib/wsl/lib
+rootfs          7.8G  2.8M  7.8G   1% /init
+none            7.8G  512K  7.8G   1% /run
+none            7.8G     0  7.8G   0% /run/lock
+none            7.8G     0  7.8G   0% /run/shm
+none            7.8G   68K  7.8G   1% /mnt/wslg/versions.txt
+none            7.8G   68K  7.8G   1% /mnt/wslg/doc
+C:\             931G  575G  357G  62% /mnt/c
+none            1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+tmpfs           7.8G  4.0K  7.8G   1% /tmp
+none            1.0M     0  1.0M   0% /run/credentials/systemd-resolved.service
+none            1.0M     0  1.0M   0% /run/credentials/getty@tty1.service
+tmpfs           1.6G   12K  1.6G   1% /run/user/0
+
+=== INFORMACION DE LOS SERVICIOS ===
+
+Name                 DisplayName                                             Status
+----                 -----------                                             ------
+Appinfo              Informaci¢n de la aplicaci¢n                           Running
+AppXSvc              Servicio de implementaci¢n de AppX (AppXSVC)           Running
+AudioEndpointBuilder Compilador de extremo de audio de Windows              Running
+Audiosrv             Audio de Windows                                       Running
+BFE                  Motor de filtrado de base                              Running
+BrokerInfrastructure Servicio de infraestructura de tareas en segundo plano Running
+bthserv              Servicio de compatibilidad con Bluetooth               Running
+camsvc               Servicio Administrador de funcionalidad de acceso      Running
+cbdhsvc_9622c        Servicio de usuario del portapapeles_9622c             Running
+CDPSvc               Servicio de plataforma de dispositivos conectados      Running
+
+
+=== INFORMACION DE CONECTIVIDAD ===
+tcp   LISTEN 0      4096    127.0.0.53%lo:53        0.0.0.0:*   
+tcp   LISTEN 0      1000   10.255.255.254:53        0.0.0.0:*   
+tcp   LISTEN 0      4096       127.0.0.54:53        0.0.0.0:*   
+
+=== INFORMACION DE ESPACIO DISPONIBLE ===
+
+DeviceId Model             MediaType Size_GB
+-------- -----             --------- -------
+0        WD Blue SN580 1TB SSD        931,51
+
+
