@@ -26,7 +26,7 @@ interface NavItem {
       aria-label="Main navigation"
     >
       <div class="navbar-inner">
-        <a class="logo" href="#home" (click)="scrollTo('home', $event)">CRL</a>
+        <a class="logo" href="#home" (click)="scrollTo('home', $event)">CRLdev</a>
 
         <ul class="nav-links" [class.menu-open]="menuOpen()">
           @for (item of navItems; track item.targetId) {
