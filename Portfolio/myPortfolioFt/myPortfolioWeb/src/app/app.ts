@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { SpaceBackgroundComponent } from './components/space-background/space-background';
+import { NavbarComponent } from './components/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SpaceBackgroundComponent], 
+  imports: [RouterOutlet, SpaceBackgroundComponent, NavbarComponent], 
   template: `
     <app-space-background />
+    <app-navbar />
     
     <main class="content-wrapper">
       <router-outlet />

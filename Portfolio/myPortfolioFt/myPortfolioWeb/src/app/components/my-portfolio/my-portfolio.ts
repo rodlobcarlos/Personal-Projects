@@ -11,10 +11,10 @@ import { WelcomeComponent } from '../welcome/welcome';
   imports: [AboutComponent, CarrierComponent, ProjectsComponent, WelcomeComponent],
   template: `
     <div class="portfolio">
-      <app-welcome />
-      <app-about />
-      <app-carrier />
-      <app-projects />
+      <div id="home"><app-welcome /></div>
+      <div id="about"><app-about /></div>
+      <div id="trajectory"><app-carrier /></div>
+      <div id="projects"><app-projects /></div>
 
       <footer class="portfolio-footer">
         <p>Portfolio realized by Carlos Rodríguez Lobato. |
@@ -34,7 +34,6 @@ import { WelcomeComponent } from '../welcome/welcome';
     }
 
     .portfolio-footer {
-      position: fixed;
       left: 0;
       bottom: 0;
       width: 100%;
