@@ -10,7 +10,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [appScrollReveal] {
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+[appScrollReveal] {
     opacity: 1;
     transform: none;
     transition: none;

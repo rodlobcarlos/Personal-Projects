@@ -49,6 +49,7 @@ import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core'
       position: relative;
       z-index: 1;
       color: white;
+      padding-top: 4rem;
       margin-top: -5rem;
       margin-bottom: -3rem;
     }
