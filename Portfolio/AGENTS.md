@@ -83,3 +83,15 @@ cd myPortfolioBk/myPortfolioBk
 32. "work metodology" -> "work methodology"
 33. "practices on Atos" -> "practices at Atos"
 34. Improve tech section description text
+
+### Phase 8: Navigation
+35. Create `NavbarComponent` (`src/app/components/navbar/navbar.ts`)
+36. Add `<app-navbar />` to `app.ts` above the content wrapper
+37. Wrap sections in anchor divs (`#home`, `#about`, `#trajectory`, `#projects`) in `my-portfolio.ts`
+38. Make navbar fixed at top with glassmorphism on scroll (transparent -> blurred background)
+39. Track active section with `IntersectionObserver` (observe sections on a `setTimeout`/retry loop in `ngAfterViewInit` since routed content isn't in DOM yet); highlight active nav item in cyan `#4ae3ff`
+40. Set `activeSection` immediately on link click for responsive highlight
+41. Add mobile hamburger menu (slide-in panel, animated icon, Escape key to close, `aria-expanded`)
+42. Add smooth scroll + `scroll-padding-top: 4rem` in `styles.scss`
+43. Change footer from `position: fixed` to static flow in `my-portfolio.ts`
+44. Add `padding-top: 4rem` to hero wrapper in `welcome.ts`
