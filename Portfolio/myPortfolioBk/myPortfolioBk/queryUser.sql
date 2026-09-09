@@ -1,4 +1,5 @@
-ALTER USER 'carlos'@'localhost' IDENTIFIED WITH mysql_native_password BY 'crldb05@rl21';
+ALTER USER 'carlos'@'localhost' IDENTIFIED WITH mysql_native_password BY 'REPLACE_WITH_DB_PASSWORD';
+
 GRANT ALL PRIVILEGES ON portfoliodb.* TO 'carlos'@'localhost';
 FLUSH PRIVILEGES;
 
