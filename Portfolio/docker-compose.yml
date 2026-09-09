@@ -1,20 +1,4 @@
-version: '3.8'
-
 services:
-  db:
-    image: mysql:8.0
-    container_name: portfolio-mysql
-    restart: always # Reinicia el contenedor automáticamente si se detiene
-    environment:
-      MYSQL_DATABASE: portfolio_db
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   backend:
     build: ./myPortfolioBk/myPortfolioBk
     container_name: portfolio-backend
@@ -22,25 +6,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-16590929-rodlobcarlos.i.aivencloud.com:16747/defaultdb?useSSL=false&serverTimezone=UTC
-      - SPRING_DATASOURCE_USERNAME=avnadmin
-    depends_on:
-      - db
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
 
   frontend:
     build: ./myPortfolioFt
     container_name: portfolio-frontend
     restart: always
     ports:
-      - "4200:4200"
-    volumes:
-      # Rutas relativas compatibles con Docker Desktop para Windows (WSL 2)
-      - ./myPortfolioFt:/home/app # Monta el directorio del proyecto en el contenedor
-      - /home/app/node_modules # Evita que los node_modules del host sobrescriban los del contenedor
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+      - "4200:80"
     depends_on:
       - backend
-
-volumes:
-  mysql_data:
