@@ -1,19 +1,31 @@
-FROM node:20-alpine
+# Angular construction and Nginx server Dockerfile
 
-# 1. Definimos el directorio de trabajo (crea la carpeta automáticamente)
-WORKDIR /home/app
+FROM node:20-alpine AS build 
 
-# 2. Copiamos los archivos de dependencias primero
-COPY package*.json ./
+# Set the working directory inside the container
+WORKDIR /app
 
-# 3. Instalamos las dependencias dentro del contenedor
-RUN npm install
+# Copy the package.json and package-lock.json files to the working directory
+COPY myPortfolioWeb/package*.json ./
 
-# 4. Copiamos el resto del código del proyecto
-COPY . .
+# Install the dependencies using npm ci for a clean install
+RUN npm ci
 
-# 5. Exponemos el puerto de Angular
+# Copy the rest of the source code to the working directory
+COPY myPortfolioWeb/ ./
+
+# Build the Angular application for production
+RUN npx ng build --configuration=production
+
+# Use a lightweight Nginx image for the final stage
+FROM nginx:alpine
+
+# Copy the compiled files from the previous stage to the Nginx public directory
+# (Adjust the internal path of the dist folder if Angular generates a folder with your project's name)
+COPY --from=build /app/dist/myPortfolioWeb /usr/share/nginx/html
+
+# Expose port 4200 for the browser
 EXPOSE 4200
 
-# 6. Ejecutamos Angular asegurando que escuche conexiones externas
-CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
+# Start Nginx in the foreground to keep the container running
+CMD ["nginx", "-g", "daemon off;"]
