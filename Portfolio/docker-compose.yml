@@ -16,7 +16,7 @@ services:
       - mysql_data:/var/lib/mysql
 
   backend:
-    build: ./myPortfolioBk
+    build: ./myPortfolioBk/myPortfolioBk
     container_name: portfolio-backend
     restart: always
     ports:
@@ -35,7 +35,7 @@ services:
       - "4200:4200"
     volumes:
       # Rutas relativas compatibles con Docker Desktop para Windows (WSL 2)
-      - ./frontend:/home/app # Monta el directorio del proyecto en el contenedor
+      - ./myPortfolioFt:/home/app # Monta el directorio del proyecto en el contenedor
       - /home/app/node_modules # Evita que los node_modules del host sobrescriban los del contenedor
     environment:
       - CHOKIDAR_USEPOLLING=true
