@@ -275,7 +275,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       const p = el.nativeElement;
       const id = projects[i].id;
-      this.truncatedMap[i] = p.scrollHeight > p.clientHeight;
+      this.truncatedMap[id] = p.scrollHeight > p.clientHeight;
     });
 
     this.cdr.markForCheck();
