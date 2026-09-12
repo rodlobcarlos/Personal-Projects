@@ -1,0 +1,71 @@
+{
+  "NAV": {
+    "ARIA_LABEL": "Main navigation",
+    "TOGGLE_MENU": "Toggle navigation menu",
+    "CHANGE_LANG": "Change language",
+    "HOME": "Home",
+    "ABOUT": "About Me",
+    "TRAJECTORY": "My Trajectory",
+    "PROJECTS": "My Projects"
+  },
+  "WELCOME": {
+    "TITLE": "Personal portfolio",
+    "SUBTITLE": "Carlos Rodríguez Lobato || Junior full-stack developer",
+    "PARAGRAPH": "Hi! Welcome to my personal portfolio. Here you can find information about my skills, projects, and experiences. I hope you enjoy exploring it and learning more about me. If you have any questions or would like to get in touch, please feel free to contact me through the provided email address.",
+    "SCROLL_ARIA": "Scroll to next section"
+  },
+  "ABOUT": {
+    "TITLE": "About me! 🧑🏼‍💻",
+    "CERTIFICATES": "Certificates 🎓",
+    "CERT_ALT": "GitHub Certification",
+    "MYSELF": "Myself 🎓",
+    "BIO": "I am Carlos Rodríguez Lobato, a junior full-stack developer. I was born in Spain (Seville), I live in a town called Alcalá del Río (Seville). Right now, I'm specializing in DevOps. A work methodology that allows me to develop and deploy applications in a more efficient way and helps to improve the collaboration between development and operations teams in an organization.",
+    "SOCIAL": "Social media 📲",
+    "LINKEDIN": "Carlos Rodríguez Lobato · LinkedIn Profile",
+    "INFOJOBS": "Carlos Rodríguez Lobato · InfoJobs Profile",
+    "GITHUB": "rodlobcarlos · GitHub"
+  },
+  "CARRIER": {
+    "SECTION_TITLE": "My trajectory 🚀",
+    "TECH_STACK": "Tech stack",
+    "LOGO_ALT": "{{name}} logo",
+    "CATEGORIES": {
+      "LANGUAGES": "Languages",
+      "FRONTEND": "Frontend",
+      "BACKEND": "Backend",
+      "DATABASES": "Databases",
+      "CLOUD_DEVOPS": "Cloud & DevOps"
+    },
+    "STEP1": {
+      "DATE": "September 2024 - May 2025",
+      "TITLE": "1 DAM 📚",
+      "DESC": "I started Superior Grade of Cross-platform in La Algaba (Seville). I have learned knowledge about programming languages like HTML, CSS, Java, Python, XML, MySQL."
+    },
+    "STEP2": {
+      "DATE": "May - June 2025",
+      "TITLE": "Enterprise practices (Atos/Eviden) 🏢",
+      "DESC": "I have done a period of one month of practices at Atos (Eviden), where I learned some knowledge about Java with JPA, Hibernate and Spring Boot."
+    },
+    "STEP3": {
+      "DATE": "September 2025 - May 2026",
+      "TITLE": "2 DAM 📚",
+      "DESC": "In this period I used new programming languages like JavaScript, TypeScript, Angular, Spring Boot in Java, MongoDB, Oracle PL/SQL. Also, I had done the final course project, a prototype about a personal management tasks with AI with Angular for web and Android Studio for mobile."
+    },
+    "STEP4": {
+      "DATE": "February - May 2026",
+      "TITLE": "Enterprise practices (Atos) 🏢",
+      "DESC": "I am doing practices at the same enterprise as the previous year, Atos (Eviden). This year they put me in their real Ferrovial project with the DevOps team. There I learned about DevOps, CI/CD, Jira, IaC and some knowledge about Azure portal/Azure DevOps to deploy applications on cloud infrastructure."
+    }
+  },
+  "PROJECTS": {
+    "SECTION_TITLE": "My projects 🖥️",
+    "SHOW_MORE": "Show more +",
+    "SHOW_LESS": "Show less −",
+    "VIEW_GITHUB": "View on GitHub",
+    "LOADING": "Fetching projects from the dark space..."
+  },
+  "FOOTER": {
+    "REALIZED": "Portfolio realized by Carlos Rodríguez Lobato. |",
+    "CONTACT": "Contact me ->"
+  }
+}

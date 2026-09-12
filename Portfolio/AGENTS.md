@@ -34,64 +34,57 @@ cd myPortfolioBk/myPortfolioBk
 - ESLint with angular-eslint
 - Backend: Lombok, Spring Data JPA, Log4j2
 
-## Improvement Plan
+## Current State (all improvement phases implemented)
 
-### Phase 1: Critical Bugs & Security
-1. Fix `about-me.spec.ts` import: `AboutMe` -> `AboutComponent`
-2. Remove broken test in `app.spec.ts` (expects `<h1>` that doesn't exist)
-3. Fix CSS `font-style: bold` -> `font-weight: bold` in footer
-4. Use `environment.apiUrl` in `ProjectService` instead of hardcoded URL
-5. Set `production: true` in `environment.ts`
-6. Remove dead `myPortfolio/` directory
+### Resolved fixes
+- `about-me.spec.ts` uses `AboutComponent`; broken `<h1>` test removed from `app.spec.ts`
+- Footer uses `font-weight: bold`; footer email is a `mailto:` link
+- `ProjectService` uses `environment.apiUrl`; `environment.ts` has `production: true`; `environment.development.ts` uses `/api/projects` proxy
+- Dead `myPortfolio/` directory removed; unused scaffold `.html`/`.scss` files deleted
+- `ProjectService.java` `update()` persists via `projectRepository.save()`; `ProjectController.java` exposes `@PutMapping("/{id}")` and `@DeleteMapping("/{id}")`
+- Roots: `{ path: '', redirectTo: 'CRLdev', pathMatch: 'full' }`
+- `Welcome` -> `WelcomeComponent`, `Carrier` -> `CarrierComponent` (specs updated)
+- Unused `CommonModule` imports and dead `arrowRotate` trigger removed
+- `proxyConfig` removed from `angular.json` lint options (invalid for eslint builder)
+- `ScrollRevealDirective` uses `inject()` instead of constructor injection
 
-### Phase 2: Backend Fixes
-7. Fix `update()` in `ProjectService.java` to call `projectRepository.save()`
-8. Add `@PutMapping` and `@DeleteMapping` endpoints in `ProjectController.java`
+### SEO / Meta (index.html)
+- Google Fonts (Karla) preconnected and loaded
+- Title: "Carlos Rodriguez Lobato - Portfolio"
+- Meta description, Open Graph tags, `theme-color` (#090A0F)
+- `public/robots.txt` created
 
-### Phase 3: SEO & Meta Tags
-9. Load Google Fonts (Karla) in `index.html`
-10. Update `<title>` to "Carlos Rodriguez Lobato - Portfolio"
-11. Add `<meta name="description">`
-12. Add Open Graph meta tags
-13. Add `<meta name="theme-color">`
-14. Create `robots.txt`
+### Accessibility
+- Tech logo `alt` attributes describe each tool
+- `rel="noopener noreferrer"` on all external links
+- `prefers-reduced-motion: reduce` respected in space background and scroll-reveal
 
-### Phase 4: Accessibility
-15. Fix tech logo `alt` attributes (Python, Java, Angular, etc.)
-16. Add `rel="noopener noreferrer"` to all external links
-17. Change footer email to `mailto:` link
-18. Make scroll arrow keyboard accessible
-19. Add `prefers-reduced-motion` media query
-20. Respect `prefers-reduced-motion` in space background
+## Recent Modifications
 
-### Phase 5: Performance
-21. Add `loading="lazy"` to tech logo images
+### i18n (`@ngx-translate/core`)
+- Spanish/English translation via `@ngx-translate/core` + `@ngx-translate/http-loader`
+- Loader configured in `app.config.ts` with `prefix: './i18n/'`, `suffix: '.json'`
+- Translation files: `public/i18n/es.json` and `public/i18n/en.json`
+- Language persisted in `localStorage['lang']`; `<html lang>` synced in `AppComponent`
 
-### Phase 6: Code Quality
-22. Add root route redirect in `app.routes.ts`
-23. Rename `Welcome` -> `WelcomeComponent`
-24. Rename `Carrier` -> `CarrierComponent`
-25. Update imports in `my-portfolio.ts`
-26. Remove unused `CommonModule` imports
-27. Remove dead `arrowRotate` animation trigger
-28. Fix `environment.development.ts` for local proxy
-29. Delete unused scaffold `.html` and `.scss` files
+### Navbar (`navbar.ts`)
+`NavbarComponent` (added to `app.ts`, fixed at top, `z-index: 1000`):
+- Glassmorphism on scroll: transparent -> blurred dark background (`rgba(9,10,15,0.7)` + `backdrop-filter: blur(12px)`) toggled by `@HostListener('window:scroll')`
+- Active section tracked with `IntersectionObserver` (`rootMargin: '-20% 0px -60% 0px'`; retry loop in `observeSections()` since routed content renders async); active item highlighted cyan `#4ae3ff`
+- `activeSection` set immediately on link click; smooth scroll via `scrollIntoView({ behavior: 'smooth' })`
+- Mobile hamburger menu (slide-in panel, animated bars, Escape to close, `aria-expanded`, `aria-labels`)
+- Language switcher (`es`/`en` pill buttons) calling `translate.use()`
+- Nav items configured with `labelKey` (`NAV.HOME/ABOUT/TRAJECTORY/PROJECTS`) + `targetId`
 
-### Phase 7: Content & Spelling
-30. "My trayectory" -> "My trajectory"
-31. "especializing" -> "specializing"
-32. "work metodology" -> "work methodology"
-33. "practices on Atos" -> "practices at Atos"
-34. Improve tech section description text
+### Tech stack by category (`carrier.ts`)
+Skill cards replaced by a `techCategories` signal grouped into 5 cards:
+- **Languages**: Java, Python, TypeScript, JavaScript
+- **Frontend**: Angular, HTML5, CSS3
+- **Backend**: Spring Boot, Node.js
+- **Databases**: MongoDB, MySQL, Oracle
+- **Cloud & DevOps**: Azure, Azure DevOps, Docker, GitHub Actions, Git, GitHub Copilot, CodeQL
 
-### Phase 8: Navigation
-35. Create `NavbarComponent` (`src/app/components/navbar/navbar.ts`)
-36. Add `<app-navbar />` to `app.ts` above the content wrapper
-37. Wrap sections in anchor divs (`#home`, `#about`, `#trajectory`, `#projects`) in `my-portfolio.ts`
-38. Make navbar fixed at top with glassmorphism on scroll (transparent -> blurred background)
-39. Track active section with `IntersectionObserver` (observe sections on a `setTimeout`/retry loop in `ngAfterViewInit` since routed content isn't in DOM yet); highlight active nav item in cyan `#4ae3ff`
-40. Set `activeSection` immediately on link click for responsive highlight
-41. Add mobile hamburger menu (slide-in panel, animated icon, Escape key to close, `aria-expanded`)
-42. Add smooth scroll + `scroll-padding-top: 4rem` in `styles.scss`
-43. Change footer from `position: fixed` to static flow in `my-portfolio.ts`
-44. Add `padding-top: 4rem` to hero wrapper in `welcome.ts`
+Logo sources: local `assets/*.png` where available; devicon CDN (`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/...`) for missing ones; Simple Icons CDN (`https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/...`) for GitHub Copilot and CodeQL. All images `loading="lazy"` with `object-fit: contain`.
+
+## Roadmap
+- Phase 9 (Formatter): run Prettier across `src/` once i18n keys are finalized to avoid churn
