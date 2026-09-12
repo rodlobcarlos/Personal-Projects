@@ -1,0 +1,71 @@
+{
+  "NAV": {
+    "ARIA_LABEL": "Navegación principal",
+    "TOGGLE_MENU": "Alternar menú de navegación",
+    "CHANGE_LANG": "Cambiar idioma",
+    "HOME": "Inicio",
+    "ABOUT": "Sobre mí",
+    "TRAJECTORY": "Mi trayectoria",
+    "PROJECTS": "Mis proyectos"
+  },
+  "WELCOME": {
+    "TITLE": "Portfolio personal",
+    "SUBTITLE": "Carlos Rodríguez Lobato || Desarrollador full-stack junior",
+    "PARAGRAPH": "¡Hola! Bienvenido a mi portfolio personal. Aquí puedes encontrar información sobre mis habilidades, proyectos y experiencias. Espero que disfrutes explorándolo y aprendiendo más sobre mí. Si tienes alguna pregunta o quieres ponerte en contacto, no dudes en escribirme a través del correo electrónico indicado.",
+    "SCROLL_ARIA": "Desplazarse a la siguiente sección"
+  },
+  "ABOUT": {
+    "TITLE": "¡Sobre mí! 🧑🏼‍💻",
+    "CERTIFICATES": "Certificados 🎓",
+    "CERT_ALT": "Certificación de GitHub",
+    "MYSELF": "¿Quién soy? 🎓",
+    "BIO": "Soy Carlos Rodríguez Lobato, desarrollador full-stack junior. Nací en España (Sevilla) y vivo en un pueblo llamado Alcalá del Río (Sevilla). Actualmente estoy especializándome en DevOps, una metodología de trabajo que me permite desarrollar y desplegar aplicaciones de forma más eficiente y que ayuda a mejorar la colaboración entre los equipos de desarrollo y operaciones en una organización.",
+    "SOCIAL": "Redes sociales 📲",
+    "LINKEDIN": "Carlos Rodríguez Lobato · Perfil de LinkedIn",
+    "INFOJOBS": "Carlos Rodríguez Lobato · Perfil de InfoJobs",
+    "GITHUB": "rodlobcarlos · GitHub"
+  },
+  "CARRIER": {
+    "SECTION_TITLE": "Mi trayectoria 🚀",
+    "TECH_STACK": "Stack tecnológico",
+    "LOGO_ALT": "Logo de {{name}}",
+    "CATEGORIES": {
+      "LANGUAGES": "Lenguajes",
+      "FRONTEND": "Frontend",
+      "BACKEND": "Backend",
+      "DATABASES": "Bases de datos",
+      "CLOUD_DEVOPS": "Cloud y DevOps"
+    },
+    "STEP1": {
+      "DATE": "Septiembre 2024 - Mayo 2025",
+      "TITLE": "1 DAM 📚",
+      "DESC": "Comencé el Grado Superior de Desarrollo de Aplicaciones Multiplataforma en La Algaba (Sevilla). Aprendí conocimientos sobre lenguajes de programación como HTML, CSS, Java, Python, XML y MySQL."
+    },
+    "STEP2": {
+      "DATE": "Mayo - Junio 2025",
+      "TITLE": "Prácticas en empresa (Atos/Eviden) 🏢",
+      "DESC": "Realicé un periodo de un mes de prácticas en Atos (Eviden), donde aprendí conocimientos sobre Java con JPA, Hibernate y Spring Boot."
+    },
+    "STEP3": {
+      "DATE": "Septiembre 2025 - Mayo 2026",
+      "TITLE": "2 DAM 📚",
+      "DESC": "En este periodo utilicé nuevos lenguajes de programación como JavaScript, TypeScript, Angular, Spring Boot en Java, MongoDB y Oracle PL/SQL. Además, realicé el proyecto final de curso, un prototipo de gestión personal de tareas con IA usando Angular para web y Android Studio para móvil."
+    },
+    "STEP4": {
+      "DATE": "Febrero - Mayo 2026",
+      "TITLE": "Prácticas en empresa (Atos) 🏢",
+      "DESC": "Estoy realizando prácticas en la misma empresa que el año anterior, Atos (Eviden). Este año me incorporaron a su proyecto real de Ferrovial con el equipo de DevOps. Allí aprendí sobre DevOps, CI/CD, Jira, IaC y algunos conocimientos sobre Azure portal/Azure DevOps para desplegar aplicaciones en infraestructura cloud."
+    }
+  },
+  "PROJECTS": {
+    "SECTION_TITLE": "Mis proyectos 🖥️",
+    "SHOW_MORE": "Ver más +",
+    "SHOW_LESS": "Ver menos −",
+    "VIEW_GITHUB": "Ver en GitHub",
+    "LOADING": "Cargando proyectos desde el espacio oscuro..."
+  },
+  "FOOTER": {
+    "REALIZED": "Portfolio realizado por Carlos Rodríguez Lobato. |",
+    "CONTACT": "Contáctame ->"
+  }
+}

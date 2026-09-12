@@ -6,10 +6,12 @@ import {
   OnInit,
   OnDestroy,
   AfterViewInit,
+  inject,
 } from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 interface NavItem {
-  label: string;
+  labelKey: string;
   targetId: string;
 }
 
@@ -17,13 +19,13 @@ interface NavItem {
   selector: 'app-navbar',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [TranslatePipe],
   template: `
     <nav
       class="navbar"
       [class.scrolled]="scrolled()"
       role="navigation"
-      aria-label="Main navigation"
+      [attr.aria-label]="'NAV.ARIA_LABEL' | translate"
     >
       <div class="navbar-inner">
         <a class="logo" href="#home" (click)="scrollTo('home', $event)">CRLdev</a>
@@ -36,17 +38,29 @@ interface NavItem {
                 [href]="'#' + item.targetId"
                 (click)="scrollTo(item.targetId, $event)"
               >
-                {{ item.label }}
+                {{ item.labelKey | translate }}
               </a>
             </li>
           }
         </ul>
 
+        <div class="lang-switch" role="group" [attr.aria-label]="'NAV.CHANGE_LANG' | translate">
+          @for (lang of languages; track lang) {
+            <button
+              class="lang-btn"
+              [class.active]="currentLang() === lang"
+              (click)="useLanguage(lang)"
+            >
+              {{ lang.toUpperCase() }}
+            </button>
+          }
+        </div>
+
         <button
           class="hamburger"
           (click)="toggleMenu()"
           [attr.aria-expanded]="menuOpen()"
-          aria-label="Toggle navigation menu"
+          [attr.aria-label]="'NAV.TOGGLE_MENU' | translate"
         >
           <span class="bar"></span>
           <span class="bar"></span>
@@ -182,6 +196,45 @@ interface NavItem {
       transform: translateY(-7px) rotate(-45deg);
     }
 
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      padding: 0.2rem;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      color: white;
+    }
+
+    .lang-btn.active {
+      background: rgba(74, 227, 255, 0.2);
+      color: #4ae3ff;
+    }
+
+    .lang-btn:focus-visible {
+      outline: 2px solid #4ae3ff;
+      outline-offset: 2px;
+    }
+
     @media (max-width: 768px) {
       .navbar {
         padding: 0.8rem 1rem;
@@ -228,20 +281,28 @@ interface NavItem {
 })
 export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly navItems: NavItem[] = [
-    { label: 'Home', targetId: 'home' },
-    { label: 'About Me', targetId: 'about' },
-    { label: 'My Trajectory', targetId: 'trajectory' },
-    { label: 'My Projects', targetId: 'projects' },
+    { labelKey: 'NAV.HOME', targetId: 'home' },
+    { labelKey: 'NAV.ABOUT', targetId: 'about' },
+    { labelKey: 'NAV.TRAJECTORY', targetId: 'trajectory' },
+    { labelKey: 'NAV.PROJECTS', targetId: 'projects' },
   ];
+
+  readonly languages = ['es', 'en'];
+
+  private translate = inject(TranslateService);
 
   scrolled = signal(false);
   activeSection = signal('home');
   menuOpen = signal(false);
+  currentLang = signal(this.translate.currentLang() ?? 'es');
 
   private observer: IntersectionObserver | null = null;
 
   ngOnInit(): void {
     this.setupObserver();
+    this.translate.onLangChange.subscribe((event) => {
+      this.currentLang.set(event.lang);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -276,6 +337,14 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toggleMenu(): void {
     this.menuOpen.update((open) => !open);
+  }
+
+  useLanguage(lang: string): void {
+    if (lang === this.translate.currentLang()) {
+      return;
+    }
+    this.translate.use(lang);
+    localStorage.setItem('lang', lang);
   }
 
   private setupObserver(): void {
