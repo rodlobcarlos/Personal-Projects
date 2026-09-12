@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [TranslatePipe],
   template: `
     <div class="portfolio-wrapper">
       <div class="title-content">
-        <h1>Personal portfolio</h1>
-        <h2>Carlos Rodríguez Lobato || Junior full-stack developer</h2>
+        <h1>{{ 'WELCOME.TITLE' | translate }}</h1>
+        <h2>{{ 'WELCOME.SUBTITLE' | translate }}</h2>
         <p class="subtitle">
-          Hi! Welcome to my personal portfolio. Here you can find information about my skills, projects, and experiences.
-          I hope you enjoy exploring it and learning more about me.
-          If you have any questions or would like to get in touch, please feel free to contact me through the provided email address.
+          {{ 'WELCOME.PARAGRAPH' | translate }}
         </p>
         <div
           class="scroll-arrow"
@@ -22,7 +21,7 @@ import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core'
           (click)="scrollToNext()"
           (keydown.enter)="scrollToNext()"
           (keydown.space)="scrollToNext()"
-          aria-label="Scroll to next section"
+          [attr.aria-label]="'WELCOME.SCROLL_ARIA' | translate"
         >
           <svg viewBox="0 0 24 24" class="arrow-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path

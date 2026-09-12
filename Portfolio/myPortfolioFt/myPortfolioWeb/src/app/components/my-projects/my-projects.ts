@@ -12,15 +12,16 @@ import {
 } from '@angular/core';
 import { ProjectService } from '../../services/project';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [ScrollRevealDirective],
+  imports: [ScrollRevealDirective, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="projects-section" appScrollReveal>
-      <h2 class="section-title">My projects 🖥️</h2>
+      <h2 class="section-title">{{ 'PROJECTS.SECTION_TITLE' | translate }}</h2>
 
       <div class="projects-grid">
         @for (project of projectService.projects(); track project.id) {
@@ -42,7 +43,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
                   (click)="toggleExpand(project.id)"
                   [attr.aria-expanded]="expandedMap[project.id]"
                 >
-                  {{ expandedMap[project.id] ? 'Show less −' : 'Show more +' }}
+                  {{ expandedMap[project.id] ? ('PROJECTS.SHOW_LESS' | translate) : ('PROJECTS.SHOW_MORE' | translate) }}
                 </button>
               }
 
@@ -52,14 +53,14 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
               <div class="card-footer">
                 <a [href]="project.github_url" target="_blank" rel="noopener noreferrer" class="github-btn">
-                  View on GitHub
+                  {{ 'PROJECTS.VIEW_GITHUB' | translate }}
                 </a>
               </div>
             </div>
           </div>
         } @empty {
           <div class="loading-state">
-            <p>Fetching projects from the dark space...</p>
+            <p>{{ 'PROJECTS.LOADING' | translate }}</p>
           </div>
         }
       </div>

@@ -3,12 +3,13 @@ import { AboutComponent } from '../about-me/about-me';
 import { CarrierComponent } from '../carrier/carrier';
 import { ProjectsComponent } from '../my-projects/my-projects';
 import { WelcomeComponent } from '../welcome/welcome';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-portfolio',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AboutComponent, CarrierComponent, ProjectsComponent, WelcomeComponent],
+  imports: [AboutComponent, CarrierComponent, ProjectsComponent, WelcomeComponent, TranslatePipe],
   template: `
     <div class="portfolio">
       <div id="home"><app-welcome /></div>
@@ -17,8 +18,8 @@ import { WelcomeComponent } from '../welcome/welcome';
       <div id="projects"><app-projects /></div>
 
       <footer class="portfolio-footer">
-        <p>Portfolio realized by Carlos Rodríguez Lobato. |
-        Contact me -> <a href="mailto:rodlobcarlos@gmail.com">rodlobcarlos@gmail.com</a></p>
+        <p>{{ 'FOOTER.REALIZED' | translate }}
+        {{ 'FOOTER.CONTACT' | translate }} <a href="mailto:rodlobcarlos@gmail.com">rodlobcarlos@gmail.com</a></p>
       </footer>
     </div>
 

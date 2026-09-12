@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SpaceBackgroundComponent } from './components/space-background/space-background';
 import { NavbarComponent } from './components/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -38,4 +39,14 @@ import { RouterOutlet } from '@angular/router';
     }
   `
 })
-export class AppComponent {}
+export class AppComponent {
+  private translate = inject(TranslateService);
+
+  constructor() {
+    this.translate.addLangs(['es', 'en']);
+    document.documentElement.lang = this.translate.currentLang() ?? 'es';
+    this.translate.onLangChange.subscribe((event) => {
+      document.documentElement.lang = event.lang;
+    });
+  }
+}
