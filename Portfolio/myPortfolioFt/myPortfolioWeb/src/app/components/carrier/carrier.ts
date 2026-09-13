@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface CareerStep {
-  date: string;
-  title: string;
-  description: string;
+  dateKey: string;
+  titleKey: string;
+  descriptionKey: string;
 }
 
 interface TechTool {
@@ -13,30 +14,30 @@ interface TechTool {
 }
 
 interface TechCategory {
-  title: string;
+  titleKey: string;
   tools: TechTool[];
 }
 
 @Component({
   selector: 'app-carrier',
   standalone: true,
-  imports: [ScrollRevealDirective],
+  imports: [ScrollRevealDirective, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="carrier-section" appScrollReveal>
-      <h2 class="section-title">My trajectory 🚀</h2>
+      <h2 class="section-title">{{ 'CARRIER.SECTION_TITLE' | translate }}</h2>
 
       <div class="timeline-container">
-        @for (item of careerSteps(); track item.title) {
+        @for (item of careerSteps(); track item.titleKey) {
           <div class="timeline-item">
 
             <div class="event-date">
-              {{ item.date }}
+              {{ item.dateKey | translate }}
             </div>
 
             <div class="carrier-card">
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.description }}</p>
+              <h3>{{ item.titleKey | translate }}</h3>
+              <p>{{ item.descriptionKey | translate }}</p>
             </div>
 
           </div>
@@ -44,17 +45,17 @@ interface TechCategory {
       </div>
 
       <div class="tech-section">
-        <h3 class="tech-heading">Tech stack</h3>
+        <h3 class="tech-heading">{{ 'CARRIER.TECH_STACK' | translate }}</h3>
 
         <div class="tech-cards">
-          @for (category of techCategories(); track category.title) {
+          @for (category of techCategories(); track category.titleKey) {
             <div class="tech-card">
-              <h4 class="tech-card-title">{{ category.title }}</h4>
+              <h4 class="tech-card-title">{{ category.titleKey | translate }}</h4>
               <div class="tech-tools">
                 @for (tool of category.tools; track tool.name) {
                   <img
                     [src]="tool.src"
-                    [alt]="tool.name + ' logo'"
+                    [attr.alt]="'CARRIER.LOGO_ALT' | translate: { name: tool.name }"
                     width="70"
                     height="70"
                     loading="lazy"
@@ -229,30 +230,30 @@ interface TechCategory {
 export class CarrierComponent {
   careerSteps = signal<CareerStep[]>([
     {
-      date: 'September 2024 - May 2025',
-      title: '1 DAM 📚',
-      description: 'I started Superior Grade of Cross-platform in La Algaba (Seville). I have learned knowledge about programming languages like HTML, CSS, Java, Python, XML, MySQL.'
+      dateKey: 'CARRIER.STEP1.DATE',
+      titleKey: 'CARRIER.STEP1.TITLE',
+      descriptionKey: 'CARRIER.STEP1.DESC'
     },
     {
-      date: 'May - June 2025',
-      title: 'Enterprise practices (Atos/Eviden) 🏢',
-      description: 'I have done a period of one month of practices at Atos (Eviden), where I learned some knowledge about Java with JPA, Hibernate and Spring Boot.'
+      dateKey: 'CARRIER.STEP2.DATE',
+      titleKey: 'CARRIER.STEP2.TITLE',
+      descriptionKey: 'CARRIER.STEP2.DESC'
     },
     {
-      date: 'September 2025 - May 2026',
-      title: '2 DAM 📚',
-      description: 'In this period I used new programming languages like JavaScript, TypeScript, Angular, Spring Boot in Java, MongoDB, Oracle PL/SQL. Also, I had done the final course project, a prototype about a personal management tasks with AI with Angular for web and Android Studio for mobile.'
+      dateKey: 'CARRIER.STEP3.DATE',
+      titleKey: 'CARRIER.STEP3.TITLE',
+      descriptionKey: 'CARRIER.STEP3.DESC'
     },
     {
-      date: 'February - May 2026',
-      title: 'Enterprise practices (Atos) 🏢',
-      description: 'I am doing practices at the same enterprise as the previous year, Atos (Eviden). This year they put me in their real Ferrovial project with the DevOps team. There I learned about DevOps, CI/CD, Jira, IaC and some knowledge about Azure portal/Azure DevOps to deploy applications on cloud infrastructure.'
+      dateKey: 'CARRIER.STEP4.DATE',
+      titleKey: 'CARRIER.STEP4.TITLE',
+      descriptionKey: 'CARRIER.STEP4.DESC'
     }
   ]);
 
   techCategories = signal<TechCategory[]>([
     {
-      title: 'Languages',
+      titleKey: 'CARRIER.CATEGORIES.LANGUAGES',
       tools: [
         { name: 'Java', src: 'assets/java.png' },
         { name: 'Python', src: 'assets/python.png' },
@@ -261,7 +262,7 @@ export class CarrierComponent {
       ]
     },
     {
-      title: 'Frontend',
+      titleKey: 'CARRIER.CATEGORIES.FRONTEND',
       tools: [
         { name: 'Angular', src: 'assets/angular.png' },
         { name: 'HTML5', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg' },
@@ -269,14 +270,14 @@ export class CarrierComponent {
       ]
     },
     {
-      title: 'Backend',
+      titleKey: 'CARRIER.CATEGORIES.BACKEND',
       tools: [
         { name: 'Spring Boot', src: 'assets/springboot.png' },
         { name: 'Node.js', src: 'assets/node.png' }
       ]
     },
     {
-      title: 'Databases',
+      titleKey: 'CARRIER.CATEGORIES.DATABASES',
       tools: [
         { name: 'MongoDB', src: 'assets/mongo.png' },
         { name: 'MySQL', src: 'assets/mysql.png' },
@@ -284,7 +285,7 @@ export class CarrierComponent {
       ]
     },
     {
-      title: 'Cloud & DevOps',
+      titleKey: 'CARRIER.CATEGORIES.CLOUD_DEVOPS',
       tools: [
         { name: 'Azure', src: 'assets/azure.png' },
         { name: 'Azure DevOps', src: 'assets/azureDevOps.png' },

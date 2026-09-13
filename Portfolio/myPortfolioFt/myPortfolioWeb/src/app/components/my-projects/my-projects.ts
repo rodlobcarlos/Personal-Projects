@@ -1,15 +1,27 @@
-import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  inject,
+  OnInit,
+  AfterViewInit,
+  OnDestroy,
+  ElementRef,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
 import { ProjectService } from '../../services/project';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [ScrollRevealDirective],
+  imports: [ScrollRevealDirective, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="projects-section" appScrollReveal>
-      <h2 class="section-title">My projects 🖥️</h2>
+      <h2 class="section-title">{{ 'PROJECTS.SECTION_TITLE' | translate }}</h2>
 
       <div class="projects-grid">
         @for (project of projectService.projects(); track project.id) {
@@ -17,9 +29,23 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
             <div class="card-content">
               <h3>{{ project.title }}</h3>
 
-              <p class="description">
+              <p
+                class="description"
+                [class.expanded]="expandedMap[project.id]"
+                #descEl
+              >
                 {{ project.description }}
               </p>
+
+              @if (truncatedMap[project.id]) {
+                <button
+                  class="toggle-btn"
+                  (click)="toggleExpand(project.id)"
+                  [attr.aria-expanded]="expandedMap[project.id]"
+                >
+                  {{ expandedMap[project.id] ? ('PROJECTS.SHOW_LESS' | translate) : ('PROJECTS.SHOW_MORE' | translate) }}
+                </button>
+              }
 
               <div class="tech-stack">
                 <span class="tech-tag">{{ project.techStack }}</span>
@@ -27,14 +53,14 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
               <div class="card-footer">
                 <a [href]="project.github_url" target="_blank" rel="noopener noreferrer" class="github-btn">
-                  View on GitHub
+                  {{ 'PROJECTS.VIEW_GITHUB' | translate }}
                 </a>
               </div>
             </div>
           </div>
         } @empty {
           <div class="loading-state">
-            <p>Fetching projects from the dark space...</p>
+            <p>{{ 'PROJECTS.LOADING' | translate }}</p>
           </div>
         }
       </div>
@@ -91,11 +117,33 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
       font-size: 1rem;
       line-height: 1.6;
       opacity: 0.8;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.5rem;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .description.expanded {
+      -webkit-line-clamp: unset;
+      display: block;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #4ae3ff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      transition: opacity 0.2s ease;
+    }
+
+    .toggle-btn:hover {
+      opacity: 0.8;
     }
 
     .tech-stack {
@@ -181,10 +229,56 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     }
   `
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
   public projectService = inject(ProjectService);
+  private cdr = inject(ChangeDetectorRef);
+
+  @ViewChildren('descEl') descElements!: QueryList<ElementRef<HTMLParagraphElement>>;
+
+  expandedMap: Record<number, boolean> = {};
+  truncatedMap: Record<number, boolean> = {};
+
+  private resizeHandler = () => this.checkTruncation();
 
   ngOnInit(): void {
     this.projectService.loadProjects();
+  }
+
+  ngAfterViewInit(): void {
+    window.addEventListener('resize', this.resizeHandler);
+    this.descElements.changes.subscribe(() => {
+      this.checkTruncation();
+    });
+    this.checkTruncation();
+    if (this.descElements.length === 0) {
+      setTimeout(() => this.checkTruncation(), 100);
+    }
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.resizeHandler);
+  }
+
+  toggleExpand(id: number): void {
+    this.expandedMap[id] = !this.expandedMap[id];
+    this.cdr.markForCheck();
+  }
+
+  private checkTruncation(): void {
+    if (!this.descElements || this.descElements.length === 0) {
+      return;
+    }
+
+    const projects = this.projectService.projects();
+    this.descElements.forEach((el, i) => {
+      if (i >= projects.length) {
+        return;
+      }
+      const p = el.nativeElement;
+      const id = projects[i].id;
+      this.truncatedMap[id] = p.scrollHeight > p.clientHeight;
+    });
+
+    this.cdr.markForCheck();
   }
 }

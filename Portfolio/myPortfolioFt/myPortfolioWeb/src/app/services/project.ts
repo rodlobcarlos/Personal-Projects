@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 export interface Project {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   techStack: string;

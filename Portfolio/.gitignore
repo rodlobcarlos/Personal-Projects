@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 /frontend/node_modules/
 /frontend/dist/
 /backend/target/
 .angular/
+=======
+/frontend/node_modules/
+/frontend/dist/
+/backend/target/
+.angular/
+>>>>>>> e2c0f232a944fe84f870500c00514454e30644c3
