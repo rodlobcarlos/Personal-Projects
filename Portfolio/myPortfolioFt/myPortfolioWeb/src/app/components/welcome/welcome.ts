@@ -14,6 +14,12 @@ import { TranslatePipe } from '@ngx-translate/core';
         <p class="subtitle">
           {{ 'WELCOME.PARAGRAPH' | translate }}
         </p>
+        <button class="cv-button" type="button" (click)="downloadCV()">
+          <svg class="cv-button-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" />
+          </svg>
+          {{ 'CV_BUTTON' | translate }}
+        </button>
         <div
           class="scroll-arrow"
           role="button"
@@ -83,6 +89,54 @@ import { TranslatePipe } from '@ngx-translate/core';
       margin: 0 auto;
     }
 
+    .cv-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 1.75rem;
+      padding: 0.8rem 1.35rem;
+      border: 1px solid #4ae3ff;
+      border-radius: 999px;
+      background: rgba(74, 227, 255, 0.12);
+      box-shadow: 0 0 0 rgba(74, 227, 255, 0);
+      color: #4ae3ff;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease,
+        transform 0.25s ease;
+      text-align: center;
+    }
+
+    .cv-button:hover {
+      background: #4ae3ff;
+      color: #090A0F;
+      box-shadow: 0 0 24px rgba(74, 227, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .cv-button:focus-visible {
+      outline: 2px solid #4ae3ff;
+      outline-offset: 4px;
+    }
+
+    .cv-button:active {
+      transform: translateY(0);
+    }
+
+    .cv-button-icon {
+      width: 1.1rem;
+      height: 1.1rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.8;
+    }
+
     @media (max-width: 768px) {
       .subtitle { font-size: 1rem; }
     }
@@ -128,5 +182,9 @@ export class WelcomeComponent {
 
   scrollToNext(): void {
     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+  }
+
+  downloadCV(): void {
+    window.open('/assets/CV_Carlos%20Rodr%C3%ADguez%20Lobato.pdf', '_blank');
   }
 }
