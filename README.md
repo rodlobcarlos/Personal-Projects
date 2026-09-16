@@ -5,6 +5,21 @@
 
 ---
 
+Si quieres clonar este repositorio y probar alguno de los proyectos de manera local: ⬇️ \
+```bash
+git clone https://github.com/rodlobcarlos/Personal-Projects.git
+```
+
+Navega a la carpeta del proyecto que te interese:
+```bash
+cd Personal-Projects/nombre-del-proyecto
+```
+Intala las dependencias
+```bash
+npm install
+npm run dev
+```
+
 ## Tech Stack
 
 <div align="center">
