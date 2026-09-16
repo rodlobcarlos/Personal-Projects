@@ -5,7 +5,7 @@
 
 ---
 
-Si quieres clonar este repositorio y probar alguno de los proyectos de manera local: ⬇️ \
+Si quieres clonar este repositorio y probar alguno de los proyectos de manera local: ⬇️
 ```bash
 git clone https://github.com/rodlobcarlos/Personal-Projects.git
 ```
@@ -64,7 +64,7 @@ npm run dev
 
 ---
 
-## ¿Tienes alguna sugerencia, pregunta o quieres conectar?
+### ¿Tienes alguna sugerencia, pregunta o quieres conectar?
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/)
 [![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat&logo=github&logoColor=white)](https://github.com/rodlobcarlos)
