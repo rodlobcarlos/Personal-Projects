@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 # Angular construction and Nginx server Dockerfile
-
 FROM node:20-alpine AS build 
 
 # Set the working directory inside the container
@@ -30,9 +28,8 @@ EXPOSE 4200
 
 # Start Nginx in the foreground to keep the container running
 CMD ["nginx", "-g", "daemon off;"]
-=======
-# Angular construction and Nginx server Dockerfile
 
+# Angular construction and Nginx server Dockerfile
 FROM node:20-alpine AS build 
 
 # Set the working directory inside the container
@@ -62,4 +59,3 @@ EXPOSE 4200
 
 # Start Nginx in the foreground to keep the container running
 CMD ["nginx", "-g", "daemon off;"]
->>>>>>> e2c0f232a944fe84f870500c00514454e30644c3
