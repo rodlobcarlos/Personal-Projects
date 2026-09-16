@@ -5,6 +5,9 @@
 
 ---
 
+![GitHub repo size](https://img.shields.io/github/repo-size/rodlobcarlos/Personal-Projects)
+![GitHub last commit](https://img.shields.io/github/last-commit/rodlobcarlos/Personal-Projects)
+
 Si quieres clonar este repositorio y probar alguno de los proyectos de manera local: ⬇️
 ```bash
 git clone https://github.com/rodlobcarlos/Personal-Projects.git
