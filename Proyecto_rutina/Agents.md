@@ -77,10 +77,3 @@ y recordatorios, con estadísticas de cumplimiento.
 - Si algo no está especificado (ej. nombre exacto de campos), propón una
   opción razonable y sigue adelante, en lugar de detenerte a preguntar
 ```
-
----
-
-### Cómo usar este prompt
-- Puedes copiarlo tal cual en una nueva conversación con Claude (u otra IA) para que empiece a construir la app paso a paso.
-- Si quieres una primera fase más acotada (por ejemplo, solo backend + base de datos), dímelo y te preparo una versión reducida centrada solo en esa parte.
-- También puedo empezar a construir la app ahora mismo siguiendo este prompt, si quieres que avancemos directamente con el código.
