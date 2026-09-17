@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 # Java construction and JRE server Dockerfile
-
-=======
-# ==========================================
-# Etapa 1: Compilación
-# ==========================================
->>>>>>> e2c0f232a944fe84f870500c00514454e30644c3
 FROM eclipse-temurin:17-jdk-alpine AS build
 
 # Set the working directory inside the container
 WORKDIR /app
 
-<<<<<<< HEAD
 # Copy the Maven wrapper and the pom.xml file to the working directory
 COPY . .
 
@@ -22,7 +14,6 @@ RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
 # Use a lightweight JRE image for the final stage
-=======
 # Copiamos solo los archivos de configuración de Maven para aprovechar la caché
 COPY pom.xml .
 COPY .mvn .mvn
@@ -37,16 +28,11 @@ COPY src ./src
 # Compilamos saltando los tests
 RUN ./mvnw clean package -DskipTests
 
-# ==========================================
-# Etapa 2: Ejecución
-# ==========================================
->>>>>>> e2c0f232a944fe84f870500c00514454e30644c3
 FROM eclipse-temurin:17-jre-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-<<<<<<< HEAD
 # Copy the built JAR file from the build stage to the final image
 COPY --from=build /app/target/*.jar app.jar
 
@@ -55,10 +41,9 @@ EXPOSE 8080
 
 # Start the application using the Java command
 ENTRYPOINT ["java", "-jar", "app.jar"]
-=======
+
 # Copiamos el JAR generado desde la etapa anterior
 COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
->>>>>>> e2c0f232a944fe84f870500c00514454e30644c3

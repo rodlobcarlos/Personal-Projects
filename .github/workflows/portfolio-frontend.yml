@@ -1,4 +1,4 @@
-name: Portfolio Frontend CI/CD
+name: Portfolio Frontend CI
 
 on:
   pull_request:
@@ -7,19 +7,9 @@ on:
       - ".github/workflows/portfolio-frontend.yml"
   push:
     branches: [main]
-    paths:
-      - "Portfolio/myPortfolioFt/myPortfolioWeb/**"
-      - ".github/workflows/portfolio-frontend.yml"
-  workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: portfolio-frontend-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 env:
   NODE_VERSION: 24
@@ -29,40 +19,33 @@ jobs:
   quality:
     name: Lint, test and build
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Check out source
+      - name: Descargar código
         uses: actions/checkout@v4
-      - name: Set up Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Install dependencies
+          
+      - name: Instalar dependencias
         working-directory: ${{ env.FRONTEND_DIR }}
         run: npm install --no-audit --no-fund
+        
       - name: Lint
         working-directory: ${{ env.FRONTEND_DIR }}
         run: npm run lint
-      - name: Unit tests
+        
+      - name: Tests unitarios
         working-directory: ${{ env.FRONTEND_DIR }}
         run: npm test -- --watch=false --coverage
-      - name: Production build
+        
+      - name: Construcción a producción
         working-directory: ${{ env.FRONTEND_DIR }}
         run: npm run build -- --configuration production
-      - name: Upload build artifact
+        
+      - name: Cargar artefacto
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ env.FRONTEND_DIR }}/dist/myPortfolioWeb
-
-  deploy:
-    name: Deploy to GitHub Pages
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: quality
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy artifact
-        id: deployment
-        uses: actions/deploy-pages@v4
