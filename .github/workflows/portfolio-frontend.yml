@@ -7,6 +7,9 @@ on:
       - ".github/workflows/portfolio-frontend.yml"
   push:
     branches: [main]
+    paths:
+      - "Portfolio/myPortfolioFt/myPortfolioWeb/**"
+      - ".github/workflows/portfolio-frontend.yml"
 
 permissions:
   contents: read
