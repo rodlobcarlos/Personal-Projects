@@ -1,1 +1,16 @@
-# Librarys that would be used in the project
+# Libraries that would be used in the project
+
+-   PySide6
+-   SQLite
+-   Git
+-   GitHub
+-   pytest
+
+Se podrán incorporar progresivamente:
+
+-   Docker
+-   GitHub Actions
+-   API REST
+-   Servicios en la nube
+-   Azure
+-   Funcionalidades inteligentes
