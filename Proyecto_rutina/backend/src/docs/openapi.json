@@ -1,0 +1,475 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Proyecto Rutina API",
+    "version": "1.0.0",
+    "description": "API REST de gestión de rutina diaria: hábitos, tareas, bloques de tiempo, estadísticas y autenticación JWT con refresh tokens.\n\n## Autenticación\nTodos los endpoints bajo `/api` excepto `/api/auth/login`, `/api/auth/register` y `/api/auth/refresh` requieren el header `Authorization: Bearer <accessToken>`.\n\n## Formato de respuestas\n\n- Éxito: `{ \"success\": true, \"data\": ... }`\n- Error: `{ \"success\": false, \"error\": { \"code\", \"message\", \"details\" } }`"
+  },
+  "servers": [
+    { "url": "http://localhost:3000" }
+  ],
+  "security": [
+    { "bearerAuth": [] }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Sistema"],
+        "summary": "Comprobación de salud",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Servidor operativo",
+            "content": {
+              "application/json": {
+                "example": { "success": true, "data": { "status": "ok", "env": "development", "timestamp": "2026-01-15T10:00:00.000Z" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Registro de nuevo usuario",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "email": "ana@example.com",
+                "password": "Clave1234",
+                "name": "Ana García",
+                "timezone": "Europe/Madrid"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario creado",
+            "content": { "application/json": { "example": {
+              "success": true,
+              "data": {
+                "user": { "id": 2, "email": "ana@example.com", "name": "Ana García", "timezone": "Europe/Madrid", "theme": "system", "preferences": {} },
+                "tokens": { "accessToken": "eyJhbGciOiJIUzI1NiIs...", "refreshToken": "a3f9...", "expiresIn": 900, "tokenType": "Bearer" }
+              }
+            } } }
+          },
+          "409": { "description": "Email ya registrado" },
+          "422": { "description": "Validación fallida" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Inicio de sesión",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "example": { "email": "demo@rutina.app", "password": "Demo1234!" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens de acceso",
+            "content": { "application/json": { "example": {
+              "success": true,
+              "data": {
+                "user": { "id": 1, "email": "demo@rutina.app", "name": "Usuario Demo", "timezone": "America/Mexico_City", "theme": "system", "preferences": { "startOfWeek": "monday", "dailyGoal": 8 } },
+                "tokens": { "accessToken": "eyJhbGciOiJIUzI1NiIs...", "refreshToken": "b277...", "expiresIn": 900, "tokenType": "Bearer" }
+              }
+            } } }
+          },
+          "401": { "description": "Credenciales inválidas" }
+        }
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Rotación de tokens (renueva el par)",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "example": { "refreshToken": "a3f9..." } } }
+        },
+        "responses": {
+          "200": { "description": "Nuevo par de tokens" },
+          "401": { "description": "Refresh token inválido o expirado" }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Cerrar sesión (revoca el refresh token)",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "example": { "refreshToken": "a3f9..." } } }
+        },
+        "responses": {
+          "204": { "description": "Token revocado" }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Datos del usuario autenticado",
+        "responses": {
+          "200": { "description": "Perfil", "content": { "application/json": { "example": { "success": true, "data": { "user": { "id": 1, "email": "demo@rutina.app", "name": "Usuario Demo", "timezone": "America/Mexico_City", "theme": "system", "preferences": { "startOfWeek": "monday", "dailyGoal": 8 } } } } } } }
+        }
+      }
+    },
+    "/api/habits": {
+      "get": {
+        "tags": ["Hábitos"],
+        "summary": "Listar hábitos del usuario",
+        "responses": {
+          "200": { "description": "Lista de hábitos con categorías" }
+        }
+      },
+      "post": {
+        "tags": ["Hábitos"],
+        "summary": "Crear hábito",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "example": {
+            "name": "Meditar",
+            "description": "10 minutos de respiración",
+            "frequency": "daily",
+            "targetPerDay": 1,
+            "icon": "brain",
+            "color": "#9333EA",
+            "categoryIds": [{ "categoryId": 1 }]
+          } } }
+        },
+        "responses": {
+          "201": {
+            "description": "Hábito creado",
+            "content": { "application/json": { "example": {
+              "success": true,
+              "data": { "habit": { "id": 5, "name": "Meditar", "frequency": "daily", "customDays": null, "targetPerDay": 1, "isActive": true, "categories": [{ "id": 1, "name": "Salud" }] } }
+            } } }
+          },
+          "422": { "description": "Validación fallida" }
+        }
+      }
+    },
+    "/api/habits/{id}": {
+      "get": {
+        "tags": ["Hábitos"],
+        "summary": "Obtener hábito por ID",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Hábito encontrado" }, "404": { "description": "No encontrado" } }
+      },
+      "put": {
+        "tags": ["Hábitos"],
+        "summary": "Actualizar hábito",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": { "application/json": { "example": { "frequency": "custom", "customDays": [0, 2, 4], "name": "Español" } } }
+        },
+        "responses": { "200": { "description": "Hábito actualizado" }, "404": { "description": "No encontrado" } }
+      },
+      "delete": {
+        "tags": ["Hábitos"],
+        "summary": "Eliminar hábito",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "204": { "description": "Eliminado" } }
+      }
+    },
+    "/api/habits/{id}/complete": {
+      "post": {
+        "tags": ["Hábitos"],
+        "summary": "Marcar hábito como completado (crea registro diario)",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": { "application/json": { "example": { "completionDate": "2026-01-15", "note": "10 min" } } }
+        },
+        "responses": {
+          "201": { "description": "Registro creado (o ya existente, idempotente)" },
+          "409": { "description": "Objetivo diario alcanzado" }
+        }
+      }
+    },
+    "/api/habits/{id}/completion": {
+      "delete": {
+        "tags": ["Hábitos"],
+        "summary": "Desmarcar completado del día",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": { "application/json": { "example": { "completionDate": "2026-01-15" } } }
+        },
+        "responses": { "204": { "description": "Registro eliminado" } }
+      }
+    },
+    "/api/habits/{id}/streak": {
+      "get": {
+        "tags": ["Hábitos"],
+        "summary": "Racha actual y máxima de un hábito",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": {
+            "description": "Rachas",
+            "content": { "application/json": { "example": { "success": true, "data": { "current": 4, "longest": 9, "bestStart": "2026-01-04" } } } }
+          }
+        }
+      }
+    },
+    "/api/tasks": {
+      "get": {
+        "tags": ["Tareas"],
+        "summary": "Listar tareas (filtros por query)",
+        "parameters": [
+          { "in": "query", "name": "status", "schema": { "type": "string", "enum": ["pending", "completed"] } },
+          { "in": "query", "name": "priority", "schema": { "type": "string", "enum": ["low", "medium", "high"] } },
+          { "in": "query", "name": "from", "schema": { "type": "string", "format": "date" } },
+          { "in": "query", "name": "to", "schema": { "type": "string", "format": "date" } },
+          { "in": "query", "name": "overdue", "schema": { "type": "boolean" } }
+        ],
+        "responses": { "200": { "description": "Tareas con categorías" } }
+      },
+      "post": {
+        "tags": ["Tareas"],
+        "summary": "Crear tarea",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "example": {
+            "title": "Enviar informe",
+            "description": "Versión final",
+            "dueDate": "2026-01-16",
+            "dueTime": "09:00",
+            "priority": "high",
+            "categoryIds": [{ "categoryId": 2 }]
+          } } }
+        },
+        "responses": {
+          "201": {
+            "description": "Tarea creada",
+            "content": { "application/json": { "example": {
+              "success": true,
+              "data": { "task": { "id": 6, "title": "Enviar informe", "dueDate": "2026-01-16", "dueTime": "09:00:00", "priority": "high", "status": "pending", "categories": [] } }
+            } } }
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}": {
+      "get": {
+        "tags": ["Tareas"],
+        "summary": "Obtener tarea",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Tarea encontrada" }, "404": { "description": "No encontrada" } }
+      },
+      "put": {
+        "tags": ["Tareas"],
+        "summary": "Actualizar tarea",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": { "application/json": { "example": { "priority": "low", "status": "completed" } } }
+        },
+        "responses": { "200": { "description": "Tarea actualizada" } }
+      },
+      "delete": {
+        "tags": ["Tareas"],
+        "summary": "Eliminar tarea",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "204": { "description": "Eliminada" } }
+      }
+    },
+    "/api/tasks/{id}/complete": {
+      "post": {
+        "tags": ["Tareas"],
+        "summary": "Marcar tarea completada",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": { "application/json": { "example": { "completionDate": "2026-01-15" } } }
+        },
+        "responses": { "200": { "description": "Tarea completada" } }
+      }
+    },
+    "/api/tasks/{id}/completion": {
+      "delete": {
+        "tags": ["Tareas"],
+        "summary": "Volver a pendiente",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": { "application/json": { "example": { "completionDate": "2026-01-15" } } }
+        },
+        "responses": { "200": { "description": "Tarea pendiente de nuevo" } }
+      }
+    },
+    "/api/time-blocks": {
+      "get": {
+        "tags": ["Bloques de tiempo"],
+        "summary": "Listar bloques (opcional filtro from/to)",
+        "parameters": [
+          { "in": "query", "name": "from", "schema": { "type": "string", "format": "date" } },
+          { "in": "query", "name": "to", "schema": { "type": "string", "format": "date" } }
+        ],
+        "responses": { "200": { "description": "Bloques del día" } }
+      },
+      "post": {
+        "tags": ["Bloques de tiempo"],
+        "summary": "Crear bloque de tiempo",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "example": {
+            "title": "Deep work",
+            "blockDate": "2026-01-15",
+            "startTime": "09:00",
+            "endTime": "11:00",
+            "habitId": 1,
+            "color": "#4F46E5"
+          } } }
+        },
+        "responses": {
+          "201": { "description": "Bloque creado" },
+          "409": { "description": "Se solapa con otro bloque" }
+        }
+      }
+    },
+    "/api/time-blocks/{id}": {
+      "get": {
+        "tags": ["Bloques de tiempo"],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Bloque encontrado" } }
+      },
+      "put": {
+        "tags": ["Bloques de tiempo"],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": { "application/json": { "example": { "startTime": "10:00", "endTime": "12:00" } } }
+        },
+        "responses": { "200": { "description": "Bloque actualizado" } }
+      },
+      "delete": {
+        "tags": ["Bloques de tiempo"],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "204": { "description": "Eliminado" } }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": ["Categorías"],
+        "summary": "Listar categorías",
+        "responses": { "200": { "description": "Lista de categorías" } }
+      },
+      "post": {
+        "tags": ["Categorías"],
+        "summary": "Crear categoría",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "example": { "name": "Familia", "color": "#0891B2", "icon": "home" } } }
+        },
+        "responses": { "201": { "description": "Categoría creada" }, "409": { "description": "Nombre duplicado" } }
+      }
+    },
+    "/api/categories/{id}": {
+      "get": {
+        "tags": ["Categorías"],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Categoría encontrada" } }
+      },
+      "put": {
+        "tags": ["Categorías"],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "content": { "application/json": { "example": { "color": "#0E7490" } } } },
+        "responses": { "200": { "description": "Categoría actualizada" } }
+      },
+      "delete": {
+        "tags": ["Categorías"],
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "204": { "description": "Eliminada" } }
+      }
+    },
+    "/api/profile": {
+      "get": {
+        "tags": ["Perfil"],
+        "summary": "Obtener perfil",
+        "responses": { "200": { "description": "Perfil completo" } }
+      },
+      "put": {
+        "tags": ["Perfil"],
+        "summary": "Actualizar perfil (zona horaria, tema, preferencias)",
+        "requestBody": {
+          "content": { "application/json": { "example": { "timezone": "America/Mexico_City", "theme": "dark", "preferences": { "dailyGoal": 10 } } } }
+        },
+        "responses": { "200": { "description": "Perfil actualizado" } }
+      }
+    },
+    "/api/stats/summary": {
+      "get": {
+        "tags": ["Estadísticas"],
+        "summary": "Resumen de cumplimiento por rango (week | month | from/to)",
+        "parameters": [
+          { "in": "query", "name": "range", "schema": { "type": "string", "enum": ["week", "month"] } },
+          { "in": "query", "name": "from", "schema": { "type": "string", "format": "date" } },
+          { "in": "query", "name": "to", "schema": { "type": "string", "format": "date" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resumen (tasa global, por hábito y por día)",
+            "content": { "application/json": { "example": {
+              "success": true,
+              "data": {
+                "range": { "from": "2026-01-09", "to": "2026-01-15", "days": 7 },
+                "overview": { "activeHabits": 4, "expectedCompletions": 24, "actualCompletions": 18, "completionRate": 0.75, "tasksTotal": 4, "tasksCompleted": 1, "tasksOverdue": 0 },
+                "perHabit": [
+                  { "habitId": 1, "name": "Lectura", "expected": 7, "completed": 6, "completionRate": 0.857, "currentStreak": 4 },
+                  { "habitId": 3, "name": "Meditación", "expected": 7, "completed": 5, "completionRate": 0.714, "currentStreak": 3 }
+                ],
+                "daily": [
+                  { "date": "2026-01-15", "expected": 3, "completed": 2, "rate": 0.667, "tasksDone": 0 },
+                  { "date": "2026-01-14", "expected": 3, "completed": 3, "rate": 1, "tasksDone": 1 }
+                ]
+              }
+            } } }
+          }
+        }
+      }
+    },
+    "/api/stats/streaks": {
+      "get": {
+        "tags": ["Estadísticas"],
+        "summary": "Rachas actuales de todos los hábitos",
+        "responses": {
+          "200": {
+            "description": "Rachas",
+            "content": { "application/json": { "example": { "success": true, "data": { "streaks": [{ "habitId": 1, "name": "Lectura", "current": 4, "longest": 9 }] } } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean", "example": false },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "example": "VALIDATION_ERROR" },
+              "message": { "type": "string", "example": "Datos de entrada inválidos" },
+              "details": { "type": "object" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
