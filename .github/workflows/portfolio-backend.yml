@@ -7,7 +7,10 @@ on:
       - ".github/workflows/portfolio-backend.yml"
   push:
     branches: [main]
-    
+    paths:
+      - "Portfolio/myPortfolioBk/myPortfolioBk/**"
+      - ".github/workflows/portfolio-backend.yml"
+      
 permissions:
   contents: read
 
