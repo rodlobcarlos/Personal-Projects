@@ -29,6 +29,11 @@
     "SECTION_TITLE": "My trajectory 🚀",
     "TECH_STACK": "Tech stack",
     "LOGO_ALT": "{{name}} logo",
+    "STATUS": {
+      "AVAILABLE": "AVAILABLE NOW",
+      "SOON": "COMING SOON",
+      "EXPLORING": "IN EXPLORATION"
+    },
     "CATEGORIES": {
       "LANGUAGES": "Languages",
       "FRONTEND": "Frontend",

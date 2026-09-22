@@ -27,20 +27,20 @@ interface TechCategory {
     <section class="carrier-section" appScrollReveal>
       <h2 class="section-title">{{ 'CARRIER.SECTION_TITLE' | translate }}</h2>
 
-      <div class="timeline-container">
-        @for (item of careerSteps(); track item.titleKey) {
-          <div class="timeline-item">
-
-            <div class="event-date">
-              {{ item.dateKey | translate }}
+      <div class="timeline-list">
+        @for (item of careerSteps(); track item.titleKey; let i = $index) {
+          <article class="timeline-item" [class.is-active]="i === 0">
+            <div class="timeline-marker" aria-hidden="true">
+              <span class="marker-dot"></span>
             </div>
 
-            <div class="carrier-card">
+            <div class="timeline-content">
+              <span class="status-badge status-live">{{ item.dateKey | translate }}</span>
+
               <h3>{{ item.titleKey | translate }}</h3>
               <p>{{ item.descriptionKey | translate }}</p>
             </div>
-
-          </div>
+          </article>
         }
       </div>
 
@@ -79,70 +79,113 @@ interface TechCategory {
 
     .section-title {
       text-align: center;
-      font-size: 3rem;
-      margin-bottom: 4rem;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      margin-bottom: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
     }
 
-    .timeline-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3rem;
-      align-items: start;
-      justify-items: center;
+    .timeline-list {
+      position: relative;
+      max-width: 980px;
+      margin: 0 auto;
+      padding-left: 0.5rem;
+    }
+
+    .timeline-list::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(122, 138, 164, 0.28);
     }
 
     .timeline-item {
+      position: relative;
       display: grid;
-      grid-template-columns: 60px 1fr;
+      grid-template-columns: 44px minmax(0, 1fr);
       gap: 1.5rem;
+      align-items: flex-start;
+      padding: 1.5rem 0;
+    }
+
+    .timeline-marker {
+      position: relative;
+      display: flex;
       align-items: center;
-      width: 100%;
-      max-width: 620px;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      margin-top: 0.4rem;
+      border-radius: 50%;
+      border: 2px solid rgba(91, 154, 255, 0.9);
+      background: rgba(9, 14, 22, 0.9);
+      z-index: 1;
+      box-shadow: 0 0 18px rgba(74, 227, 255, 0.12);
     }
 
-    .event-date {
-      text-align: right;
-      font-weight: bold;
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.7);
-      writing-mode: vertical-lr;
-      transform: rotate(180deg);
-      white-space: nowrap;
-      transition: color 0.3s ease;
-    }
-
-    .event-date:hover { color: white; }
-
-    .carrier-card {
+    .marker-dot {
       display: block;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 2rem;
-      padding: 3rem;
-      min-height: 220px;
-      width: 110%;
-      transition: transform 0.3s ease, background 0.3s ease;
-      box-sizing: border-box;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: transparent;
+      transition: background 0.2s ease;
     }
 
-    .carrier-card:hover {
-      transform: scale(1.04);
-      background: rgba(255, 255, 255, 0.07);
-      border-color: rgba(255, 255, 255, 0.2);
+    .timeline-item.is-active .timeline-marker {
+      border-color: rgba(74, 227, 255, 0.9);
+      background: rgba(74, 227, 255, 0.12);
+      box-shadow: 0 0 22px rgba(74, 227, 255, 0.28);
     }
 
-    .carrier-card h3 {
-      font-size: 1.8rem;
-      margin: 0 0 1.5rem 0;
-      text-align: center;
+    .timeline-item.is-active .marker-dot {
+      background: #4ae3ff;
     }
 
-    .carrier-card p {
-      line-height: 1.7;
-      opacity: 0.9;
-      text-align: center;
-      font-size: 1rem;
+    .timeline-content {
+      padding-top: 0.2rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.9rem;
+      border-radius: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+      color: #dfe9ff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+
+    .status-live {
+      border-color: rgba(74, 227, 255, 0.7);
+      color: #a3ecff;
+      box-shadow: inset 0 0 0 1px rgba(74, 227, 255, 0.15);
+    }
+
+    .timeline-content h3 {
+      margin: 1rem 0 0.75rem;
+      font-size: 30px;
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+      font-weight: 800;
+      color: #f7f8fb;
+    }
+
+    .timeline-content p {
+      margin: 0;
+      max-width: 820px;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.65;
+      font-size: 18px;
+      letter-spacing: -0.01em;
     }
 
     .tech-section {
@@ -204,40 +247,72 @@ interface TechCategory {
     }
 
     @media (max-width: 900px) {
-      .timeline-container { grid-template-columns: 1fr; }
-      .timeline-item { grid-template-columns: 1fr; text-align: center; }
-      .event-date { writing-mode: horizontal-tb; transform: none; text-align: center; margin-bottom: -1rem; }
-      .tech-cards { grid-template-columns: repeat(2, 1fr); }
+      .timeline-item {
+        grid-template-columns: 34px minmax(0, 1fr);
+      }
+
+      .tech-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 600px) {
-      .tech-cards { grid-template-columns: 1fr; }
+      .timeline-list::before {
+        left: 15px;
+      }
+
+      .timeline-item {
+        gap: 1rem;
+      }
+
+      .timeline-marker {
+        width: 28px;
+        height: 28px;
+      }
+
+      .status-badge {
+        letter-spacing: 0.12em;
+      }
+
+      .tech-cards {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 768px) {
-      .carrier-section { padding: 3rem 1rem; }
-      .section-title { font-size: 2rem; margin-bottom: 2rem; }
-      .timeline-item { max-width: 100%; gap: 1rem; }
-      .carrier-card { padding: 1.5rem; }
-      .carrier-card h3 { font-size: 1.3rem; }
-      .carrier-card p { font-size: 0.95rem; }
-      .event-date { font-size: 0.95rem; margin-bottom: 0.5rem; }
-      .tech-heading { font-size: 1.8rem; }
-      .tech-tool-img { width: 60px; height: 60px; }
+      .carrier-section {
+        padding: 3rem 1rem;
+      }
+
+      .section-title {
+        margin-bottom: 2rem;
+      }
+
+      .timeline-content h3 {
+        font-size: 1.95rem;
+      }
+
+      .timeline-content p {
+        font-size: 1rem;
+      }
+
+      .tech-heading {
+        font-size: 1.8rem;
+      }
+
+      .tech-tool-img {
+        width: 60px;
+        height: 60px;
+      }
     }
   `
 })
 export class CarrierComponent {
   careerSteps = signal<CareerStep[]>([
     {
-      dateKey: 'CARRIER.STEP1.DATE',
-      titleKey: 'CARRIER.STEP1.TITLE',
-      descriptionKey: 'CARRIER.STEP1.DESC'
-    },
-    {
-      dateKey: 'CARRIER.STEP2.DATE',
-      titleKey: 'CARRIER.STEP2.TITLE',
-      descriptionKey: 'CARRIER.STEP2.DESC'
+      dateKey: 'CARRIER.STEP4.DATE',
+      titleKey: 'CARRIER.STEP4.TITLE',
+      descriptionKey: 'CARRIER.STEP4.DESC'
     },
     {
       dateKey: 'CARRIER.STEP3.DATE',
@@ -245,9 +320,14 @@ export class CarrierComponent {
       descriptionKey: 'CARRIER.STEP3.DESC'
     },
     {
-      dateKey: 'CARRIER.STEP4.DATE',
-      titleKey: 'CARRIER.STEP4.TITLE',
-      descriptionKey: 'CARRIER.STEP4.DESC'
+      dateKey: 'CARRIER.STEP2.DATE',
+      titleKey: 'CARRIER.STEP2.TITLE',
+      descriptionKey: 'CARRIER.STEP2.DESC'
+    },
+    {
+      dateKey: 'CARRIER.STEP1.DATE',
+      titleKey: 'CARRIER.STEP1.TITLE',
+      descriptionKey: 'CARRIER.STEP1.DESC'
     }
   ]);
 

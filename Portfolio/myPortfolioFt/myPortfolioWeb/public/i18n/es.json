@@ -29,6 +29,11 @@
     "SECTION_TITLE": "Mi trayectoria 🚀",
     "TECH_STACK": "Stack tecnológico",
     "LOGO_ALT": "Logo de {{name}}",
+    "STATUS": {
+      "AVAILABLE": "YA DISPONIBLE",
+      "SOON": "PRÓXIMAMENTE",
+      "EXPLORING": "EN EXPLORACIÓN"
+    },
     "CATEGORIES": {
       "LANGUAGES": "Lenguajes",
       "FRONTEND": "Frontend",
