@@ -1,34 +1,36 @@
 # Task model for the application
 
-class Task:
+# Menu to choose between four options
+def menu():
+    print("===============================================================")
+    print("Welcome to 'Do it now'!\nlook for our differents options on this menu and start improving your days.")
+    print("Create. Create your new tasks.")
+    print("Edit. Edit your task.")
+    print("Delete. Delete your task.")
+    print("===============================================================")
+menu()
 
-    contador = 0
+# Create new tasks
+def createTask():
+    name = input("Task name = ")
+    date = input("Task date = ")
+    start_time = input("Task start time = ")
+    end_time = input("Task end time = ")
 
-    def __init__(self, name, date, initialHour, finishHour, completed = "false"):
-        Task.contador +=1
-        self.id = Task.contador
-        self.name = name
-        self.date = date
-        self.initialHour = initialHour
-        self.finishHour = finishHour
-        self.completed = completed
+    taskList = []
+    taskList.append(name)
+    taskList.append(date)
+    taskList.append(start_time)
+    taskList.append(end_time)
 
-    def createTask():
-        tasks = []
-        activador = False
-        ask = input("Quieres seguir?:  ")
-        while activador == False:
-            if ask == "No":
-                print("El usuario ya no quiere crear más tareas.")
-                activador
-                break
-        while ask == "Si":
-            create = input("Crea una tarea: ")
-            tasks.append(create)
-            activador = True
-            return tasks
-        if ask == "No":
-            return "Tasks list: ", tasks
+    print(taskList)
+    return taskList
 
-    saveResult = createTask()
-    print(saveResult)
+ask = input("What option do you want to use? -> ")
+
+# Menu inputs control
+match ask:
+    case "Create":
+        createTask()
+    case _:
+        print("You exit the app.")
