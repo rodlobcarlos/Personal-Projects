@@ -20,9 +20,12 @@ def createTask():
     return [name, date, start_time, end_time]
 
 def view(taskList):
+    if not taskList:
+        print("It doesn't exist list.")
+
     for number, task in enumerate(taskList, start=1):
         print(
-            f"{number}. {task[0]} | Date: {task[1]} | "
+            f"{number}. | Name: {task[0]} | Date: {task[1]} | "
             f"Start: {task[2]} | End: {task[3]}"
         )
     return 
@@ -43,4 +46,3 @@ while True:
     elif entry == "Exit":
         print("You exit the app.")
         break
-
