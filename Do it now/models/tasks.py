@@ -12,15 +12,15 @@ def menu():
 
 # Create new tasks
 def createTask():
-    name = input("Task name = ")
-    date = input("Task date = ")
-    start_time = input("Task start time = ")
-    end_time = input("Task end time = ")
+    name = input("Name = ")
+    date = input("Date = ")
+    start_time = input("Start time = ")
+    end_time = input("End time = ")
 
     return {
-        "Name ": name,
-        "Date ": date,
-        "Start_time ": start_time,
+        "Name": name,
+        "Date": date,
+        "Start_time": start_time,
         "End_time": end_time
     }
 
@@ -30,11 +30,8 @@ def view(taskList):
         print("It doesn't exist any list.")
 
     for number, task in enumerate(taskList, start=0):
-        print(
-            f"{number}. | Name: {task[0]} | Date: {task[1]} | "
-            f"Start: {task[2]} | End: {task[3]}"
-        )
-    return 
+        print(f"{number}. | {task.items()}")
+    return
 
 
 # Delete by the task id
@@ -42,6 +39,8 @@ def deleteTask(taskList):
     if not taskList:
         print("It doesn't exist any list.")
         
+        return
+
     view(taskList)
     number = int(input("Which task do you want to delete?: "))
     
@@ -56,32 +55,42 @@ def deleteTask(taskList):
 def editTask(taskList):
     if not taskList:
         print("There is no list to edit.")
+        return
 
     view(taskList)
     number = int(input("Which task do you want to edit?: "))
 
-    if 0 <= number < len(taskList):
-        edit = input("Introduce your change: ")
-        colunm = input("In which colunm: ").capitalize()
-        for i in taskList[number]:
-            if i == colunm:
-                taskList[i] = edit
-                return "The change is: ", i, " ->", edit
+    if not 0 <= number < len(taskList):
+        print("That index doesn't exist.")
+        return
 
-taskList = []
+    edit = input("Introduce your change: ")
+    key = input("In which key: ").capitalize()
+    if key not in taskList[number]:
+        print("Try again writting that key.")
+        return
 
-# Menu inputs control
-while True:
+    taskList[number][key] = edit
+    print("Your edit was successful :)")
+
+
+def run_app():
     menu()
-    entry = input("What option do you want to use? -> ")
-    if entry == "Create":
-        taskList.append(createTask())
-    elif entry == "View":
-        view(taskList)
-    elif entry == "Delete":
-        deleteTask(taskList)
-    elif entry == "Edit":
-        editTask(taskList)
-    elif entry == "Exit":
-        print("You exit the app.")
-        break
+    task_list = []
+
+    while True:
+        entry = input("What option do you want to use? -> ")
+        if entry == "Create":
+            task_list.append(createTask())
+        elif entry == "View":
+            view(task_list)
+        elif entry == "Delete":
+            deleteTask(task_list)
+        elif entry == "Edit":
+            editTask(task_list)
+        elif entry == "Exit":
+            print("You exit the app.")
+            break
+
+if __name__ == "__main__":
+    run_app()

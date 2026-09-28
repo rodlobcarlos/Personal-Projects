@@ -21,6 +21,30 @@ La aplicación debe desarrollarse de forma progresiva. No se deben
 introducir funcionalidades avanzadas antes de que las funcionalidades
 básicas estén funcionando correctamente.
 
+## Estado actual y guía para agentes
+
+La especificación de V1 de este documento es la hoja de ruta, no una
+descripción de funcionalidades ya implementadas. Actualmente el proyecto
+es una aplicación de consola: `models/tasks.py` contiene operaciones
+sobre una lista en memoria y `app/main.py` es el punto de entrada. Todavía
+no hay interfaz PySide6, persistencia SQLite ni capas de servicios.
+
+- Ejecutar desde la raíz: `python -m app.main` para iniciar la aplicación.
+- Ejecutar los tests desde la raíz o desde `test/`: `python -m pytest -q`.
+- Los tests actuales están en `test/app_test.py` y cubren el comportamiento
+  básico de la consola; no implican que las funciones futuras de V1 existan.
+- Mantener los módulos importables sin efectos interactivos. El menú debe
+  iniciarse explícitamente desde el punto de entrada, no al importar
+  `models`.
+- Usar el mismo intérprete de Python para instalar dependencias y ejecutar
+  la aplicación/tests. Verificar el intérprete activo si `pytest` no se
+  encuentra.
+- `Requirements.txt` contiene notas del proyecto, no una lista válida de
+  dependencias pip. No ejecutar `pip install -r Requirements.txt` hasta
+  convertirlo en un archivo de requisitos real.
+- Revisar `git status` antes de finalizar y no incluir `__pycache__`,
+  archivos `.pyc` u otros artefactos generados.
+
 ------------------------------------------------------------------------
 
 ## 2. Principios de desarrollo

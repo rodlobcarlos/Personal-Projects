@@ -1,9 +1,5 @@
-# Main application file
+from models import run_app
 
-'''
-from models.tasks import menu
-from models.tasks import view
 
-menu()
-view()
-'''
+if __name__ == "__main__":
+	run_app()
