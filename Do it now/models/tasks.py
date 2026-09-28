@@ -17,8 +17,14 @@ def createTask():
     start_time = input("Task start time = ")
     end_time = input("Task end time = ")
 
-    return [name, date, start_time, end_time]
+    return {
+        "Name ": name,
+        "Date ": date,
+        "Start_time ": start_time,
+        "End_time": end_time
+    }
 
+# View all the task I created
 def view(taskList):
     if not taskList:
         print("It doesn't exist any list.")
@@ -30,6 +36,8 @@ def view(taskList):
         )
     return 
 
+
+# Delete by the task id
 def deleteTask(taskList):
     if not taskList:
         print("It doesn't exist any list.")
@@ -44,6 +52,7 @@ def deleteTask(taskList):
         print("That index doesn't exist.")
     return
 
+# Edit by position
 def editTask(taskList):
     if not taskList:
         print("There is no list to edit.")
@@ -51,11 +60,13 @@ def editTask(taskList):
     view(taskList)
     number = int(input("Which task do you want to edit?: "))
 
-    if 0 < number <= len(taskList):
-        edit = input("Introduce de change: ")
-        taskList[number] = edit
-        print("Changed")
-    return
+    if 0 <= number < len(taskList):
+        edit = input("Introduce your change: ")
+        colunm = input("In which colunm: ").capitalize()
+        for i in taskList[number]:
+            if i == colunm:
+                taskList[i] = edit
+                return "The change is: ", i, " ->", edit
 
 taskList = []
 
