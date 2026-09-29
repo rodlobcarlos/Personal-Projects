@@ -31,7 +31,7 @@ no hay interfaz PySide6, persistencia SQLite ni capas de servicios.
 
 - Ejecutar desde la raíz: `python -m app.main` para iniciar la aplicación.
 - Ejecutar los tests desde la raíz o desde `test/`: `python -m pytest -q`.
-- Los tests actuales están en `test/app_test.py` y cubren el comportamiento
+- Los tests actuales están en `test/test_task.py` y cubren el comportamiento
   básico de la consola; no implican que las funciones futuras de V1 existan.
 - Mantener los módulos importables sin efectos interactivos. El menú debe
   iniciarse explícitamente desde el punto de entrada, no al importar
