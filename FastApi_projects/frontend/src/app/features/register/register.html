@@ -1,0 +1,81 @@
+<div class="auth-wrap">
+  <div class="auth-card card card-pad">
+    <h1>Crear cuenta</h1>
+    <p class="muted mb-2">Regístrate para gestionar tus proyectos.</p>
+
+    @if (error()) {
+      <div class="alert alert-error">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label for="fullName">Nombre completo</label>
+        <input
+          id="fullName"
+          type="text"
+          formControlName="fullName"
+          placeholder="Nombre Apellidos"
+          [class.invalid]="form.controls.fullName.touched && form.controls.fullName.invalid"
+        />
+        @if (form.controls.fullName.touched && form.controls.fullName.invalid) {
+          <div class="field-error">El nombre es obligatorio (mínimo 2 caracteres).</div>
+        }
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="tu@email.com"
+          [class.invalid]="form.controls.email.touched && form.controls.email.invalid"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <div class="field-error">Introduce un email válido.</div>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Mínimo 8 caracteres, con letra y número"
+          [class.invalid]="form.controls.password.touched && form.controls.password.invalid"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <div class="field-error">La contraseña debe tener al menos 8 caracteres.</div>
+        }
+      </div>
+
+      <div class="field">
+        <label for="confirm">Repetir contraseña</label>
+        <input
+          id="confirm"
+          type="password"
+          formControlName="confirm"
+          [class.invalid]="form.controls.confirm.touched && form.controls.confirm.invalid"
+        />
+        @if (form.controls.confirm.touched && form.controls.confirm.hasError('mismatch')) {
+          <div class="field-error">Las contraseñas no coinciden.</div>
+        } @else if (form.controls.confirm.touched && form.controls.confirm.invalid) {
+          <div class="field-error">Confirma tu contraseña.</div>
+        }
+      </div>
+
+      <button class="btn btn-primary btn-block" type="submit" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner"></span>
+        }
+        {{ loading() ? 'Creando cuenta...' : 'Crear cuenta' }}
+      </button>
+    </form>
+
+    <p class="muted mt-2 text-center">
+      ¿Ya tienes cuenta?
+      <a routerLink="/login">Entrar</a>
+    </p>
+  </div>
+</div>

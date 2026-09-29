@@ -1,0 +1,6 @@
+2026-09-29 13:11:38,691 | DEBUG    | asyncio | Using proactor: IocpProactor
+INFO:     Started server process [21228]
+INFO:     Waiting for application startup.
+2026-09-29 13:11:38,774 | INFO     | projects-api | Base de datos inicializada (development)
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)

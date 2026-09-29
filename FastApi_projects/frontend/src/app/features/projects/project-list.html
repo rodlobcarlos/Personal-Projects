@@ -1,0 +1,253 @@
+<div class="container page">
+  <div class="page-head">
+    <div>
+      <h1>Proyectos</h1>
+      <p>
+        @if (pagination(); as pg) {
+          {{ pg.total }} proyecto{{ pg.total === 1 ? '' : 's' }} en total
+        } @else {
+          Cargando proyectos...
+        }
+      </p>
+    </div>
+    <div class="row">
+      <div class="view-switch">
+        <button
+          type="button"
+          [class.active]="view() === 'grid'"
+          (click)="view.set('grid')"
+          title="Vista de tarjetas"
+        >
+          ▦
+        </button>
+        <button
+          type="button"
+          [class.active]="view() === 'table'"
+          (click)="view.set('table')"
+          title="Vista de tabla"
+        >
+          ☰
+        </button>
+      </div>
+      <a class="btn btn-primary" routerLink="/projects/new">+ Nuevo proyecto</a>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="card card-pad filters">
+    <div class="field-search">
+      <input
+        type="search"
+        placeholder="Buscar por nombre o descripción..."
+        [value]="search()"
+        (input)="onSearchChange($any($event.target).value)"
+      />
+    </div>
+
+    <select
+      [value]="status()"
+      (change)="status.set($any($event.target).value); load(1)"
+      aria-label="Filtrar por estado"
+    >
+      <option value="">Todos los estados</option>
+      @for (key of statusKeys; track key) {
+        <option [value]="key">{{ statusLabels[key] }}</option>
+      }
+    </select>
+
+    <input
+      type="text"
+      placeholder="Tecnología (ej. FastAPI)"
+      [value]="technology()"
+      (input)="onTechnologyChange($any($event.target).value)"
+      class="tech-input"
+      aria-label="Filtrar por tecnología"
+    />
+
+    <label class="check">
+      <input
+        type="checkbox"
+        [checked]="onlyMine()"
+        (change)="onlyMine.set($any($event.target).checked); load(1)"
+      />
+      Solo míos
+    </label>
+
+    @if (hasFilters()) {
+      <button type="button" class="btn btn-ghost btn-sm" (click)="clearFilters()">Limpiar</button>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="loading-box">
+      <span class="spinner spinner-lg"></span> Cargando proyectos...
+    </div>
+  } @else if (projects().length === 0) {
+    <div class="card">
+      <div class="empty">
+        <div class="icon">📁</div>
+        @if (hasFilters()) {
+          No hay proyectos que coincidan con los filtros.
+          <div class="mt-1">
+            <button class="btn btn-ghost btn-sm" type="button" (click)="clearFilters()">
+              Limpiar filtros
+            </button>
+          </div>
+        } @else {
+          Aún no hay proyectos.
+          <div class="mt-1">
+            <a class="btn btn-primary btn-sm" routerLink="/projects/new">+ Crear el primero</a>
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <!-- Vista tarjetas -->
+    @if (view() === 'grid') {
+      <div class="grid grid-3">
+        @for (project of projects(); track project.id) {
+          <div class="card card-pad project-card">
+            <div class="row-between mb-1">
+              <span class="badge" [class]="'badge-' + project.status">
+                {{ statusLabels[project.status] }}
+              </span>
+              <span class="dim">{{ project.progress }}%</span>
+            </div>
+
+            <h3 class="mt-0 mb-1">
+              <a class="project-link" [routerLink]="['/projects', project.id]">{{ project.name }}</a>
+            </h3>
+
+            <p class="muted clamp-2">
+              {{ project.description || 'Sin descripción.' }}
+            </p>
+
+            @if (project.technologies.length) {
+              <div class="row techs">
+                @for (tech of project.technologies; track tech) {
+                  <span class="chip">{{ tech }}</span>
+                }
+              </div>
+            }
+
+            <div class="progress mt-1">
+              <span [style.width.%]="project.progress"></span>
+            </div>
+
+            <div class="card-meta">
+              <span>📋 {{ project.completed_task_count }}/{{ project.task_count }} tareas</span>
+              @if (project.due_date) {
+                <span>📅 {{ project.due_date | date: 'dd MMM yyyy' }}</span>
+              }
+            </div>
+
+            <div class="card-actions">
+              <a class="btn btn-ghost btn-sm" [routerLink]="['/projects', project.id]">Abrir</a>
+              <a class="btn btn-ghost btn-sm" [routerLink]="['/projects', project.id, 'edit']">Editar</a>
+              @if (pendingDelete()?.id === project.id) {
+                <button class="btn btn-danger btn-sm" type="button" [disabled]="deleting()" (click)="doDeleteConfirm()">
+                  ¿Seguro?
+                </button>
+                <button class="btn btn-ghost btn-sm" type="button" (click)="cancelDelete()">No</button>
+              } @else {
+                <button class="btn btn-ghost btn-sm text-danger" type="button" (click)="confirmDelete(project)">
+                  Borrar
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <!-- Vista tabla -->
+      <div class="card table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <button class="sort" type="button" (click)="toggleSort('name')">
+                  Proyecto {{ sortKey() === 'name' ? (order() === 'asc' ? '↑' : '↓') : '' }}
+                </button>
+              </th>
+              <th>Estado</th>
+              <th>Tareas</th>
+              <th>
+                <button class="sort" type="button" (click)="toggleSort('progress')">
+                  Progreso {{ sortKey() === 'progress' ? (order() === 'asc' ? '↑' : '↓') : '' }}
+                </button>
+              </th>
+              <th>
+                <button class="sort" type="button" (click)="toggleSort('due_date')">
+                  Entrega {{ sortKey() === 'due_date' ? (order() === 'asc' ? '↑' : '↓') : '' }}
+                </button>
+              </th>
+              <th class="text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (project of projects(); track project.id) {
+              <tr>
+                <td>
+                  <a class="project-link" [routerLink]="['/projects', project.id]">{{ project.name }}</a>
+                  <div class="dim clamp-1">{{ project.technology_list || '—' }}</div>
+                </td>
+                <td>
+                  <span class="badge" [class]="'badge-' + project.status">
+                    {{ statusLabels[project.status] }}
+                  </span>
+                </td>
+                <td class="nowrap">{{ project.completed_task_count }}/{{ project.task_count }}</td>
+                <td style="min-width: 120px">
+                  <div class="progress">
+                    <span [style.width.%]="project.progress"></span>
+                  </div>
+                  <span class="dim">{{ project.progress }}%</span>
+                </td>
+                <td class="nowrap">
+                  @if (project.due_date) {
+                    {{ project.due_date | date: 'dd MMM yyyy' }}
+                  } @else {
+                    <span class="dim">—</span>
+                  }
+                </td>
+                <td class="text-right nowrap">
+                  <a class="btn btn-ghost btn-sm" [routerLink]="['/projects', project.id]">Abrir</a>
+                  <a class="btn btn-ghost btn-sm" [routerLink]="['/projects', project.id, 'edit']">Editar</a>
+                  @if (pendingDelete()?.id === project.id) {
+                    <button class="btn btn-danger btn-sm" type="button" [disabled]="deleting()" (click)="doDeleteConfirm()">
+                      ¿Seguro?
+                    </button>
+                    <button class="btn btn-ghost btn-sm" type="button" (click)="cancelDelete()">No</button>
+                  } @else {
+                    <button class="btn btn-ghost btn-sm text-danger" type="button" (click)="confirmDelete(project)">
+                      Borrar
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- Paginación -->
+    @if (pagination(); as pg) {
+      @if (pg.total_pages > 1) {
+        <div class="pager">
+          <button class="btn btn-ghost btn-sm" type="button" [disabled]="!pg.has_previous" (click)="goToPage(pg.page - 1)">
+            ← Anterior
+          </button>
+          <span class="muted">Página {{ pg.page }} de {{ pg.total_pages }}</span>
+          <button class="btn btn-ghost btn-sm" type="button" [disabled]="!pg.has_next" (click)="goToPage(pg.page + 1)">
+            Siguiente →
+          </button>
+        </div>
+      }
+    }
+  }
+</div>

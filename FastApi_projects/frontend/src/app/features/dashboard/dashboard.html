@@ -1,0 +1,160 @@
+<div class="container page">
+  <div class="page-head">
+    <div>
+      <h1>Hola, {{ auth.displayName() }} 👋</h1>
+      <p>Resumen de tus proyectos y tareas.</p>
+    </div>
+    <div class="row">
+      <a class="btn btn-ghost" routerLink="/projects">Ver todos</a>
+      <a class="btn btn-primary" routerLink="/projects/new">+ Nuevo proyecto</a>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="loading-box">
+      <span class="spinner spinner-lg"></span> Cargando resumen...
+    </div>
+  } @else {
+    <!-- KPIs -->
+    <div class="grid grid-4 mb-2">
+      <div class="card card-pad kpi">
+        <span class="kpi-label">Proyectos</span>
+        <span class="kpi-value">{{ totals().projects }}</span>
+        <span class="dim">{{ totals().active }} en desarrollo</span>
+      </div>
+      <div class="card card-pad kpi">
+        <span class="kpi-label">Tareas totales</span>
+        <span class="kpi-value">{{ totals().tasks }}</span>
+        <span class="dim">{{ totals().doneTasks }} completadas</span>
+      </div>
+      <div class="card card-pad kpi">
+        <span class="kpi-label">Pendientes</span>
+        <span class="kpi-value">{{ totals().pendingTasks }}</span>
+        <span class="dim">{{ totals().overdue }} vencidas</span>
+      </div>
+      <div class="card card-pad kpi">
+        <span class="kpi-label">Horas estimadas</span>
+        <span class="kpi-value">{{ totals().hours }}<small>h</small></span>
+        <span class="dim">progreso medio {{ totals().avgProgress }}%</span>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <!-- Proyectos por estado -->
+      <div class="card card-pad">
+        <div class="row-between mb-1">
+          <h3>Proyectos por estado</h3>
+        </div>
+        @if (statusBreakdown().length === 0) {
+          <div class="empty">
+            <div class="icon">📊</div>
+            Todavía no hay proyectos.
+          </div>
+        } @else {
+          @for (item of statusBreakdown(); track item.key) {
+            <div class="bar-row">
+              <span class="bar-label">
+                <span class="badge" [class]="'badge-' + item.key">{{ item.label }}</span>
+              </span>
+              <div class="progress bar-track">
+                <span [style.width.%]="(item.total / maxStatus()) * 100"></span>
+              </div>
+              <span class="bar-value">{{ item.total }}</span>
+            </div>
+          }
+        }
+      </div>
+
+      <!-- Tareas -->
+      <div class="card card-pad">
+        <h3 class="mb-1">Estado de las tareas</h3>
+        <div class="donut-wrap">
+          <div class="donut" [style.--pct]="taskPct() + '%'">
+            <div class="donut-hole">
+              <strong>{{ taskPct() }}%</strong>
+              <span>completadas</span>
+            </div>
+          </div>
+          <ul class="legend">
+            <li>
+              <span class="dot dot-success"></span>
+              <span>Completadas</span>
+              <strong>{{ totals().doneTasks }}</strong>
+            </li>
+            <li>
+              <span class="dot dot-primary"></span>
+              <span>Pendientes</span>
+              <strong>{{ totals().pendingTasks }}</strong>
+            </li>
+            <li>
+              <span class="dot dot-danger"></span>
+              <span>Vencidas</span>
+              <strong>{{ totals().overdue }}</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actividad reciente -->
+    <div class="card card-pad mt-2">
+      <div class="row-between mb-1">
+        <h3>Proyectos recientes</h3>
+        <a routerLink="/projects">Ver todos →</a>
+      </div>
+
+      @if (recent().length === 0) {
+        <div class="empty">
+          <div class="icon">📁</div>
+          Crea tu primer proyecto para empezar.
+          <div class="mt-1">
+            <a class="btn btn-primary btn-sm" routerLink="/projects/new">+ Nuevo proyecto</a>
+          </div>
+        </div>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th>Proyecto</th>
+              <th>Estado</th>
+              <th>Tareas</th>
+              <th>Progreso</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (project of recent(); track project.id) {
+              <tr>
+                <td>
+                  <a [routerLink]="['/projects', project.id]" class="project-link">{{ project.name }}</a>
+                  <div class="dim">{{ project.technology_list || 'Sin tecnologías' }}</div>
+                </td>
+                <td>
+                  <span class="badge" [class]="'badge-' + project.status">
+                    {{ statusLabels[project.status] }}
+                  </span>
+                </td>
+                <td class="nowrap">
+                  {{ project.completed_task_count }}/{{ project.task_count }}
+                </td>
+                <td style="min-width: 130px">
+                  <div class="progress">
+                    <span [style.width.%]="project.progress"></span>
+                  </div>
+                  <span class="dim">{{ project.progress }}%</span>
+                </td>
+                <td class="text-right">
+                  <a class="btn btn-ghost btn-sm" [routerLink]="['/projects', project.id]">Abrir</a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  }
+</div>

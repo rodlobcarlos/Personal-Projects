@@ -1,0 +1,49 @@
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" routerLink="/dashboard" (click)="closeMenu()">
+      <span class="brand-mark">P</span>
+      <span class="brand-text">Projects<strong>API</strong></span>
+    </a>
+
+    @if (auth.isAuthenticated()) {
+      <button class="nav-toggle btn btn-ghost btn-sm" type="button" (click)="toggleMenu()">
+        ☰
+      </button>
+
+      <nav class="nav" [class.open]="menuOpen()">
+        <a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
+        <a routerLink="/projects" routerLinkActive="active" (click)="closeMenu()">Proyectos</a>
+        <a routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">Perfil</a>
+      </nav>
+
+      <div class="user-box">
+        <a class="avatar" routerLink="/profile" [title]="auth.displayName()">
+          {{ auth.initials() }}
+        </a>
+        <div class="user-meta">
+          <span class="user-name">{{ auth.displayName() }}</span>
+          <span class="user-role">{{ auth.user()?.role === 'admin' ? 'Administrador' : 'Usuario' }}</span>
+        </div>
+        <button class="btn btn-ghost btn-sm" type="button" (click)="logout()">Salir</button>
+      </div>
+    } @else {
+      <nav class="nav">
+        <a routerLink="/login" routerLinkActive="active">Entrar</a>
+        <a class="btn btn-primary btn-sm" routerLink="/register">Crear cuenta</a>
+      </nav>
+    }
+  </div>
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<div class="toasts">
+  @for (item of toast.toasts(); track item.id) {
+    <div class="toast" [class]="'toast-' + item.type" (click)="toast.dismiss(item.id)">
+      <span>{{ item.message }}</span>
+      <span class="toast-close">✕</span>
+    </div>
+  }
+</div>
