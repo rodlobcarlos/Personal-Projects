@@ -1,4 +1,4 @@
-from models import run_app
+from services import run_app
 
 
 if __name__ == "__main__":
