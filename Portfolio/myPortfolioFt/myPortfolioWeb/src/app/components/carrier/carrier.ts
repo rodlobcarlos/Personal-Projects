@@ -29,7 +29,7 @@ interface TechCategory {
 
       <div class="timeline-list">
         @for (item of careerSteps(); track item.titleKey; let i = $index) {
-          <article class="timeline-item" [class.is-active]="i === 0">
+          <article class="timeline-item" [class.is-active]= "false">
             <div class="timeline-marker" aria-hidden="true">
               <span class="marker-dot"></span>
             </div>
@@ -116,14 +116,15 @@ interface TechCategory {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 34px;
-      height: 34px;
+      width: 15px;
+      height: 15px;
       margin-top: 0.4rem;
       border-radius: 50%;
       border: 2px solid rgba(91, 154, 255, 0.9);
       background: rgba(9, 14, 22, 0.9);
       z-index: 1;
       box-shadow: 0 0 18px rgba(74, 227, 255, 0.12);
+      margin-left: 2px;
     }
 
     .marker-dot {
