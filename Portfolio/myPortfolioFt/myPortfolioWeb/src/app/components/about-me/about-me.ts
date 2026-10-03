@@ -22,7 +22,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 
           <div class="certificate-column">
             <h3>{{ 'ABOUT.CERTIFICATES' | translate }}</h3>
+            <div class="certificate-item">
               <img ngSrc="assets/github-foundations.svg" [attr.alt]="'ABOUT.CERT_ALT' | translate" width="80" height="80">
+              <p>GitHub</p>
+            </div>
+            <div class="certificate-item">
+              <img ngSrc="assets/nexoneural.jpg" alt="Nexoneural" width="80" height="80">
+              <p>NexoNeural</p>
+            </div>
           </div>
         </div>
 
@@ -98,9 +105,30 @@ import { TranslatePipe } from '@ngx-translate/core';
       transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
+    .certificate-column {
+      display: grid;
+      grid-template-columns: repeat(2, max-content);
+      align-items: start;
+      justify-content: center;
+      column-gap: 2rem;
+    }
+
     .certificate-column h3 {
+      grid-column: 1 / -1;
       margin: 0 0 1rem;
       font-size: 1.6rem;
+    }
+
+    .certificate-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      min-width: 0;
+    }
+
+    .certificate-column p {
+      margin: 0;
     }
 
     .certificate-column:hover {
