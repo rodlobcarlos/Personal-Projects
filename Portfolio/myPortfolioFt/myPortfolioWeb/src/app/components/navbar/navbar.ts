@@ -80,6 +80,7 @@ interface NavItem {
     }
 
     .navbar {
+      box-sizing: border-box;
       width: 100%;
       padding: 1rem 2rem;
       transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
@@ -161,7 +162,7 @@ interface NavItem {
     .hamburger {
       display: none;
       flex-direction: column;
-      gap: 5px;
+      gap: 5px; 
       background: none;
       border: none;
       cursor: pointer;
