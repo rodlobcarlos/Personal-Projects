@@ -4,11 +4,6 @@ import {
   ChangeDetectorRef,
   inject,
   OnInit,
-  AfterViewInit,
-  OnDestroy,
-  ElementRef,
-  ViewChildren,
-  QueryList,
 } from '@angular/core';
 import { ProjectService } from '../../services/project';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
@@ -32,20 +27,17 @@ import { TranslatePipe } from '@ngx-translate/core';
               <p
                 class="description"
                 [class.expanded]="expandedMap[project.id]"
-                #descEl
               >
                 {{ project.description }}
               </p>
 
-              @if (truncatedMap[project.id]) {
-                <button
-                  class="toggle-btn"
-                  (click)="toggleExpand(project.id)"
-                  [attr.aria-expanded]="expandedMap[project.id]"
-                >
-                  {{ expandedMap[project.id] ? ('PROJECTS.SHOW_LESS' | translate) : ('PROJECTS.SHOW_MORE' | translate) }}
-                </button>
-              }
+              <button
+                class="toggle-btn"
+                (click)="toggleExpand(project.id)"
+                [attr.aria-expanded]="!!expandedMap[project.id]"
+              >
+                {{ expandedMap[project.id] ? ('PROJECTS.SHOW_LESS' | translate) : ('PROJECTS.SHOW_MORE' | translate) }}
+              </button>
 
               <div class="tech-stack">
                 <span class="tech-tag">{{ project.techStack }}</span>
@@ -229,56 +221,18 @@ import { TranslatePipe } from '@ngx-translate/core';
     }
   `
 })
-export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProjectsComponent implements OnInit {
   public projectService = inject(ProjectService);
   private cdr = inject(ChangeDetectorRef);
 
-  @ViewChildren('descEl') descElements!: QueryList<ElementRef<HTMLParagraphElement>>;
-
   expandedMap: Record<number, boolean> = {};
-  truncatedMap: Record<number, boolean> = {};
-
-  private resizeHandler = () => this.checkTruncation();
 
   ngOnInit(): void {
     this.projectService.loadProjects();
   }
 
-  ngAfterViewInit(): void {
-    window.addEventListener('resize', this.resizeHandler);
-    this.descElements.changes.subscribe(() => {
-      this.checkTruncation();
-    });
-    this.checkTruncation();
-    if (this.descElements.length === 0) {
-      setTimeout(() => this.checkTruncation(), 100);
-    }
-  }
-
-  ngOnDestroy(): void {
-    window.removeEventListener('resize', this.resizeHandler);
-  }
-
   toggleExpand(id: number): void {
     this.expandedMap[id] = !this.expandedMap[id];
-    this.cdr.markForCheck();
-  }
-
-  private checkTruncation(): void {
-    if (!this.descElements || this.descElements.length === 0) {
-      return;
-    }
-
-    const projects = this.projectService.projects();
-    this.descElements.forEach((el, i) => {
-      if (i >= projects.length) {
-        return;
-      }
-      const p = el.nativeElement;
-      const id = projects[i].id;
-      this.truncatedMap[id] = p.scrollHeight > p.clientHeight;
-    });
-
     this.cdr.markForCheck();
   }
 }
