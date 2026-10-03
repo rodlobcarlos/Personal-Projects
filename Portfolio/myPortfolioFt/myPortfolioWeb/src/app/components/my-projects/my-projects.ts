@@ -51,8 +51,6 @@ import { TranslatePipe } from '@ngx-translate/core';
                 <span class="tech-tag">{{ project.techStack }}</span>
               </div>
 
-              <img src="assets/portada.png" alt="Portada">
-
               <div class="card-footer">
                 <a [href]="project.github_url" target="_blank" rel="noopener noreferrer" class="github-btn">
                   {{ 'PROJECTS.VIEW_GITHUB' | translate }}
