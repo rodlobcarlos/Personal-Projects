@@ -32,15 +32,12 @@ tasks_list = [
     Tasks(id=2, project_id=1, title="Configurar PostgreSQL", description="Crear y conectar la base de datos con FastAPI", status="PENDIENTE", priority="MEDIA", created="2026-10-04T20:05:00", updated="2026-10-04T20:05:00")
 ]
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
-
-@app.get("/projects")
+### Projects section ###
+@app.get("/projects", tags=["Project"])
 async def read_projects():
     return projects_list
 
-@app.get("/project/{id}")
+@app.get("/project/{id}", tags=["Project"])
 async def read_projects(id: int):
     projects = filter(lambda project: project.id == id, projects_list)
     try:
@@ -48,13 +45,13 @@ async def read_projects(id: int):
     except:
         return "Error: project not found."
 
-@app.post("/add_project")
+@app.post("/add_project", tags=["Project"])
 async def add_project(project: Project):
     if projects_list.__contains__(project):
         return "This project already exists"
     return projects_list.append(project)
 
-@app.delete("/delete_project/{id}")
+@app.delete("/delete_project/{id}", tags=["Project"])
 async def delete_project(id: int):
     projects = next((p for p in projects_list if p.id == id), None)
     try:
@@ -62,7 +59,7 @@ async def delete_project(id: int):
     except:
         return "Error: project id not found."
 
-@app.put("/update_project/{id}")
+@app.put("/update_project/{id}", tags=["Project"])
 async def update_project(id: int, project: Project):
     projects = next((p for p in projects_list if p.id == id), None)
     try:
@@ -73,26 +70,34 @@ async def update_project(id: int, project: Project):
     except:
         return "Error: Incorrect id."
 
-@app.get("/tasks")
+@app.get("/tasks", tags=["Task"])
 async def get_tasks():
     return tasks_list
 
-@app.post("/add_task")
+@app.get("/task/{id}", tags=["Task"])
+async def read_task(id: int):
+    tasks = filter(lambda task: task.id == id, tasks_list)
+    try:
+        return list(tasks)[0]
+    except:
+        return "Error: task not found."
+
+@app.post("/add_task", tags=["Task"])
 async def add_task(task: Tasks):
     if tasks_list.__contains__(task):
         return "This tasks already exists"
     return tasks_list.append(task)
 
-@app.delete("/delete_task/{id}")
-async def delete_project(id: int):
+@app.delete("/delete_task/{id}", tags=["Task"])
+async def delete_task(id: int):
     tasks = next((t for t in tasks_list if t.id == id), None)
     try:
         return tasks_list.remove(tasks)
     except:
         return "Error: task id not found."
 
-@app.put("/update_task/{id}")
-async def update_project(id: int, task: Tasks):
+@app.put("/update_task/{id}", tags=["Task"])
+async def update_task(id: int, task: Tasks):
     tasks = next((t for t in tasks_list if t.id == id), None)
     try:
         if task != None:
