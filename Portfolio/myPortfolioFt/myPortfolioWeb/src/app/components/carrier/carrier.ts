@@ -267,8 +267,8 @@ interface TechCategory {
       }
 
       .timeline-marker {
-        width: 28px;
-        height: 28px;
+        width: 15px;
+        height: 15px;
       }
 
       .status-badge {
