@@ -1,7 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI()
+router= APIRouter(prefix="/tasks",
+                  responses={404: {"message": "Not found"}},
+                  tags=["tasks"])
 
 class Tasks(BaseModel):
     id: int
@@ -18,11 +20,11 @@ tasks_list = [
     Tasks(id=2, project_id=1, title="Configurar PostgreSQL", description="Crear y conectar la base de datos con FastAPI", status="PENDIENTE", priority="MEDIA", created="2026-10-04T20:05:00", updated="2026-10-04T20:05:00")
 ]
 
-@app.get("/tasks", tags=["Task"])
+@router.get("/")
 async def get_tasks():
     return tasks_list
 
-@app.get("/task/{id}", tags=["Task"], status_code=201)
+@router.get("/{id}", status_code=201)
 async def read_task(id: int):
     tasks = filter(lambda task: task.id == id, tasks_list)
     try:
@@ -30,13 +32,13 @@ async def read_task(id: int):
     except:
         raise HTTPException(status_code=404)
 
-@app.post("/add_task", tags=["Task"])
+@router.post("/")
 async def add_task(task: Tasks):
     if tasks_list.__contains__(task):
         return HTTPException(status_code=204, detail="This task already exist.")
     return tasks_list.append(task)
 
-@app.delete("/delete_task/{id}", tags=["Task"])
+@router.delete("/{id}")
 async def delete_task(id: int):
     tasks = next((t for t in tasks_list if t.id == id), None)
     try:
@@ -44,7 +46,7 @@ async def delete_task(id: int):
     except:
         raise HTTPException(status_code=409)
 
-@app.put("/update_task/{id}", tags=["Task"])
+@router.put("/{id}")
 async def update_task(id: int, task: Tasks):
     tasks = next((t for t in tasks_list if t.id == id), None)
     try:

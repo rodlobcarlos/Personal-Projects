@@ -1,7 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI()
+router = APIRouter(prefix="/projects",
+                   responses={404: {"message": "Not found"}},
+                   tags=["projects"])
 
 class Project(BaseModel):
     id: int
@@ -16,11 +18,11 @@ projects_list = [
 ]
 
 ### Projects section ###
-@app.get("/projects", tags=["Project"])
+@router.get("/")
 async def read_projects():
     return projects_list
 
-@app.get("/project/{id}", tags=["Project"])
+@router.get("/{id}")
 async def read_projects(id: int):
     projects = filter(lambda project: project.id == id, projects_list)
     try:
@@ -28,13 +30,13 @@ async def read_projects(id: int):
     except:
         raise HTTPException(status_code=409)
 
-@app.post("/add_project", tags=["Project"], status_code=201)
+@router.post("/", status_code=201)
 async def add_project(project: Project):
     if projects_list.__contains__(project):
         return HTTPException(status_code=204, detail="This project already exist.")
     return projects_list.append(project)
 
-@app.delete("/delete_project/{id}", tags=["Project"])
+@router.delete("/{id}")
 async def delete_project(id: int):
     projects = next((p for p in projects_list if p.id == id), None)
     try:
@@ -42,7 +44,7 @@ async def delete_project(id: int):
     except:
         raise HTTPException(status_code=404)
 
-@app.put("/update_project/{id}", tags=["Project"])
+@router.put("/{id}")
 async def update_project(id: int, project: Project):
     projects = next((p for p in projects_list if p.id == id), None)
     try:
