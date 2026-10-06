@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
 from enum import Enum
@@ -43,12 +43,12 @@ async def read_projects(id: int):
     try:
         return list(projects)[0]
     except:
-        return "Error: project not found."
+        raise HTTPException(status_code=409)
 
-@app.post("/add_project", tags=["Project"])
+@app.post("/add_project", tags=["Project"], status_code=201)
 async def add_project(project: Project):
     if projects_list.__contains__(project):
-        return "This project already exists"
+        return HTTPException(status_code=204, detail="This project already exist.")
     return projects_list.append(project)
 
 @app.delete("/delete_project/{id}", tags=["Project"])
@@ -57,7 +57,7 @@ async def delete_project(id: int):
     try:
         return projects_list.remove(projects)
     except:
-        return "Error: project id not found."
+        raise HTTPException(status_code=404)
 
 @app.put("/update_project/{id}", tags=["Project"])
 async def update_project(id: int, project: Project):
@@ -68,24 +68,24 @@ async def update_project(id: int, project: Project):
             projects_list[element] = project
             return project
     except:
-        return "Error: Incorrect id."
+        raise HTTPException(status_code=409)
 
 @app.get("/tasks", tags=["Task"])
 async def get_tasks():
     return tasks_list
 
-@app.get("/task/{id}", tags=["Task"])
+@app.get("/task/{id}", tags=["Task"], status_code=201)
 async def read_task(id: int):
     tasks = filter(lambda task: task.id == id, tasks_list)
     try:
         return list(tasks)[0]
     except:
-        return "Error: task not found."
+        raise HTTPException(status_code=404)
 
 @app.post("/add_task", tags=["Task"])
 async def add_task(task: Tasks):
     if tasks_list.__contains__(task):
-        return "This tasks already exists"
+        return HTTPException(status_code=204, detail="This task already exist.")
     return tasks_list.append(task)
 
 @app.delete("/delete_task/{id}", tags=["Task"])
@@ -94,7 +94,7 @@ async def delete_task(id: int):
     try:
         return tasks_list.remove(tasks)
     except:
-        return "Error: task id not found."
+        raise HTTPException(status_code=409)
 
 @app.put("/update_task/{id}", tags=["Task"])
 async def update_task(id: int, task: Tasks):
@@ -105,4 +105,4 @@ async def update_task(id: int, task: Tasks):
             tasks_list[element] = task
             return task
     except:
-        return "Error: Incorrect id."
+        raise HTTPException(status_code=409)
