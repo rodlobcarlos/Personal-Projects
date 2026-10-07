@@ -62,11 +62,13 @@ async def current_user(token: str= Depends(ouath2)):
 async def user_login(form: OAuth2PasswordRequestForm = Depends()):
     db = user_db.get(form.username)
     if not db:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found.")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
+                            detail="User not found.")
     
     user = search_user_db(form.username)
     if not form.password == user.password:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password.")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
+                            detail="Incorrect password.")
     
     return {"access_token": user.username, "token_type": "beaer"}
 
