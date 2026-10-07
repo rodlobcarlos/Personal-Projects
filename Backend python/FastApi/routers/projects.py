@@ -32,7 +32,7 @@ async def read_projects(id: int):
 
 @router.post("/", status_code=201)
 async def add_project(project: Project):
-    if projects_list.__contains__(project):
+    if project in projects_list:
         return HTTPException(status_code=204, detail="This project already exist.")
     return projects_list.append(project)
 
