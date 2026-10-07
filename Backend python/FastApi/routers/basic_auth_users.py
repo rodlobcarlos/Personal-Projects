@@ -70,7 +70,7 @@ async def user_login(form: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
                             detail="Incorrect password.")
     
-    return {"access_token": user.username, "token_type": "beaer"}
+    return {"access_token": user.username, "token_type": "bearer"}
 
 @router.get("/users/me")
 async def me(user: User= Depends(current_user)):
