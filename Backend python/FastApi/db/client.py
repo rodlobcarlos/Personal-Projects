@@ -1,5 +1,12 @@
+import os
+
+from dotenv import load_dotenv
 from pymongo import MongoClient
 
-# db_client = MongoClient().local
+load_dotenv()
 
-db_client = MongoClient("mongodb+srv://rodlobcarlos_db_user:7r25kQS0xk3lgF7N@backpython.gaf0gbe.mongodb.net/?appName=backPython").backPython
+mongo_uri = os.environ.get("MONGODB_URI")
+if not mongo_uri:
+    raise RuntimeError("MONGODB_URI environment variable is not configured.")
+
+db_client = MongoClient(mongo_uri).backPython

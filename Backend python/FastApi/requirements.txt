@@ -1,0 +1,7 @@
+uvicorn[standard]
+python-jose
+pymongo
+python-dotenv
+passlib
+python-multipart
+fastapi-cli
