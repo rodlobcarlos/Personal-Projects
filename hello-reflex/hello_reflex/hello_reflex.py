@@ -1,4 +1,5 @@
 import reflex as rx
+from hello_reflex.components.footer import footer
 
 class State(rx.State):
     count: int = 0
@@ -24,9 +25,11 @@ def index():
             color_scheme="grass",
             on_click=State.increment,
         ),
+
+        footer(),
         spacing="4",
-        justify="center"
-    )
+        justify="center",
+    ), 
 
 app = rx.App()
 app.add_page(index)
