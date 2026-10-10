@@ -1,4 +1,5 @@
 assets/external/
+.venv/
 .web
 __pycache__/
 .states

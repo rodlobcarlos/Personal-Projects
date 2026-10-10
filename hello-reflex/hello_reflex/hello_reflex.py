@@ -1,35 +1,18 @@
 import reflex as rx
 from hello_reflex.components.footer import footer
+from hello_reflex.components.navbar import navbar
+from hello_reflex.components.counter import counter
+from hello_reflex.components.dashboard import dashboard
 
-class State(rx.State):
-    count: int = 0
-
-    @rx.event
-    def increment(self):
-        self.count +=1
-
-    @rx.event
-    def decrement(self):
-        self.count -=1
 
 def index():
     return rx.hstack(
-        rx.button(
-            "Decrement",
-            color_scheme="ruby",
-            on_click=State.decrement,
-        ),
-        rx.heading(State.count, font_size="2em"),
-        rx.button(
-            "Increment",
-            color_scheme="grass",
-            on_click=State.increment,
-        ),
-
+        navbar(),
+        counter(),
+        dashboard(),    
         footer(),
-        spacing="4",
         justify="center",
-    ), 
+        ),
 
 app = rx.App()
 app.add_page(index)
