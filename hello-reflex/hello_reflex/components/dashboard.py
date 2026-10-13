@@ -10,31 +10,23 @@ class User:
 
 
 class State(rx.State):
-    users: list[User] = [
-        User(name="Danilo Sousa", email="danilo@example.com", gender="Male"),
-        User(name="Zahra Ambessa", email="zahra@example.com", gender="Female"),
-    ]
+    users: dict[str, User] = {
+        "danilo@example.com": User(name="Danilo Sousa", email="danilo@example.com", gender="Male"),
+        "zahra@example.com": User(name="Zahra Ambessa", email="zahra@example.com", gender="Female"),
+    }
 
     def add_user(self, form_data: dict):
-        self.users.append(User(**form_data))
-
-    def delete_user(self, form_data: dict):
-        # Evitamos un error si el usuario no existe en la lista
-        target = User(**form_data)
-        if target in self.users:
-            self.users.remove(target)
-
-    # Creamos esta función para decidir si añadir o borrar según el botón pulsado
-    def process_form(self, form_data: dict):
-        action = form_data.pop("action", "submit")
-        if action == "Delete":
-            self.delete_user(form_data)
+        new_user = User(**form_data)
+        if new_user.email in self.users:
+            print("Error: this user already exist.")
         else:
-            self.add_user(form_data)
+            self.users[new_user.email] = new_user
+
+    def process_form(self, form_data: dict):
+        self.add_user(form_data)
 
 
 def show_user(user: User):
-    """Show a person in a table row."""
     return rx.table.row(
         rx.table.cell(user.name),
         rx.table.cell(user.email),
@@ -46,47 +38,22 @@ def form():
     return rx.form(
         rx.vstack(
             rx.input(placeholder="User Name", name="name", required=True),
-            rx.input(
-                placeholder="user@reflex.dev",
-                name="email",
-            ),
+            rx.input(placeholder="user@reflex.dev", name="email"),
             rx.select(
                 ["Male", "Female"],
                 placeholder="Select gender",
                 default_value="Male",
                 name="gender",
-                custom_attrs={"aria-label": "Gender"},
             ),
-            # Los dos botones ordenados verticalmente uno bajo el otro
-            rx.vstack(
-                rx.button(
-                    "Submit", 
-                    type="submit", 
-                    name="action", 
-                    value="submit", 
-                    width="100%"
-                ),
-                rx.button(
-                    "Delete", 
-                    type="submit", 
-                    name="action", 
-                    value="delete", 
-                    color_scheme="red", 
-                    width="100%"
-                ),
-                width="100%",
-                spacing="3",
-            ),
-            align="stretch",
+            rx.button("Submit", type="submit"),
             spacing="3",
             width="100%",
         ),
-        # El evento on_submit procesa los datos llamando a nuestra nueva función
         on_submit=State.process_form,
         reset_on_submit=True,
         width="100%",
         max_width="24em",
-        margin_top="10%",
+        margin_top="20%",
     )
 
 
@@ -102,7 +69,7 @@ def dashboard() -> rx.Component:
                 ),
             ),
             rx.table.body(
-                rx.foreach(State.users, show_user),
+                rx.foreach(State.users.values(), show_user),
             ),
             variant="surface",
             size="3",
