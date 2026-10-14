@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Variables de entorno
+.env
+**/.env
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
