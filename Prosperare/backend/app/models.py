@@ -11,6 +11,9 @@ class TaskCreate(BaseModel):
     priority: Literal["low", "medium", "high"] = "medium"
     due_date: date
 
+class TaskBase(TaskCreate):
+    pass
+
 # Response of the API
 class TaskResponse(TaskCreate):
     id: str
