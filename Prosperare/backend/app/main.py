@@ -6,6 +6,7 @@ from bson import ObjectId
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Response, status
 from pymongo import MongoClient
+from pymongo.errors import PyMongoError
 
 from app.models import TaskCreate, TaskResponse
 
@@ -53,18 +54,31 @@ async def health_api_db():
 
 
 # Add one new task
-@app.post("/add_task", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
+@app.post("/tasks", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
 async def add_task(task: TaskCreate):
-    task_data = task.model_dump() # Task -> dict
+    try:
+        task_data = task.model_dump() # Task -> dict
 
-    #date to ISO format
-    task_data["due_date"] = task.due_date.isoformat()
-    task_data["created_at"] = date.today().isoformat()
+        #date to ISO format
+        task_data["due_date"] = task.due_date.isoformat()
+        task_data["created_at"] = date.today().isoformat()
 
-    result = tasks_collection.insert_one(task_data) # Add task to the tasks collection
-    task_data["_id"] = result.inserted_id # Add id from db for local dict
-    
-    return convert_task(task_data)
+        result = tasks_collection.insert_one(task_data) # Add task to the tasks collection
+        created_task = tasks_collection.find_one(
+                {"_id": result.inserted_id}
+            ) # Add id from db for local dict
+        
+        return convert_task(created_task)
+
+    except PyMongoError as error:
+        print(f"Mongo error to create a task: {error}", flush=True)
+        raise HTTPException(
+            status_code=500,
+            detail="Error at save this task in mongo",
+        )
+    except Exception as error:
+        print(f"Error for load task: {error!r}", flush=True)
+        raise
 
 
 # Get the complete task collection
