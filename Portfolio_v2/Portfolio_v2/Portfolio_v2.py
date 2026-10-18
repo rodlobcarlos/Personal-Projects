@@ -2,6 +2,7 @@ import reflex as rx
 import Portfolio_v2.styles.styles as styles
 from Portfolio_v2.views.navbar import navbar
 from Portfolio_v2.views.header import header
+from Portfolio_v2.views.about_me import about_me
 
 class State(rx.State):
     """The app state."""
@@ -12,8 +13,10 @@ def index() -> rx.Component:
     return rx.box(
         navbar(),
         header(),
+        rx.divider(margin_top="3%"),
+        about_me(),
         width="100%",
-        overflow_x="hidden",  # Corta cualquier posible elemento que sobresalga
+        overflow_x="hidden",  # Cut any element that is hidden in the screen
     ),
 
 

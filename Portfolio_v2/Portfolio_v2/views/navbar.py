@@ -23,7 +23,7 @@ def navbar() -> rx.Component:
             flex_wrap="wrap",
             gap="1em",
         ),
-        position="sticky",
+        position="fixed",
         bg=Color.PRIMARY.value,
         border_bottom=f"0.2em solid {Color.SECUNDARY.value}",
         padding_x=styles.Size.MEDIUM.value,

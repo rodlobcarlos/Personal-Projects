@@ -12,7 +12,8 @@ class Size(Enum):
 # Default styles
 STYLESHEETS = [
     # It doesn't penalize app loading via swap.
-    "https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
+    "https://fonts.googleapis.com/css2?family=Nabla&display=swap",
+    "https://fonts.googleapis.com/css2?family=Ubuntu&display=swap",
 ]
 
 # Default values

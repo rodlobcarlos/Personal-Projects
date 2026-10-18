@@ -8,18 +8,25 @@ def header() ->rx.Component:
             rx.text(
                 "Carlos Rodríguez Lobato",
                 size="9",
-                font_weight="bold"
+                font_weight="bold",
+                font_family="'Nabla', system-ui",
             ),
+            rx.spacer(),
+            rx.spacer(),
+            rx.spacer(),
+
             rx.text(
                 "Desarrollador full-stack || DevOps",
                 size="6",
                 font_style="italic",
+                font_weight="bold",
             ),
             rx.text(
                 "¡Hola! Bienvenido a mi portfolio personal. Aquí puedes encontrar información sobre mis habilidades, proyectos y experiencias. \nEspero que disfrutes explorándolo y " \
                 "aprendiendo más sobre mí. Si tienes alguna pregunta o quieres ponerte en contacto, \nno dudes en escribirme a través del correo electrónico indicado.",
                 size="4",
                 white_space="pre-line",
+                font_weight="bold",
             ),
         ),
 
@@ -27,7 +34,7 @@ def header() ->rx.Component:
 
         rx.image(
             src="profile.jpg",
-            alt="CRL.dev logo",
+            alt="profile",
             width="20%",
             height="20%",
             border_radius="15%",
@@ -40,4 +47,5 @@ def header() ->rx.Component:
         padding_x="10%",
         width="100%",
         wrap="wrap",
+        margin_left="9%",
     )
