@@ -10,4 +10,5 @@ def links() -> rx.Component:
         rx.link(rx.button("Proyectos", size="4"), href="https://proyectos/", color_scheme="indigo"),
         spacing="5",
         direction="row",
+        align="end",
     )

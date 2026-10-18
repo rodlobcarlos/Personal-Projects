@@ -1,6 +1,7 @@
 import reflex as rx
 import Portfolio_v2.styles.styles as styles
 from Portfolio_v2.views.navbar import navbar
+from Portfolio_v2.views.header import header
 
 class State(rx.State):
     """The app state."""
@@ -9,8 +10,11 @@ class State(rx.State):
 def index() -> rx.Component:
     # Welcome Page (Index)
     return rx.box(
-        navbar()
-    )
+        navbar(),
+        header(),
+        width="100%",
+        overflow_x="hidden",  # Corta cualquier posible elemento que sobresalga
+    ),
 
 
 app = rx.App(

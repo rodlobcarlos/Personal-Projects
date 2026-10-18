@@ -19,8 +19,9 @@ def navbar() -> rx.Component:
             ),
             rx.spacer(),
             links(),
-            rx.spacer(),
             width="100%",
+            flex_wrap="wrap",
+            gap="1em",
         ),
         position="sticky",
         bg=Color.PRIMARY.value,
@@ -30,5 +31,4 @@ def navbar() -> rx.Component:
         z_index="999",
         top="0",
         width="100%",
-        align="center",
     )
