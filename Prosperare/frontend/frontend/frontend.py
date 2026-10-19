@@ -1,10 +1,11 @@
+
 import reflex as rx
 from rxconfig import config
 from state import TaskState
 
 
-# Layout for tasks cards
-def task_card(task: dict):
+# Layout for task cards
+def task_card(task: dict) -> rx.Component:
     return rx.card(
         rx.vstack(
             rx.heading(task["title"], size="5"),
@@ -14,28 +15,34 @@ def task_card(task: dict):
                 rx.badge(task["priority"]),
                 spacing="2",
             ),
-            rx.text(task["due_date"]),
+            rx.cond(
+                task["due_date"],
+                rx.text("Due date: ", task["due_date"]),
+                rx.text("No due date"),
+            ),
+            rx.button(
+                "Delete",
+                color_scheme="red",
+                variant="soft",
+                on_click=TaskState.remove_task(task["id"]),
+            ),
+            align="start",
+            width="100%",
         ),
-        rx.button(
-            "Delete",
-            color_scheme="red",
-            variant="soft",
-            on_click=TaskState.remove_task(task["id"]),
-        ),
-        align="start",
         width="100%",
-    ),
+    )
 
 
-# Principal container
+# Main page
 def index() -> rx.Component:
-    # Welcome Page (Index)
     return rx.container(
         rx.vstack(
             rx.heading("Welcome to Prosperare!", size="9"),
-            rx.text("Organized your task and projects."),
+            rx.text("Organize your tasks and projects."),
             rx.divider(),
+
             rx.heading("New task", size="5"),
+
             rx.form(
                 rx.vstack(
                     rx.input(
@@ -46,49 +53,57 @@ def index() -> rx.Component:
                     rx.text_area(
                         placeholder="Task description",
                         name="description",
-                        required=True,
                     ),
                     rx.select(
                         ["low", "medium", "high"],
                         name="priority",
                         default_value="medium",
-                        placeholder="Selecciona la prioridad",
+                        placeholder="Select priority",
                     ),
                     rx.select(
                         ["pending", "in_progress", "completed"],
-                        name="state",
+                        name="status",
                         default_value="pending",
-                        placeholder="Selecciona el estado",
+                        placeholder="Select status",
                     ),
                     rx.input(
-                        placeholder="Due date(AAAA-DD-MM)",
+                        placeholder="Due date (YYYY-MM-DD)",
                         name="due_date",
-                        required=True,
                     ),
                     rx.button(
-                        "Create task", type="submit",
+                        "Create task",
+                        type="submit",
                     ),
                     align="stretch",
                     width="100%",
                 ),
-                # Conditionals
-                rx.cond(
-                    TaskState.error != "",
-                    rx.text(TaskState.error, color="red"),
-                    rx.fragment(),
-                ),
-                rx.cond(
-                    TaskState.message != "",
-                    rx.text(TaskState.error, color="green"),
-                    rx.fragment(),
-                ),
-                rx.divider(),
-                rx.heading("My tasks", size="5"),
+                on_submit=TaskState.add_task,
+                reset_on_submit=True,
+                width="100%",
             ),
+
+            # Error message
+            rx.cond(
+                TaskState.error != "",
+                rx.text(TaskState.error, color="red"),
+                rx.fragment(),
+            ),
+
+            # Success message
+            rx.cond(
+                TaskState.message != "",
+                rx.text(TaskState.message, color="green"),
+                rx.fragment(),
+            ),
+
+            rx.divider(),
+            rx.heading("My tasks", size="5"),
+
             rx.button(
-                "Update list.",
+                "Update list",
                 on_click=TaskState.load_tasks,
             ),
+
             rx.cond(
                 TaskState.tasks.length() > 0,
                 rx.vstack(
@@ -96,8 +111,9 @@ def index() -> rx.Component:
                     width="100%",
                     spacing="3",
                 ),
-                rx.text("There are no task yet."),
+                rx.text("There are no tasks yet."),
             ),
+
             align="stretch",
             width="100%",
             spacing="4",
@@ -106,5 +122,6 @@ def index() -> rx.Component:
         padding_y="2em",
     )
 
+
 app = rx.App()
-app.add_page(index)
+app.add_page(index, on_load=TaskState.load_tasks)
