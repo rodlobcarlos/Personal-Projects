@@ -127,3 +127,10 @@ def test_task_created_without_title():
         },
     )
     assert response.status_code == 422
+
+
+# Test for list all tasks
+def test_list_tasks():
+    response = client.get("/tasks")
+    assert response.status_code == 200
+    assert isinstance(response.json(), (list, dict, tuple)) # Test if response.json() -> list or dict or tuple
