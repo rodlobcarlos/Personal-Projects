@@ -88,6 +88,22 @@ async def get_colletion():
     return [convert_task(task) for task in tasks]
 
 
+# Get tasks by id
+@app.get("/tasks/{task_id}")
+async def get_task_by_id(task_id: str):
+    task = tasks_collection.find_one({"_id": ObjectId(task_id)})
+
+    if not task:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail={"Error": "task id not found."})
+
+    return {
+        "id": str(task["_id"]),
+        "title": task["title"]
+    }
+
+
 # Update one task from the collection
 @app.put("/tasks/{id}", response_model=TaskResponse)
 async def task_update(id: str, task: TaskCreate):
