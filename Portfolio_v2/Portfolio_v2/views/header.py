@@ -11,22 +11,37 @@ def header() ->rx.Component:
                 font_weight="bold",
                 font_family="'Nabla', system-ui",
             ),
-            rx.spacer(),
-            rx.spacer(),
-            rx.spacer(),
 
             rx.text(
                 "Desarrollador full-stack || DevOps",
-                size="6",
-                font_style="italic",
+                size="7",
                 font_weight="bold",
+                color_scheme="blue",
             ),
+
+            rx.spacer(),
+
             rx.text(
                 "¡Hola! Bienvenido a mi portfolio personal. Aquí puedes encontrar información sobre mis habilidades, proyectos y experiencias. \nEspero que disfrutes explorándolo y " \
                 "aprendiendo más sobre mí. Si tienes alguna pregunta o quieres ponerte en contacto, \nno dudes en escribirme a través del correo electrónico indicado.",
                 size="4",
                 white_space="pre-line",
-                font_weight="bold",
+                font_style="italic",
+            ),
+
+            rx.spacer(),
+            rx.spacer(),
+            rx.spacer(),
+            rx.spacer(),
+            rx.spacer(),
+            rx.spacer(),
+
+            rx.text(
+                " - ¡Apasionado de la tecnolgía y me encanta afrontar nuevos retos con entusiasmo y " \
+                " profesionalidad!",
+                size="4",
+                white_space="pre-line",
+                font_style="italic",
             ),
         ),
 

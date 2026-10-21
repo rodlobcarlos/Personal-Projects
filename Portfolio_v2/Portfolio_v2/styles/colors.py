@@ -2,7 +2,7 @@ from enum import Enum
 
 class Color(Enum):
     ACCENT = "#FF0000"
-    PRIMARY = "#000000"
+    PRIMARY = "#252222"
     SECUNDARY = "#ffffff"
 
 
