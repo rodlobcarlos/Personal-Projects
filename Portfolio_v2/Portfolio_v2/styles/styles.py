@@ -22,3 +22,14 @@ BASE_STYLE = {
     "color": TextColor.PRIMARY.value,
     "background": Color.PRIMARY.value
 }
+
+CUSTOM_STYLE = {
+    "@keyframes moveBackground": {
+        "0%": {
+            "background_position": "0px 0px",
+        },
+        "100%": {
+            "background_position": "24px 24px",
+        },
+    },
+}

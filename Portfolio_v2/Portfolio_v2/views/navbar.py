@@ -14,8 +14,9 @@ def navbar() -> rx.Component:
             ),
             rx.text(
                 "CRL.dev Portfolio", 
-                size="5",
-                margin_top="0.6%"
+                size="6",
+                margin_top="0.6%",
+                text_weight="bold",
             ),
             rx.spacer(),
             links(),
@@ -25,7 +26,7 @@ def navbar() -> rx.Component:
         ),
         position="fixed",
         bg=Color.PRIMARY.value,
-        border_bottom=f"0.2em solid {Color.SECUNDARY.value}",
+        border_bottom=f"0.1em solid {Color.SECUNDARY.value}",
         padding_x=styles.Size.MEDIUM.value,
         padding_y=styles.Size.MEDIUM.value,
         z_index="999",
