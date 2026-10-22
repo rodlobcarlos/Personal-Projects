@@ -5,7 +5,7 @@ services:
     container_name: prosperare-mongodb
     restart: unless-stopped
     environment:
-      MONGO_INITDB_DATABASE: prosperare
+      MONGO_INITDB_DATABASE: prosperaredb
     volumes:
       - prosperare_mongo_data:/data/db
     ports:
@@ -39,7 +39,6 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-      - "3001:3001"
     depends_on:
       - backend
 

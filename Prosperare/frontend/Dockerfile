@@ -2,18 +2,23 @@
 FROM python:3.12-slim
 
 # Set working directory
-WORKDIR /app
+WORKDIR /frontend
+
+# Install necessary tools for reflex
+RUN apt-get update && apt-get install -y \
+    curl \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy and intall dependences
-COPY python requirements.txt .
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy frontend source code in the container
-COPY rxconfig.py .
-COPY frontend/ ./frontend/
+COPY . .
 
 # Reflex frontend and backend port
-EXPOSE 3000 3001
+EXPOSE 3000
 
 # Run reflex
-CMD ["reflex", "run", "--env", "prod", "--frontend-only", "--backend-host", "0.0.0.0"]
+CMD ["reflex", "run", "--env", "prod", "--backend-host", "0.0.0.0"]

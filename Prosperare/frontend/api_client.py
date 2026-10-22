@@ -3,10 +3,7 @@ import os
 import httpx
 
 # Get the enviroment variable from the api
-api_url = os.getenv(
-    "prosperare_api_url",
-    "http://127.0.0.1:8000",
-)
+api_url = os.getenv("API_URL", "http://backend:8000")
 
 # Method that get all tasks created from API
 async def get_task():

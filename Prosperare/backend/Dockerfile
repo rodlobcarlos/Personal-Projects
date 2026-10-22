@@ -5,11 +5,11 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Copy and install dependences
-COPY python requierements.txt .
-RUN pip install -r requirements.txt
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy backend source code in the container
-COPY app/ ./back/
+COPY app/ ./app/
 
 # Fastapi port
 EXPOSE 8000
