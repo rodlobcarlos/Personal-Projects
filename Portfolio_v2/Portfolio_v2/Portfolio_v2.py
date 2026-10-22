@@ -11,9 +11,9 @@ def index() -> rx.Component:
     return rx.box(
         navbar(),
         header(),
-        rx.divider(margin_top="3%"),
+        rx.divider(margin_top="6%", size="1"),
         about_me(),
-        rx.divider(margin_top="3%"),
+        rx.divider(margin_top="6%", size="1"),
         width="100%",
         overflow_x="hidden",  # Cut any element that is hidden in the screen
         background_image= "radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px)",
@@ -32,4 +32,5 @@ app = rx.App(
 
 app.add_page(
     index,
-    title="CRL.dev")
+    title="CRL.dev"
+)

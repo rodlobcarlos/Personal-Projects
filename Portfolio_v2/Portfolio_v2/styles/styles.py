@@ -23,6 +23,7 @@ BASE_STYLE = {
     "background": Color.PRIMARY.value
 }
 
+# Background loop
 CUSTOM_STYLE = {
     "@keyframes moveBackground": {
         "0%": {
