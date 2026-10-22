@@ -25,6 +25,9 @@ jobs:
         working-directory: Prosperare/backend
 
     steps:
+      - name: Download code
+        uses: actions/checkout@v4
+        
       - name: Install dependences
         run: |
           pip install --no-cache-dir -r requirements.txt
