@@ -5,10 +5,17 @@ on:
   push:
     branches: main
     paths:
-      - "Prosperare/"
+      - "Prosperare/**"
+      - ".github/workflows/prosperare-ci.yml"
   pull_request:
     branches: main
+    paths:
+      - "Prosperare/**"
+      - ".github/workflows/prosperare-ci.yml"
 
+permissions:
+  contents: read
+  
 jobs:
   test-backend:
     runs-on: ubuntu-22.04
@@ -22,7 +29,6 @@ jobs:
         run: |
           pip install --no-cache-dir -r requirements.txt
           python -m pip install --upgrade pip
-          pip install pytest
         
       - name: Run tests
         run: pytest
