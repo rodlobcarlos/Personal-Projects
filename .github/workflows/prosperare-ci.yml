@@ -17,9 +17,24 @@ permissions:
   contents: read
   
 jobs:
+  # Run backend tests and database service
   test-backend:
     runs-on: ubuntu-22.04
 
+    services:
+      mongodb:
+        image: mongo:8
+        ports:
+          - 27017:27017
+          env:
+            MONGO_INITDB_ROOT_USERNAME: ${{ secrets.USERNAME }}
+            MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
+          options: >-
+            --health-cmd "mongosh --eval 'db.runCommand(\"ping\").ok' --quiet"
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+            
     defaults:
       run:
         working-directory: Prosperare/backend
@@ -34,9 +49,12 @@ jobs:
           python -m pip install --upgrade pip
         
       - name: Run tests
+        env:
+          MONGO_INITDB_ROOT_MONGOURL: ${{ secrets.MONGO_URL }}
+          MONGO_INITDB_ROOT_MONGODBDATABASE: ${{ secrets.MONGODB_DATABASE }}
         run: pytest
 
-
+  #Build backend setup
   build-backend:
     needs: test-backend
     runs-on: ubuntu-22.04
@@ -50,7 +68,7 @@ jobs:
       with:
         python-version: '3.12.x'
 
-
+  # Build docker images
   build-docker:
     runs-on: ubuntu-22.04
     needs: build-backend
