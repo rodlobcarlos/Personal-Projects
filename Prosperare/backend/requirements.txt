@@ -25,12 +25,8 @@ pytest==9.1.1
 pytest-cov==7.1.0
 python-dotenv==1.2.4
 PyYAML==6.0.3
-<<<<<<< HEAD
 ruff==0.17.2
-starlette==1.8.0
-=======
 starlette==1.7.0
->>>>>>> d3124137d1e1cabc6a389f48553fcf35da796421
 truststore==0.10.5
 typing-inspection==0.4.4
 typing_extensions==4.16.0
