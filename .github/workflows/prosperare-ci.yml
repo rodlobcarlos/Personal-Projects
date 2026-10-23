@@ -26,14 +26,14 @@ jobs:
         image: mongo:8
         ports:
           - 27017:27017
-          env:
-            MONGO_INITDB_ROOT_USERNAME: ${{ secrets.USERNAME }}
-            MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
-          options: >-
-            --health-cmd "mongosh --eval 'db.runCommand(\"ping\").ok' --quiet"
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand(\"ping\").ok' --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
             
     defaults:
       run:
