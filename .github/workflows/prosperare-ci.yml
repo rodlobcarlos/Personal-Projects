@@ -77,9 +77,9 @@ jobs:
       - name: Download code
         uses: actions/checkout@v4
 
-      - name: Build Docker image
+      - name: Build Docker backend image
         run: docker build -t prosperare-backend ./Prosperare/backend
 
-      - name: Construir imagen del frontend
+      - name: Build Docker frontend image
         run: docker build -t prosperare-frontend ./Prosperare/frontend
       
