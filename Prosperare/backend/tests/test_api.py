@@ -2,11 +2,10 @@ import os
 
 os.environ["MONGODB_DATABASE"] = "prosperare_test"
 
-from fastapi.testclient import TestClient
-from app.main import app, tasks_collection
 from bson import ObjectId
+from fastapi.testclient import TestClient
 
-
+from app.main import app, tasks_collection
 
 # Create a TestClient instance for testing the FastAPI app
 client = TestClient(app)
@@ -133,4 +132,4 @@ def test_task_created_without_title():
 def test_list_tasks():
     response = client.get("/tasks")
     assert response.status_code == 200
-    assert isinstance(response.json(), (list, dict, tuple)) # Test if response.json() -> list or dict or tuple
+    assert isinstance(response.json(), (list, dict, tuple))

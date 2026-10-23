@@ -10,7 +10,6 @@ from pymongo.errors import PyMongoError
 
 from app.models import TaskCreate, TaskResponse
 
-
 env_path = Path(__file__).resolve().parents[1] / ".env" # Search the .env root
 load_dotenv(env_path) # Load .env root searched
 
@@ -44,13 +43,8 @@ def convert_task(task):
 # Check API and mongo health
 @app.get("/health")
 async def health_api_db():
-    try:
-        db_client.admin.command("ping")
-        return {"Status": "ok", "Database": "connected"}
-    except:
-        raise HTTPException(
-            status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Server not connect.")
+    db_client.admin.command("ping")
+    return {"Status": "ok", "Database": "connected"}
 
 
 # Add one new task
@@ -63,7 +57,7 @@ async def add_task(task: TaskCreate):
         task_data["due_date"] = task.due_date.isoformat()
         task_data["created_at"] = date.today().isoformat()
 
-        result = tasks_collection.insert_one(task_data) # Add task to the tasks collection
+        result = tasks_collection.insert_one(task_data) # Add task 
         created_task = tasks_collection.find_one(
                 {"_id": result.inserted_id}
             ) # Add id from db for local dict
