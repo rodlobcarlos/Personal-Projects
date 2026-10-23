@@ -45,14 +45,14 @@ jobs:
         
       - name: Install dependences
         run: |
-          pip install --no-cache-dir -r requirements.txt
           python -m pip install --upgrade pip
+          pip install --no-cache-dir -r requirements.txt
         
-      - name: Run tests
+      - name: Run tests with coverage
         env:
-          MONGO_INITDB_ROOT_MONGOURL: ${{ secrets.MONGO_URL }}
-          MONGO_INITDB_ROOT_MONGODBDATABASE: ${{ secrets.MONGODB_DATABASE }}
-        run: pytest
+          MONGODB_URL: mongodb://${{ secrets.USERNAME }}:${{ secrets.PASSWORD }}@localhost:27017/?authSource=admin
+          MONGODB_DATABASE: ${{ secrets.MONGODB_DATABASE }}
+        run: pytest --cov=app --cov-report=term-missing
 
   #Build backend setup
   build-backend:
@@ -67,6 +67,12 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.12.x'
+        cache: pip
+        cache-dependency-path: Prosperare/backend/requirements.txt
+
+    - name: Run Ruff
+      working-directory: Prosperare/backend
+      run: ruff check .
 
   # Build docker images
   build-docker:
