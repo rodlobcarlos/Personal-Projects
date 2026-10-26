@@ -87,10 +87,23 @@ jobs:
     steps:
       - name: Download code
         uses: actions/checkout@v4
-
-      - name: Build Docker backend image
-        run: docker build -t ghcr.io/rodlobcarlos/prosperare-backend:latest ./Prosperare/backend
-
-      - name: Build Docker frontend image
-        run: docker build -t ghcr.io/rodlobcarlos/prosperare-frontend:latest ./Prosperare/frontend
       
+      - name: Build backend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository_owner }}/prosperare-backend:latest \
+            ./Prosperare/backend
+
+      - name: Build frontend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository_owner }}/prosperare-frontend:latest \
+            ./Prosperare/frontend
+
+      - name: Push backend image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: docker push ghcr.io/${{ github.repository_owner }}/prosperare-backend:latest
+
+      - name: Push frontend image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: docker push ghcr.io/${{ github.repository_owner }}/prosperare-frontend:latest
