@@ -1,3 +1,4 @@
+# CI pipeline for backend with test and docker configuration
 name: Prosperare CI
 
 # Only run when push or pr in main bracnh
