@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
   
 jobs:
   # Run backend tests and database service
@@ -88,8 +89,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker backend image
-        run: docker build -t prosperare-backend ./Prosperare/backend
+        run: docker build -t ghcr.io/rodlobcarlos/prosperare-backend:latest ./Prosperare/backend
 
       - name: Build Docker frontend image
-        run: docker build -t prosperare-frontend ./Prosperare/frontend
+        run: docker build -t ghcr.io/rodlobcarlos/prosperare-frontend:latest ./Prosperare/frontend
       
