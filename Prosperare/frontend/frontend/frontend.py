@@ -1,5 +1,5 @@
 import reflex as rx
-from rxconfig import config
+
 from frontend.state import TaskState
 
 

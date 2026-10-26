@@ -13,7 +13,7 @@ from app.models import TaskCreate, TaskResponse
 env_path = Path(__file__).resolve().parents[1] / ".env" # Search the .env root
 load_dotenv(env_path) # Load .env root searched
 
-db_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+db_url = os.getenv("MONGODB_URL") or "mongodb://localhost:27017"
 db = os.getenv("MONGODB_DATABASE", "prosperaredb")
 
 if not db_url or not db:
