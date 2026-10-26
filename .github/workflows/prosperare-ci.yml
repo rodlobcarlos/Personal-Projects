@@ -53,9 +53,9 @@ jobs:
     needs: test-backend
     runs-on: ubuntu-22.04
 
-  defaults:
-      run:
-        working-directory: Prosperare/backend
+    defaults:
+        run:
+          working-directory: Prosperare/backend
         
     steps:
     - name: Download code
