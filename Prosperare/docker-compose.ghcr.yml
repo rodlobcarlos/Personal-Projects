@@ -18,7 +18,7 @@ services:
       retries: 5
 
   backend:
-    image: ghcr.io/rodlobcarlos/prosperare-backend:latest
+    image: ghcr.io/rodlobcarlos/prosperare-backend:1.0.0
     container_name: prosperare-backend
     restart: unless-stopped
     environment:
@@ -37,7 +37,7 @@ services:
       start_period: 15s
 
   frontend:
-    image: ghcr.io/rodlobcarlos/prosperare-frontend:latest
+    image: ghcr.io/rodlobcarlos/prosperare-frontend:1.0.0
     container_name: prosperare-frontend
     restart: unless-stopped
     ports:
