@@ -3,6 +3,7 @@ import Portfolio_v2.styles.styles as styles
 from Portfolio_v2.views.navbar import navbar
 from Portfolio_v2.views.header import header
 from Portfolio_v2.views.about_me import about_me
+
 #from Portfolio_v2.views.stack import stack
 
 

@@ -1,6 +1,8 @@
 import reflex as rx
 import Portfolio_v2.styles.styles as styles
 from Portfolio_v2.styles.colors import TextColor, Color
+from Portfolio_v2.components.certifications import certifications
+from Portfolio_v2.components.description import description
 
 def about_me():
     # Basic card style
@@ -27,119 +29,35 @@ def about_me():
 
     return rx.vstack(
         rx.heading(
-            "Certificaciones", 
+            "Investiga un poco más sobre mí", 
             size="9",
             align="center",
             width="100%",
             margin_top="5%",
             color_scheme="green",
         ),
-
         rx.text(
-            "Certificaciones, herramientas y más que te pueden interesar sobre mí", 
+            "Descubre sobre que ",
+            rx.el.span("herramientas/lenguajes", style={"color": "#3589ff"}),
+            " tengo práctica y fundamentos para trabajar en mi día a día.\n Además, cuento con varias ",
+            rx.el.span("certificaciones", style={"color": "#ccff00"}),
+            " que le aportan valor a mi perfil.",
             size="6",
             font_style="italic",
             align="center",
             width="100%",
+            white_space="pre-line",
         ),
-
         rx.hstack(
-            # Github foundations card
-            rx.card(
-                rx.vstack(
-                    rx.image(
-                        src="github-foundations.svg",
-                        **image_style,
-                        bg_color="#212332",
-                    ),
-                    rx.text(
-                        rx.heading("\t Habilidades evaluadas:\n", size="5"),
-                        rx.divider(),
-                        "\t- Comprender los conceptos básicos de Git y GitHub\n"
-                        "\t- Trabajar con repositorios de GitHub\n" 
-                        "\t- Colabora usando GitHub\n"  
-                        "\t- Aplicar prácticas de desarrollo modernas\n"  
-                        "\t- Gestiona proyectos con GitHub\n"   
-                        "\t- Comprender la privacidad, la seguridad y la administración.\n"    
-                        "\t- Explora la comunidad de GitHub\n",
-                        color="#000000",
-                        white_space="pre-wrap",
-                        tab_size="2",
-                    ),
-                ),
-                rx.link(
-                    rx.button(
-                        "Ver",
-                        border_radius="0px",
-                        width="50%",  
-                        box_shadow="4px 4px 0px 0px #000000",
-                        _hover={
-                            "transform": "translate(5px, 5px)",
-                            "box_shadow": "0px 0px 0px 0px #ffffff",
-                        },
-                        cursor="pointer",
-                    ),
-                    href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/details/certifications/",
-                    is_external=True,
-                    text_decoration="none",
-                    width="50%",
-                    align_self="end",
-                ),
-                **card_style,
-                bg_color="#ffffff",
-            ),
-
-            # NexoNeural card
-            rx.card(
-                rx.vstack(
-                    rx.image(
-                        src="nexoneural.jpg",
-                        **image_style,
-                        bg_color="#15182E",
-                    ),
-                    rx.text(
-                        rx.heading("\t Habilidades evaluadas:\n", size="5"),
-                        "\t- Qué es una IA.\n" \
-                        "\t- Automatizaciones.\n" \
-                        "\t- Crear asistentes.\n"
-                        "\t- Herramientas útiles.\n"
-                        "\t- Marco legal y ético.\n"
-                        "\t- Como ser profesionales de la IA.\n"
-                        "\t- La importancia de los datos.\n"
-                        "\t- Como trabajar con la IA y otros sistemas.\n", 
-                        color="#000000",
-                        white_space="pre-wrap",
-                        tab_size="2",
-                    ),
-                ),
-                rx.link(
-                    rx.button(
-                        "Ver",
-                        border_radius="0px",
-                        width="50%",  
-                        box_shadow="4px 4px 0px 0px #000000",
-                        _hover={
-                            "transform": "translate(5px, 5px)",
-                            "box_shadow": "0px 0px 0px 0px #ffffff",
-                        },
-                        cursor="pointer",
-                    ),
-                    href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-lobato-211b27330/details/certifications/",
-                    is_external=True,
-                    text_decoration="none",
-                    width="50%",
-                    align_self="end",
-                ),
-                **card_style,
-                bg_color="#ffffff", 
-            ),
-
-            # Properties to center cards
-            justify="center",
-            align="stretch",
-            spacing="6",
-            width="100%",
-            wrap="wrap",
-            margin_top="2%",
+            certifications(),
+            rx.spacer(),
+            description(),
         ),
+        
+        justify="center",
+        align="stretch",
+        spacing="6",
+        width="100%",
+        wrap="wrap",
+        margin_top="2%",
     )
