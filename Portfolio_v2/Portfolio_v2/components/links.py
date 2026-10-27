@@ -48,7 +48,7 @@ def links() -> rx.Component:
                     "box_shadow": "0px 0px 0px 0px #ffffff",
                 },
             ),
-            href="#about_me", 
+            href="#carrier", 
             color_scheme="indigo",
         ),
         rx.link(
@@ -64,8 +64,9 @@ def links() -> rx.Component:
                     "box_shadow": "0px 0px 0px 0px #ffffff",
                 },
             ),
-            href="#about_me", 
+            href="#projects", 
             color_scheme="indigo",
+            is_external=True,
         ),
         rx.link(
             rx.button(
